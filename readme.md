@@ -27,7 +27,7 @@
   - Usage of Spring AOP, Data JPA, Boot, Security, Actuator
   - Data Auditing using Hibernate ENVARS.
   - Exception Handling with Spring Web MVC
-  - Properly using Property Files and VM Arguments.
+  - Externalizing Configurations.
   - Using In Memory Databases (Ex : H2)
   - Writing Integration Test Cases
   - Writing Unit Test cases with Mocking (Power Mock)
