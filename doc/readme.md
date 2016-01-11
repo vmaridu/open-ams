@@ -56,17 +56,17 @@
 
 
   - Monitoring
-      - Generate Progress Reports
-      - Monitor Student (Grades, Attendance)
-     -  Monitor Class (Grades, Attendance)
-     -  etc
+    - Generate Progress Reports
+    - Monitor Student (Grades, Attendance)
+    -  Monitor Class (Grades, Attendance)
+    -  etc
 
 
- - Misc
-     - Class Management (CLASS_ID - YYYY_CLASS_SECTION)
-     - Events Management (EXAMS, HOLIDAYS, CELEBRATIONS)
-     - Notice Board Management (For Student)
-     - View Suggestions
+  - Misc
+    - Class Management (CLASS_ID - YYYY_CLASS_SECTION)
+    - Events Management (EXAMS, HOLIDAYS, CELEBRATIONS)
+    - Notice Board Management (For Student)
+    - View Suggestions
 
 
   - File Import
