@@ -78,5 +78,6 @@
     - open-ams-android      : Android Native GUI Sources
 
 
-> Notes
-    - Build and Installation instructions included inside module specific directories
+
+### Notes
+  -  Build and Installation instructions included inside module specific directories.
