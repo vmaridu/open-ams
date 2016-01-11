@@ -23,8 +23,8 @@
       - ER Model from Real World Entities
       - Domain Model Classes & Using them in Hibernate (Ex : Using ENUMS as Status Messages instead of Strings)
       - Proper REST API (Richardson Maturity Model Level - 2 Standard, Pagination in Rest APIs)
-  - Documenting REST APIS (Swagger or JSONDOCS)
-  - Usage of Spring AOP, Data JPA, Boot, Security, Acculator
+  - Documenting REST APIS (JSONDOCS,Swagger)
+  - Usage of Spring AOP, Data JPA, Boot, Security, Actuator
   - Data Auditing using Hibernate ENVARS.
   - Exception Handling with Spring Web MVC
   - Properly using Property Files and VM Arguments.
@@ -73,9 +73,9 @@
  - db  :  Contains ER Model and DB Scripts
  - doc :  Contains Wireframes, Functional Documents
  - src :  Contains sources
-    - open-ams-rest         : Web Service Application Sources
-    - open-ams-web          : Web GUI Sources
-    - open-ams-android      : Android Native GUI Sources
+    - openams-rest         : Web Service Application Sources
+    - openams-web          : Web GUI Sources
+    - openams-android      : Android Native GUI Sources
 
 
 
