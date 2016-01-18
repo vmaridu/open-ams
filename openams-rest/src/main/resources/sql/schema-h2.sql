@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.12, for Win32 (x86)
+-- MYSQL DUMP 10.13  DISTRIB 5.5.12, FOR WIN32 (X86)
 --
--- Host: localhost    Database: openams
+-- HOST: LOCALHOST    DATABASE: OPENAMS
 -- ------------------------------------------------------
--- Server version	5.5.12
+-- SERVER VERSION	5.5.12
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -13,321 +13,323 @@
 
 
 --
--- Table structure for table "user"
+-- TABLE STRUCTURE FOR TABLE "USER"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "user" (
-  "user_name" varchar(255) NOT NULL,
-  "password" varchar(500) NOT NULL COMMENT 'md5',
-  "password_salt" varchar(255) DEFAULT NULL,
-  "active" tinyint(1) NOT NULL COMMENT '0 - inactive , 1 - active, 2 - blocked, 3 - temp_blocked',
-  "e_mail" varchar(255) DEFAULT NULL,
-  "last_access_dtt" datetime DEFAULT NULL,
-  "credentials_expire_dtt" datetime DEFAULT NULL,
-  "account_expire_dtt" datetime DEFAULT NULL,
-  PRIMARY KEY ("user_name")
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "USER" (
+  "USER_NAME" VARCHAR(255) NOT NULL,
+  "PASSWORD" VARCHAR(500) NOT NULL,
+  "PASSWORD_SALT" VARCHAR(255) DEFAULT NULL,
+  "ACTIVE" TINYINT(1) NOT NULL,
+  "E_MAIL" VARCHAR(255) DEFAULT NULL,
+  "LAST_ACCESS_DTT" DATETIME DEFAULT NULL,
+  "CREDENTIALS_EXPIRE_DTT" DATETIME DEFAULT NULL,
+  "ACCOUNT_EXPIRE_DTT" DATETIME DEFAULT NULL,
+  PRIMARY KEY ("USER_NAME")
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "role"
+-- TABLE STRUCTURE FOR TABLE "ROLE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "role" (
-  "id" int(11) NOT NULL,
-  "name" varchar(255) NOT NULL,
-  PRIMARY KEY ("id")
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "ROLE" (
+  "ID" INT(11) NOT NULL,
+  "NAME" VARCHAR(255) NOT NULL,
+  PRIMARY KEY ("ID")
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "user_in_role"
+-- TABLE STRUCTURE FOR TABLE "USER_IN_ROLE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "user_in_role" (
-  "user_name" varchar(255) NOT NULL,
-  "role_id" int(11) NOT NULL,
-  KEY "users_in_roles_user_name" ("user_name"),
-  KEY "users_in_roles_role_id" ("role_id"),
-  CONSTRAINT "user_in_role_ibfk_1" FOREIGN KEY ("role_id") REFERENCES "role" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "user_in_role_ibfk_2" FOREIGN KEY ("user_name") REFERENCES "user" ("user_name") ON DELETE CASCADE ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "USER_IN_ROLE" (
+  "USER_NAME" VARCHAR(255) NOT NULL,
+  "ROLE_ID" INT(11) NOT NULL,
+  KEY "USERS_IN_ROLES_USER_NAME" ("USER_NAME"),
+  KEY "USERS_IN_ROLES_ROLE_ID" ("ROLE_ID"),
+  CONSTRAINT "USER_IN_ROLE_IBFK_1" FOREIGN KEY ("ROLE_ID") REFERENCES "ROLE" ("ID") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "USER_IN_ROLE_IBFK_2" FOREIGN KEY ("USER_NAME") REFERENCES "USER" ("USER_NAME") ON DELETE CASCADE ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "course"
+-- TABLE STRUCTURE FOR TABLE "COURSE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "course" (
-  "id" int(11) NOT NULL,
-  "name" varchar(255) DEFAULT NULL,
-  "dept" varchar(255) DEFAULT NULL,
-  "desc" varchar(255) DEFAULT NULL,
-  "credits" tinyint(1) DEFAULT NULL,
-  PRIMARY KEY ("id")
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "COURSE" (
+  "ID" INT(11) NOT NULL,
+  "NAME" VARCHAR(255) DEFAULT NULL,
+  "DEPT" VARCHAR(255) DEFAULT NULL,
+  "DESC" VARCHAR(255) DEFAULT NULL,
+  "CREDITS" TINYINT(1) DEFAULT NULL,
+  PRIMARY KEY ("ID")
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "contact"
+-- TABLE STRUCTURE FOR TABLE "CONTACT"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "contact" (
-  "id" int(11) NOT NULL,
-  "name" varchar(255) DEFAULT NULL,
-  "phone" varchar(20) DEFAULT NULL,
-  "home_phone" varchar(20) DEFAULT NULL,
-  "address_line_1" varchar(255) DEFAULT NULL,
-  "address_line_2" varchar(255) DEFAULT NULL,
-  "apartment" varchar(255) DEFAULT NULL,
-  "street" varchar(255) DEFAULT NULL,
-  "city" varchar(255) DEFAULT NULL,
-  "state" varchar(50) DEFAULT NULL,
-  "country" varchar(255) DEFAULT NULL,
-  "zip" int(10) DEFAULT NULL,
-  "notes" varchar(255) DEFAULT NULL,
-  PRIMARY KEY ("id")
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "CONTACT" (
+  "ID" INT(11) NOT NULL,
+  "NAME" VARCHAR(255) DEFAULT NULL,
+  "PHONE" VARCHAR(20) DEFAULT NULL,
+  "HOME_PHONE" VARCHAR(20) DEFAULT NULL,
+  "ADDRESS_LINE_1" VARCHAR(255) DEFAULT NULL,
+  "ADDRESS_LINE_2" VARCHAR(255) DEFAULT NULL,
+  "APARTMENT" VARCHAR(255) DEFAULT NULL,
+  "STREET" VARCHAR(255) DEFAULT NULL,
+  "CITY" VARCHAR(255) DEFAULT NULL,
+  "STATE" VARCHAR(50) DEFAULT NULL,
+  "COUNTRY" VARCHAR(255) DEFAULT NULL,
+  "ZIP" INT(10) DEFAULT NULL,
+  "NOTES" VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY ("ID")
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "person"
+-- TABLE STRUCTURE FOR TABLE "PERSON"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "person" (
-  "id" varchar(50) NOT NULL DEFAULT '',
-  "user_name" varchar(255) DEFAULT NULL,
-  "f_name" varchar(255) DEFAULT NULL,
-  "m_name" varchar(255) DEFAULT NULL,
-  "l_name" varchar(255) DEFAULT NULL,
-  "prefix" varchar(255) DEFAULT NULL,
-  "suffix" varchar(255) DEFAULT NULL,
-  "dob" datetime DEFAULT NULL,
-  "height" float DEFAULT NULL COMMENT 'feet units',
-  "weight" float DEFAULT NULL COMMENT 'in lbs',
-  "race" varchar(100) DEFAULT NULL,
-  "eye_color" tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blue, 3 - green, 4 - brown',
-  "hair_color" tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blonde,3 - red, 4 - brown, 5 - other',
-  "sex" bit(1) DEFAULT NULL COMMENT '0 - female , 1 - male , null - unknown',
-  "picture_uri" varchar(1000) DEFAULT NULL,
-  "ssn" int(9) DEFAULT NULL,
-  "joining_dtt" datetime DEFAULT NULL,
-  "contact" int(11) DEFAULT NULL,
-  "emr_contact" int(11) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "user_name_fk" ("user_name"),
-  KEY "contact_fk" ("contact"),
-  KEY "emr_contact_fk" ("emr_contact"),
-  CONSTRAINT "person_ibfk_3" FOREIGN KEY ("emr_contact") REFERENCES "contact" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT "person_ibfk_1" FOREIGN KEY ("user_name") REFERENCES "user" ("user_name") ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT "person_ibfk_2" FOREIGN KEY ("contact") REFERENCES "contact" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "PERSON" (
+  "ID" VARCHAR(50) NOT NULL DEFAULT '',
+  "USER_NAME" VARCHAR(255) DEFAULT NULL,
+  "F_NAME" VARCHAR(255) DEFAULT NULL,
+  "M_NAME" VARCHAR(255) DEFAULT NULL,
+  "L_NAME" VARCHAR(255) DEFAULT NULL,
+  "PREFIX" VARCHAR(255) DEFAULT NULL,
+  "SUFFIX" VARCHAR(255) DEFAULT NULL,
+  "DOB" DATETIME DEFAULT NULL,
+  "HEIGHT" FLOAT DEFAULT NULL,
+  "WEIGHT" FLOAT DEFAULT NULL,
+  "RACE" VARCHAR(100) DEFAULT NULL,
+  "EYE_COLOR" TINYINT(1) DEFAULT NULL,
+  "HAIR_COLOR" TINYINT(1) DEFAULT NULL,
+  "SEX" BIT(1) DEFAULT NULL,
+  "PICTURE_URI" VARCHAR(1000) DEFAULT NULL,
+  "SSN" INT(9) DEFAULT NULL,
+  "JOINING_DTT" DATETIME DEFAULT NULL,
+  "CONTACT" INT(11) DEFAULT NULL,
+  "EMR_CONTACT" INT(11) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "USER_NAME_FK" ("USER_NAME"),
+  KEY "CONTACT_FK" ("CONTACT"),
+  KEY "EMR_CONTACT_FK" ("EMR_CONTACT"),
+  CONSTRAINT "PERSON_IBFK_3" FOREIGN KEY ("EMR_CONTACT") REFERENCES "CONTACT" ("ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT "PERSON_IBFK_1" FOREIGN KEY ("USER_NAME") REFERENCES "USER" ("USER_NAME") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT "PERSON_IBFK_2" FOREIGN KEY ("CONTACT") REFERENCES "CONTACT" ("ID") ON DELETE NO ACTION ON UPDATE NO ACTION
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "staff"
+-- TABLE STRUCTURE FOR TABLE "STAFF"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "staff" (
-  "id" varchar(50) NOT NULL,
-  "designation" varchar(255) DEFAULT NULL,
-  "desc" varchar(255) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  CONSTRAINT "staff_ibfk_1" FOREIGN KEY ("id") REFERENCES "person" ("id") ON DELETE NO ACTION ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "STAFF" (
+  "ID" VARCHAR(50) NOT NULL,
+  "DESIGNATION" VARCHAR(255) DEFAULT NULL,
+  "DESC" VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  CONSTRAINT "STAFF_IBFK_1" FOREIGN KEY ("ID") REFERENCES "PERSON" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "student"
+-- TABLE STRUCTURE FOR TABLE "STUDENT"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "student" (
-  "id" varchar(255) NOT NULL,
-  "parent_email" varchar(255) DEFAULT NULL,
-  "level" varchar(255) DEFAULT NULL COMMENT 'class name,grade_type',
-  PRIMARY KEY ("id"),
-  CONSTRAINT "student_ibfk_1" FOREIGN KEY ("id") REFERENCES "person" ("id") ON DELETE NO ACTION ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "STUDENT" (
+  "ID" VARCHAR(255) NOT NULL,
+  "PARENT_EMAIL" VARCHAR(255) DEFAULT NULL,
+  "LEVEL" VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  CONSTRAINT "STUDENT_IBFK_1" FOREIGN KEY ("ID") REFERENCES "PERSON" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "school_schedule"
+-- TABLE STRUCTURE FOR TABLE "SCHOOL_SCHEDULE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "school_schedule" (
-  "id" int(11) NOT NULL,
-  "event_name" varchar(255) DEFAULT NULL,
-  "status" tinyint(1) DEFAULT NULL,
-  "start_dtt" datetime DEFAULT NULL,
-  "end_dtt" datetime DEFAULT NULL,
-  "annonced_by" varchar(50) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "annonced_by" ("annonced_by"),
-  CONSTRAINT "school_schedule_ibfk_1" FOREIGN KEY ("annonced_by") REFERENCES "staff" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "SCHOOL_SCHEDULE" (
+  "ID" INT(11) NOT NULL,
+  "EVENT_NAME" VARCHAR(255) DEFAULT NULL,
+  "STATUS" TINYINT(1) DEFAULT NULL,
+  "START_DTT" DATETIME DEFAULT NULL,
+  "END_DTT" DATETIME DEFAULT NULL,
+  "ANNONCED_BY" VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "ANNONCED_BY" ("ANNONCED_BY"),
+  CONSTRAINT "SCHOOL_SCHEDULE_IBFK_1" FOREIGN KEY ("ANNONCED_BY") REFERENCES "STAFF" ("ID") ON DELETE SET NULL ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "course_schedule"
+-- TABLE STRUCTURE FOR TABLE "COURSE_SCHEDULE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "course_schedule" (
-  "id" int(11) NOT NULL,
-  "course_id" int(11) DEFAULT NULL,
-  "instructor_id" varchar(50) DEFAULT NULL,
-  "status" tinyint(1) DEFAULT NULL,
-  "term" varchar(25) DEFAULT NULL,
-  "start_dt" date DEFAULT NULL,
-  "end_dt" date DEFAULT NULL,
-  "start_t" time DEFAULT NULL,
-  "end_t" time DEFAULT NULL,
-  "location" varchar(100) DEFAULT NULL,
-  "desc" varchar(1000) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "course_fk" ("course_id"),
-  KEY "instructor_id_fk" ("instructor_id"),
-  CONSTRAINT "course_schedule_ibfk_2" FOREIGN KEY ("instructor_id") REFERENCES "staff" ("id") ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT "course_schedule_ibfk_1" FOREIGN KEY ("course_id") REFERENCES "course" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "COURSE_SCHEDULE" (
+  "ID" INT(11) NOT NULL,
+  "COURSE_ID" INT(11) DEFAULT NULL,
+  "INSTRUCTOR_ID" VARCHAR(50) DEFAULT NULL,
+  "STATUS" TINYINT(1) DEFAULT NULL,
+  "TERM" VARCHAR(25) DEFAULT NULL,
+  "START_DT" DATE DEFAULT NULL,
+  "END_DT" DATE DEFAULT NULL,
+  "START_T" TIME DEFAULT NULL,
+  "END_T" TIME DEFAULT NULL,
+  "LOCATION" VARCHAR(100) DEFAULT NULL,
+  "DESC" VARCHAR(1000) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "COURSE_FK" ("COURSE_ID"),
+  KEY "INSTRUCTOR_ID_FK" ("INSTRUCTOR_ID"),
+  CONSTRAINT "COURSE_SCHEDULE_IBFK_2" FOREIGN KEY ("INSTRUCTOR_ID") REFERENCES "STAFF" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT "COURSE_SCHEDULE_IBFK_1" FOREIGN KEY ("COURSE_ID") REFERENCES "COURSE" ("ID") ON DELETE CASCADE ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "student_course_enrollment"
+-- TABLE STRUCTURE FOR TABLE "STUDENT_COURSE_ENROLLMENT"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "student_course_enrollment" (
-  "id" int(11) NOT NULL,
-  "course_schedule_id" int(11) DEFAULT NULL,
-  "student_id" varchar(50) DEFAULT NULL,
-  "enrolled_dtt" datetime DEFAULT NULL,
-  "status" tinyint(1) DEFAULT NULL,
-  "grade" varchar(10) DEFAULT NULL,
-  "graded_dtt" datetime DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "course_schedule_id_fk" ("course_schedule_id"),
-  KEY "student_id_fk_2" ("student_id"),
-  CONSTRAINT "student_course_enrollment_ibfk_3" FOREIGN KEY ("student_id") REFERENCES "student" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "student_course_enrollment_ibfk_2" FOREIGN KEY ("course_schedule_id") REFERENCES "course_schedule" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "STUDENT_COURSE_ENROLLMENT" (
+  "ID" INT(11) NOT NULL,
+  "COURSE_SCHEDULE_ID" INT(11) DEFAULT NULL,
+  "STUDENT_ID" VARCHAR(50) DEFAULT NULL,
+  "ENROLLED_DTT" DATETIME DEFAULT NULL,
+  "STATUS" TINYINT(1) DEFAULT NULL,
+  "GRADE" VARCHAR(10) DEFAULT NULL,
+  "GRADED_DTT" DATETIME DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "COURSE_SCHEDULE_ID_FK" ("COURSE_SCHEDULE_ID"),
+  KEY "STUDENT_ID_FK_2" ("STUDENT_ID"),
+  CONSTRAINT "STUDENT_COURSE_ENROLLMENT_IBFK_3" FOREIGN KEY ("STUDENT_ID") REFERENCES "STUDENT" ("ID") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "STUDENT_COURSE_ENROLLMENT_IBFK_2" FOREIGN KEY ("COURSE_SCHEDULE_ID") REFERENCES "COURSE_SCHEDULE" ("ID") ON DELETE CASCADE ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "attendance"
+-- TABLE STRUCTURE FOR TABLE "ATTENDANCE_BY"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "attendance" (
-  "id" int(11) NOT NULL,
-  "student_course_enrollment_id" int(11) NOT NULL,
-  "comment" varchar(255) DEFAULT NULL,
-  "status" tinyint(1) DEFAULT NULL COMMENT '1=PRESENT,2=ABSENT, 3=ON_LEAVE, 4=SICK, 5=OTHERS',
-  "taken_by" int(11) NOT NULL,
-  PRIMARY KEY ("id"),
-  KEY "student_course_enrollment_id" ("student_course_enrollment_id"),
-  KEY "taken_by" ("taken_by"),
-  CONSTRAINT "attendance_ibfk_2" FOREIGN KEY ("taken_by") REFERENCES "attendance_by" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "attendance_ibfk_1" FOREIGN KEY ("student_course_enrollment_id") REFERENCES "student_course_enrollment" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "ATTENDANCE_BY" (
+  "ID" INT(11) NOT NULL,
+  "TAKEN_DTT" DATETIME DEFAULT NULL,
+  "TAKEN_BY" VARCHAR(50) DEFAULT NULL,
+  "COURSE_SCHEDULE_ID" INT(11) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "TAKEN_BY" ("TAKEN_BY"),
+  KEY "COURSE_SCHEDULE_ID" ("COURSE_SCHEDULE_ID"),
+  CONSTRAINT "ATTENDANCE_BY_IBFK_3" FOREIGN KEY ("COURSE_SCHEDULE_ID") REFERENCES "COURSE_SCHEDULE" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT "ATTENDANCE_BY_IBFK_4" FOREIGN KEY ("TAKEN_BY") REFERENCES "STAFF" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 --
--- Table structure for table "attendance_by"
+-- TABLE STRUCTURE FOR TABLE "ATTENDANCE"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "attendance_by" (
-  "id" int(11) NOT NULL,
-  "taken_dtt" datetime DEFAULT NULL,
-  "taken_by" varchar(50) DEFAULT NULL,
-  "course_schedule_id" int(11) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "taken_by" ("taken_by"),
-  KEY "course_schedule_id" ("course_schedule_id"),
-  CONSTRAINT "attendance_by_ibfk_2" FOREIGN KEY ("course_schedule_id") REFERENCES "course_schedule" ("id") ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT "attendance_by_ibfk_1" FOREIGN KEY ("taken_by") REFERENCES "staff" ("id") ON DELETE NO ACTION ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "ATTENDANCE" (
+  "ID" INT(11) NOT NULL,
+  "STUDENT_COURSE_ENROLLMENT_ID" INT(11) NOT NULL,
+  "COMMENT" VARCHAR(255) DEFAULT NULL,
+  "STATUS" TINYINT(1) DEFAULT NULL,
+  "TAKEN_BY" INT(11) NOT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "STUDENT_COURSE_ENROLLMENT_ID" ("STUDENT_COURSE_ENROLLMENT_ID"),
+  KEY "ATTENDANCE_TAKEN_BY" ("TAKEN_BY"),
+  CONSTRAINT "ATTENDANCE_IBFK_2" FOREIGN KEY ("TAKEN_BY") REFERENCES "ATTENDANCE_BY" ("ID") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "ATTENDANCE_IBFK_1" FOREIGN KEY ("STUDENT_COURSE_ENROLLMENT_ID") REFERENCES "STUDENT_COURSE_ENROLLMENT" ("ID") ON DELETE CASCADE ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
+
+
 
 
 --
--- Table structure for table "test"
+-- TABLE STRUCTURE FOR TABLE "TEST"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "test" (
-  "id" int(11) NOT NULL,
-  "name" varchar(255) NOT NULL,
-  "course_id" int(11) DEFAULT NULL,
-  "test_type" varchar(50) DEFAULT NULL COMMENT 'Online,Internal,Unit,Quarterly',
-  "start_dtt" varchar(255) DEFAULT NULL,
-  "end_dtt" varchar(255) DEFAULT NULL,
-  "max_score" varchar(255) DEFAULT NULL,
-  "desc" varchar(1000) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "test_ibfk_1" ("course_id"),
-  CONSTRAINT "test_ibfk_1" FOREIGN KEY ("course_id") REFERENCES "course" ("id") ON DELETE NO ACTION ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "TEST" (
+  "ID" INT(11) NOT NULL,
+  "NAME" VARCHAR(255) NOT NULL,
+  "COURSE_ID" INT(11) DEFAULT NULL,
+  "TEST_TYPE" VARCHAR(50) DEFAULT NULL,
+  "START_DTT" VARCHAR(255) DEFAULT NULL,
+  "END_DTT" VARCHAR(255) DEFAULT NULL,
+  "MAX_SCORE" VARCHAR(255) DEFAULT NULL,
+  "DESC" VARCHAR(1000) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "TEST_IBFK_1" ("COURSE_ID"),
+  CONSTRAINT "TEST_IBFK_1" FOREIGN KEY ("COURSE_ID") REFERENCES "COURSE" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 --
--- Table structure for table "test_scores"
+-- TABLE STRUCTURE FOR TABLE "TEST_SCORES"
 --
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE "test_scores" (
-  "id" int(11) NOT NULL,
-  "test_id" int(11) NOT NULL,
-  "person_id" varchar(50) NOT NULL,
-  "start_dtt" datetime DEFAULT NULL,
-  "end_dtt" datetime DEFAULT NULL,
-  "grade" varchar(10) DEFAULT NULL,
-  "score" int(255) DEFAULT NULL,
-  "notes" varchar(255) DEFAULT NULL,
-  PRIMARY KEY ("id"),
-  KEY "test_id" ("test_id"),
-  KEY "person_id" ("person_id"),
-  CONSTRAINT "test_scores_ibfk_2" FOREIGN KEY ("person_id") REFERENCES "person" ("id") ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT "test_scores_ibfk_1" FOREIGN KEY ("test_id") REFERENCES "test" ("id") ON DELETE NO ACTION ON UPDATE CASCADE
+/*!40101 SET @SAVED_CS_CLIENT     = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT = UTF8 */;
+CREATE TABLE "TEST_SCORES" (
+  "ID" INT(11) NOT NULL,
+  "TEST_ID" INT(11) NOT NULL,
+  "PERSON_ID" VARCHAR(50) NOT NULL,
+  "START_DTT" DATETIME DEFAULT NULL,
+  "END_DTT" DATETIME DEFAULT NULL,
+  "GRADE" VARCHAR(10) DEFAULT NULL,
+  "SCORE" INT(255) DEFAULT NULL,
+  "NOTES" VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY ("ID"),
+  KEY "TEST_ID" ("TEST_ID"),
+  KEY "PERSON_ID" ("PERSON_ID"),
+  CONSTRAINT "TEST_SCORES_IBFK_2" FOREIGN KEY ("PERSON_ID") REFERENCES "PERSON" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT "TEST_SCORES_IBFK_1" FOREIGN KEY ("TEST_ID") REFERENCES "TEST" ("ID") ON DELETE NO ACTION ON UPDATE CASCADE
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET CHARACTER_SET_CLIENT = @SAVED_CS_CLIENT */;
 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -337,4 +339,4 @@ CREATE TABLE "test_scores" (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-16 23:46:01
+-- DUMP COMPLETED ON 2016-01-16 23:46:01
