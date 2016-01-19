@@ -53,12 +53,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- TODO: Move data source dependencies to profiles -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			 <scope>runtime</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -68,6 +68,7 @@
 		</dependency>
 
 
+		<!-- TODO: Move jsondoc dependencies to maven doc profile -->
 		<dependency>
 			<groupId>org.jsondoc</groupId>
 			<artifactId>spring-boot-starter-jsondoc</artifactId>
@@ -78,7 +79,7 @@
 			<artifactId>jsondoc-ui-webjar</artifactId>
 			<version>1.2.10</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

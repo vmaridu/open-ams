@@ -10,11 +10,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
 	@Autowired
 	private Environment environment;
 	
@@ -50,12 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//TODO:add userDataService
 		auth
-			.inMemoryAuthentication()
-				.withUser("student").password("password").roles("STUDENT").and()
-				.withUser("staff").password("password").roles("STAFF").and()
-				.withUser("admin").password("password").roles("ADMIN");
+    	.userDetailsService(userDetailsService)
+    	.passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 }
