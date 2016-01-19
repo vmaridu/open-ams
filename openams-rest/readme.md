@@ -14,3 +14,5 @@
  - If using mysql database then VM_ARGS = **-Dspring.config.name=dev-mysql**
  - Set GMT as server's default timezone by VM_ARG **-Duser.timezone=GMT**
  - Default configurations are in **/src/main/resources /config**
+ - If you want to use MySQL database change configuration properties in **/src/main/resources/config/dev-mysql.properties** 
+ - Find SQL scripts in **/src/main/resources /sql**
