@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50512
 File Encoding         : 65001
 
-Date: 2016-01-16 18:35:09
+Date: 2016-02-14 15:52:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,6 +57,7 @@ CREATE TABLE `contact` (
   `name` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `home_phone` varchar(20) DEFAULT NULL,
+  `e_mail` varchar(255) DEFAULT NULL,
   `address_line_1` varchar(255) DEFAULT NULL,
   `address_line_2` varchar(255) DEFAULT NULL,
   `apartment` varchar(255) DEFAULT NULL,
@@ -123,7 +124,7 @@ CREATE TABLE `person` (
   `race` varchar(100) DEFAULT NULL,
   `eye_color` tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blue, 3 - green, 4 - brown',
   `hair_color` tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blonde,3 - red, 4 - brown, 5 - other',
-  `sex` tinyint(1) DEFAULT NULL COMMENT '0 - female , 1 - male , null - unknown',
+  `sex` tinyint(4) DEFAULT NULL COMMENT '0 - female , 1 - male , null - unknown',
   `picture_uri` varchar(1000) DEFAULT NULL,
   `ssn` int(9) DEFAULT NULL,
   `joining_dtt` datetime DEFAULT NULL,
@@ -133,9 +134,9 @@ CREATE TABLE `person` (
   KEY `user_name_fk` (`user_name`),
   KEY `contact_fk` (`contact`),
   KEY `emr_contact_fk` (`emr_contact`),
-  CONSTRAINT `person_ibfk_3` FOREIGN KEY (`emr_contact`) REFERENCES `contact` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `person_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `contact` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `person_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `contact` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `person_ibfk_3` FOREIGN KEY (`emr_contact`) REFERENCES `contact` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -228,7 +229,7 @@ CREATE TABLE `test` (
 -- ----------------------------
 -- Table structure for test_scores
 -- ----------------------------
-DROP TABLE IF EXISTS `test_scores`;
+DROP TABLE IF EXISTS `test_score`;
 CREATE TABLE `test_scores` (
   `id` int(11) NOT NULL,
   `test_id` int(11) NOT NULL,
@@ -241,8 +242,8 @@ CREATE TABLE `test_scores` (
   PRIMARY KEY (`id`),
   KEY `test_id` (`test_id`),
   KEY `person_id` (`person_id`),
-  CONSTRAINT `test_scores_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `test_scores_ibfk_1` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `test_score_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `test_score_ibfk_1` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -253,7 +254,7 @@ CREATE TABLE `user` (
   `user_name` varchar(255) NOT NULL,
   `password` varchar(500) NOT NULL COMMENT 'md5',
   `password_salt` varchar(255) DEFAULT NULL,
-  `active` tinyint(1) NOT NULL COMMENT '0 - inactive , 1 - active, 2 - blocked, 3 - temp_blocked',
+  `status` tinyint(4) NOT NULL COMMENT '0 - inactive , 1 - active, 2 - blocked, 3 - temp_blocked',
   `e_mail` varchar(255) DEFAULT NULL,
   `last_access_dtt` datetime DEFAULT NULL,
   `credentials_expire_dtt` datetime DEFAULT NULL,
