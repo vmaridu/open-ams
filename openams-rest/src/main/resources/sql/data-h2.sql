@@ -67,30 +67,30 @@ INSERT INTO `user_in_role` VALUES ('oscar.wilkinson', '3');
 -- ----------------------------
 -- Records of contact
 -- ----------------------------
-INSERT INTO `contact` VALUES ('1', 'admin', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('2', 'brock.sosa', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('3', 'bruno.noble', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('4', 'curran.roach', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('5', 'ethan.flores', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('6', 'evan.fitzpatrick', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('7', 'gannon.pierce', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('8', 'ivor.dejesus', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('9', 'jamal.guzman', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('10', 'jarrod.burch', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('11', 'lee.stanton', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('12', 'math_teacher', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('13', 'nathan.ochoa', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('14', 'neil.poole', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('15', 'noble.keller', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('16', 'oscar.wilkinson', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('17', 'otto.stephenson', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('18', 'perry.montgomery', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('19', 'perry.pickett', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('20', 'physics_teacher', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('21', 'ray.cantrell', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('22', 'science_teacher', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('23', 'vaughan.white', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
-INSERT INTO `contact` VALUES ('24', 'walter.kaufman', '0000000000', '0000000000', 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('1', 'admin', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('2', 'brock.sosa', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('3', 'bruno.noble', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('4', 'curran.roach', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('5', 'ethan.flores', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('6', 'evan.fitzpatrick', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('7', 'gannon.pierce', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('8', 'ivor.dejesus', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('9', 'jamal.guzman', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('10', 'jarrod.burch', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('11', 'lee.stanton', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('12', 'math_teacher', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('13', 'nathan.ochoa', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('14', 'neil.poole', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('15', 'noble.keller', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('16', 'oscar.wilkinson', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('17', 'otto.stephenson', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('18', 'perry.montgomery', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('19', 'perry.pickett', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('20', 'physics_teacher', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('21', 'ray.cantrell', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('22', 'science_teacher', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('23', 'vaughan.white', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
+INSERT INTO `contact` VALUES ('24', 'walter.kaufman', '0000000000', '0000000000',null, 'test_data_al_1', 'test_data_al_2', 'test_data_apt', 'test_data_st', 'test_data_city', 'TEST', 'TEST', '0', 'test_notes');
 
 
 -- ----------------------------
