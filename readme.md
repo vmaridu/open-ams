@@ -59,7 +59,7 @@
 #### Downloads
 
  - [JDK 8](http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-windows-x64.exe)
- - [Maven 3.2.3](http://www.trieuvan.com/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip)
+ - [Maven 3.2.5](http://www.trieuvan.com/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip)
  - [Spring STS 3.6.4](http://dist.springsource.com/release/STS/3.6.4.RELEASE/dist/e4.4/spring-tool-suite-3.6.4.RELEASE-e4.4.2-win32-x86_64.zip)
  - [Spring Boot CLI](http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/1.1.4.RELEASE/spring-boot-cli-1.1.4.RELEASE-bin.zip)
  - [MySQL 5.6](http://dev.mysql.com/downloads/)
@@ -81,3 +81,22 @@
 
 ### Notes
   -  Build and Installation instructions included inside module specific directories.
+
+
+
+###  Quick Setup
+
+#### Download & Extract
+  - Download the [sources](https://github.com/phanimaridu/open-ams/archive/dev.zip)
+  - Unzip the archive
+
+#### Software Requirments
+   - Install JAVA 8
+   - Download & [Setup Maven](https://maven.apache.org/install.html) (Make sure you have ${MAVEN_HOME}/bin in your $PATH)
+
+#### Start Rest Web Services
+  - Go to 'openams-rest' Directory
+  - Run ** mvn spring-boot:run -Duser.timezone=GMT -Dspring.config.location=classpath:/application.properties,classpath:/config/dev-h2.properties **
+  - Open [JSONDOC UI](http://localhost:4444/jsondoc-ui.html)  and Enter ** http://localhost:4444/jsondoc ** in input box to view the Rest API
+  - Test UserName/Password = admin/password
+  - For more info , Refer [openams-rest module readme](openams-rest/readme.md)
