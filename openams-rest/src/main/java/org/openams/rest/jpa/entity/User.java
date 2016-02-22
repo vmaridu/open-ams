@@ -1,25 +1,13 @@
-package org.openams.jpa.entity;
+package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
+
+import javax.persistence.*;
+
+import org.openams.rest.jpa.entity.enums.UserStatus;
+
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 /**
@@ -28,8 +16,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-@Inheritance(strategy=InheritanceType.JOINED)
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_DEFAULT)
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -40,8 +26,6 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="account_expire_dtt")
 	private Date accountExpireDtt;
-
-	private byte active;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="credentials_expire_dtt")
@@ -54,15 +38,16 @@ public class User implements Serializable {
 	@Column(name="last_access_dtt")
 	private Date lastAccessDtt;
 
-	@JsonIgnore
 	private String password;
 
-	@JsonIgnore
 	@Column(name="password_salt")
 	private String passwordSalt;
 
+	@Enumerated(EnumType.ORDINAL)
+	private UserStatus status;
+
 	//bi-directional many-to-many association to Role
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name="user_in_role"
 		, joinColumns={
@@ -93,14 +78,6 @@ public class User implements Serializable {
 		this.accountExpireDtt = accountExpireDtt;
 	}
 
-	public byte getActive() {
-		return this.active;
-	}
-
-	public void setActive(byte active) {
-		this.active = active;
-	}
-
 	public Date getCredentialsExpireDtt() {
 		return this.credentialsExpireDtt;
 	}
@@ -125,12 +102,10 @@ public class User implements Serializable {
 		this.lastAccessDtt = lastAccessDtt;
 	}
 
-	@JsonIgnore
 	public String getPassword() {
 		return this.password;
 	}
 
-	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -143,6 +118,14 @@ public class User implements Serializable {
 		this.passwordSalt = passwordSalt;
 	}
 
+	public UserStatus getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(UserStatus status) {
+		this.status = status;
+	}
+
 	public List<Role> getRoles() {
 		return this.roles;
 	}
@@ -151,32 +134,4 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((userName == null) ? 0 : userName.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
-		return true;
-	}
-
-	
-	
 }

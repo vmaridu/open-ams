@@ -1,4 +1,4 @@
-package org.openams.controller;
+package org.openams.rest.controller;
 
 import java.util.HashMap;
 import java.util.Map;

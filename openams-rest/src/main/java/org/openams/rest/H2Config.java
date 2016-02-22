@@ -1,4 +1,4 @@
-package org.openams;
+package org.openams.rest;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Value;

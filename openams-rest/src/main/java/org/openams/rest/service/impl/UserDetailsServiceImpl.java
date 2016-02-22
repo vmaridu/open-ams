@@ -1,12 +1,13 @@
-package org.openams.service.impl;
+package org.openams.rest.service.impl;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.openams.jpa.entity.Role;
-import org.openams.jpa.entity.User;
-import org.openams.jpa.repository.UserRepository;
+import org.openams.rest.jpa.entity.Role;
+import org.openams.rest.jpa.entity.User;
+import org.openams.rest.jpa.entity.enums.UserStatus;
+import org.openams.rest.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,10 +31,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		String password = user.getPassword();
 		// additional information on the security object
-		boolean enabled = user.getActive() == 0 ? false : true;
+		boolean enabled = user.getStatus() == UserStatus.ACTIVE;
 		boolean accountNonExpired = enabled;
 		boolean credentialsNonExpired = enabled;
-		boolean accountNonLocked = enabled;
+		boolean accountNonLocked = !(user.getStatus() == UserStatus.LOCKED);
 
 		Collection<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(Role::getName).map(SimpleGrantedAuthority::new)
