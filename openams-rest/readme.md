@@ -16,3 +16,5 @@
  - Default configurations are in **/src/main/resources /config**
  - If you want to use MySQL database change configuration properties in **/src/main/resources/config/dev-mysql.properties** 
  - Find SQL scripts in **/src/main/resources /sql**
+
+ 
