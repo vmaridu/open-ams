@@ -31,7 +31,8 @@ public class Contact implements Serializable {
 	private String city;
 
 	private String country;
-
+	
+	@Column(name="e_mail")
 	private String email;
 
 	@Column(name="home_phone")

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -15,6 +17,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.openams.rest.jpa.entity.enums.EyeColor;
+import org.openams.rest.jpa.entity.enums.Gender;
+import org.openams.rest.jpa.entity.enums.HairColor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -34,15 +42,17 @@ public class Person implements Serializable {
 	private Date dob;
 
 	@Column(name="eye_color")
-	private byte eyeColor;
+	@Enumerated(EnumType.ORDINAL)
+	private EyeColor eyeColor;
 
 	@Column(name="f_name")
 	private String fName;
 
 	@Column(name="hair_color")
-	private byte hairColor;
+	@Enumerated(EnumType.ORDINAL)
+	private HairColor hairColor;
 
-	private float height;
+	private Float height;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="joining_dtt")
@@ -61,13 +71,14 @@ public class Person implements Serializable {
 
 	private String race;
 
-	private byte sex;
+	@Enumerated(EnumType.ORDINAL)
+	private Gender sex;
 
-	private int ssn;
+	private Integer ssn;
 
 	private String suffix;
 
-	private float weight;
+	private Float weight;
 
 	//bi-directional many-to-one association to Contact
 	@ManyToOne
@@ -81,6 +92,7 @@ public class Person implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="user_name")
 	private User user;
 
@@ -107,11 +119,11 @@ public class Person implements Serializable {
 		this.dob = dob;
 	}
 
-	public byte getEyeColor() {
+	public EyeColor getEyeColor() {
 		return this.eyeColor;
 	}
 
-	public void setEyeColor(byte eyeColor) {
+	public void setEyeColor(EyeColor eyeColor) {
 		this.eyeColor = eyeColor;
 	}
 
@@ -123,19 +135,19 @@ public class Person implements Serializable {
 		this.fName = fName;
 	}
 
-	public byte getHairColor() {
+	public HairColor getHairColor() {
 		return this.hairColor;
 	}
 
-	public void setHairColor(byte hairColor) {
+	public void setHairColor(HairColor hairColor) {
 		this.hairColor = hairColor;
 	}
 
-	public float getHeight() {
+	public Float getHeight() {
 		return this.height;
 	}
 
-	public void setHeight(float height) {
+	public void setHeight(Float height) {
 		this.height = height;
 	}
 
@@ -187,19 +199,19 @@ public class Person implements Serializable {
 		this.race = race;
 	}
 
-	public byte getSex() {
+	public Gender getSex() {
 		return this.sex;
 	}
 
-	public void setSex(byte sex) {
+	public void setSex(Gender sex) {
 		this.sex = sex;
 	}
 
-	public int getSsn() {
+	public Integer getSsn() {
 		return this.ssn;
 	}
 
-	public void setSsn(int ssn) {
+	public void setSsn(Integer ssn) {
 		this.ssn = ssn;
 	}
 
@@ -211,11 +223,11 @@ public class Person implements Serializable {
 		this.suffix = suffix;
 	}
 
-	public float getWeight() {
+	public Float getWeight() {
 		return this.weight;
 	}
 
-	public void setWeight(float weight) {
+	public void setWeight(Float weight) {
 		this.weight = weight;
 	}
 

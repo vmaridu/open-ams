@@ -20,8 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+	private UserRepository repository;
+	
 	@Autowired
-	UserRepository repository;
+	public UserDetailsServiceImpl(UserRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
