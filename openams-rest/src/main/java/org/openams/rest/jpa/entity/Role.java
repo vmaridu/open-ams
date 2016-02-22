@@ -1,11 +1,7 @@
-package org.openams.jpa.entity;
+package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.List;
 
 
@@ -19,14 +15,12 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private String name;
 
 	//bi-directional many-to-many association to User
 	@ManyToMany(mappedBy="roles")
-	@JsonIgnore
 	private List<User> users;
 
 	public Role() {

@@ -1,4 +1,4 @@
-package org.openams;
+package org.openams.rest;
 
 import java.util.stream.IntStream;
 
