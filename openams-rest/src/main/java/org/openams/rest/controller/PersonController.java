@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@ApiAuthBasic
 @RestController
 @RequestMapping("/person")
+
 public class PersonController {
 
 	private final ServiceFacade facade;
@@ -24,6 +24,7 @@ public class PersonController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
+	@ApiAuthBasic(roles = {"ROLE_ADMIN"})
 	//@RequestParam(required = false, value = "userName") String userName
 	public Collection<Person> get() {
 		return facade.getPeople();
