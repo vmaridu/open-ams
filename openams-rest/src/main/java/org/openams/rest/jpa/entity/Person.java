@@ -22,8 +22,6 @@ import org.openams.rest.jpa.entity.enums.EyeColor;
 import org.openams.rest.jpa.entity.enums.Gender;
 import org.openams.rest.jpa.entity.enums.HairColor;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 /**
  * The persistent class for the person database table.
@@ -92,7 +90,6 @@ public class Person implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name="user_name")
 	private User user;
 

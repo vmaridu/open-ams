@@ -1,13 +1,24 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.openams.rest.jpa.entity.enums.UserStatus;
 
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -38,8 +49,10 @@ public class User implements Serializable {
 	@Column(name="last_access_dtt")
 	private Date lastAccessDtt;
 
+	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	@Column(name="password_salt")
 	private String passwordSalt;
 
@@ -49,14 +62,14 @@ public class User implements Serializable {
 	//bi-directional many-to-many association to Role
 	@ManyToMany
 	@JoinTable(
-		name="user_in_role"
-		, joinColumns={
-			@JoinColumn(name="user_name")
+			name="user_in_role"
+			, joinColumns={
+					@JoinColumn(name="user_name")
 			}
-		, inverseJoinColumns={
-			@JoinColumn(name="role_id")
+			, inverseJoinColumns={
+					@JoinColumn(name="role_id")
 			}
-		)
+			)
 	private List<Role> roles;
 
 	public User() {
