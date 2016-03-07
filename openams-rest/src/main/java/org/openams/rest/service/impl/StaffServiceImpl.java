@@ -1,8 +1,5 @@
 package org.openams.rest.service.impl;
 
-import java.util.Collection;
-import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
@@ -10,13 +7,14 @@ import org.openams.rest.jpa.entity.Staff;
 import org.openams.rest.jpa.repository.StaffRepository;
 import org.openams.rest.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Transactional
 @Service
-public class StaffServiceImpl implements StaffService {
+public class StaffServiceImpl extends BaseServiceImpl<Staff,String> implements StaffService {
 
-	private final StaffRepository repository;
+	private StaffRepository repository;
 
 	@Autowired
 	public StaffServiceImpl(StaffRepository repository) {
@@ -24,19 +22,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public Collection<Staff> getStaffs() {
-		Collection<Staff> staffs = repository.findAll();
-		if(staffs.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
-		return staffs;
-	}
-
-	@Override
-	public Staff getStaff(String id) {
-		Staff staff = Optional.ofNullable(repository.findOne(id))
-				.orElseThrow(() -> new EntityNotFoundException());
-		return staff;
+	public JpaRepository<Staff, String> getRepository() {
+		return repository;
 	}
 
 	@Override
@@ -45,5 +32,7 @@ public class StaffServiceImpl implements StaffService {
 				.findFirst().orElseThrow(() -> new EntityNotFoundException());
 		return staff;
 	}
+
+
 
 }

@@ -81,12 +81,12 @@ public class Person implements Serializable {
 	//bi-directional many-to-one association to Contact
 	@ManyToOne
 	@JoinColumn(name="contact")
-	private Contact contact1;
+	private Contact contact;
 
 	//bi-directional many-to-one association to Contact
 	@ManyToOne
 	@JoinColumn(name="emr_contact")
-	private Contact contact2;
+	private Contact emrContact;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -228,20 +228,20 @@ public class Person implements Serializable {
 		this.weight = weight;
 	}
 
-	public Contact getContact1() {
-		return this.contact1;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setContact1(Contact contact1) {
-		this.contact1 = contact1;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
-	public Contact getContact2() {
-		return this.contact2;
+	public Contact getEmrContact() {
+		return emrContact;
 	}
 
-	public void setContact2(Contact contact2) {
-		this.contact2 = contact2;
+	public void setEmrContact(Contact emrContact) {
+		this.emrContact = emrContact;
 	}
 
 	public User getUser() {
