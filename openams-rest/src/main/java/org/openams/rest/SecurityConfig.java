@@ -16,22 +16,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	private Environment environment;
-	
+
 	@Value("#{\"${roles}\".split(\",\")}")
 	private String[] roles;
-	
+
 	@Value("#{\"${anonymous.access}\".split(\",\")}")
 	private String[] anonymousAccess;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		http.authorizeRequests().antMatchers(anonymousAccess).permitAll();
 
 		IntStream.range(0, roles.length).forEach(
@@ -47,17 +47,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 
 		http.csrf().disable();
-		
-		//TODO:Asses complications 
+		http.sessionManagement().disable();
+
+		//TODO:Asses complications
 		http.headers().frameOptions().disable();
 	}
 
-	  
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
-    	.userDetailsService(userDetailsService)
-    	.passwordEncoder(new BCryptPasswordEncoder());
+		.userDetailsService(userDetailsService)
+		.passwordEncoder(new BCryptPasswordEncoder());
 	}
-	
+
 }

@@ -1,14 +1,23 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import org.jsondoc.core.annotation.ApiObject;
 
 
 /**
  * The persistent class for the test database table.
  * 
  */
+@ApiObject(name = "Test")
 @Entity
 @NamedQuery(name="Test.findAll", query="SELECT t FROM Test t")
 public class Test implements Serializable {

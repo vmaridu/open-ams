@@ -2,7 +2,6 @@ package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +13,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.openams.rest.jpa.entity.enums.EyeColor;
 import org.openams.rest.jpa.entity.enums.Gender;
 import org.openams.rest.jpa.entity.enums.HairColor;
@@ -27,75 +27,90 @@ import org.openams.rest.jpa.entity.enums.HairColor;
  * The persistent class for the person database table.
  * 
  */
+@ApiObject
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@ApiObjectField
 	@Id
 	private String id;
 
+	@ApiObjectField(description = "Date of Birth (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dob;
 
+	@ApiObjectField
 	@Column(name="eye_color")
 	@Enumerated(EnumType.ORDINAL)
 	private EyeColor eyeColor;
 
+	@ApiObjectField
 	@Column(name="f_name")
 	private String fName;
 
+	@ApiObjectField
 	@Column(name="hair_color")
 	@Enumerated(EnumType.ORDINAL)
 	private HairColor hairColor;
 
+	@ApiObjectField
 	private Float height;
 
+	@ApiObjectField(description = "Joining Date (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="joining_dtt")
 	private Date joiningDtt;
 
+	@ApiObjectField
 	@Column(name="l_name")
 	private String lName;
 
+	@ApiObjectField
 	@Column(name="m_name")
 	private String mName;
 
 	@Column(name="picture_uri")
 	private String pictureUri;
 
+	@ApiObjectField
 	private String prefix;
 
+	@ApiObjectField
 	private String race;
 
+	@ApiObjectField
 	@Enumerated(EnumType.ORDINAL)
 	private Gender sex;
 
+	@ApiObjectField
 	private Integer ssn;
 
+	@ApiObjectField
 	private String suffix;
 
+	@ApiObjectField
 	private Float weight;
 
 	//bi-directional many-to-one association to Contact
+	@ApiObjectField
 	@ManyToOne
 	@JoinColumn(name="contact")
 	private Contact contact;
 
 	//bi-directional many-to-one association to Contact
+	@ApiObjectField
 	@ManyToOne
 	@JoinColumn(name="emr_contact")
 	private Contact emrContact;
 
 	//bi-directional many-to-one association to User
+	@ApiObjectField
 	@ManyToOne
 	@JoinColumn(name="user_name")
 	private User user;
-
-	//bi-directional many-to-one association to TestScore
-	@OneToMany(mappedBy="person")
-	private List<TestScore> testScores;
 
 	public Person() {
 	}
@@ -251,27 +266,4 @@ public class Person implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public List<TestScore> getTestScores() {
-		return this.testScores;
-	}
-
-	public void setTestScores(List<TestScore> testScores) {
-		this.testScores = testScores;
-	}
-
-	public TestScore addTestScore(TestScore testScore) {
-		getTestScores().add(testScore);
-		testScore.setPerson(this);
-
-		return testScore;
-	}
-
-	public TestScore removeTestScore(TestScore testScore) {
-		getTestScores().remove(testScore);
-		testScore.setPerson(null);
-
-		return testScore;
-	}
-
 }

@@ -19,7 +19,7 @@ public class PresentationUtil {
 		setMany(src, dst, mode, Arrays.stream(properties).collect(Collectors.toSet()));
 	}
 
-	// TODO:Consider Parameter Overloading, Inheritance
+	// TODO:Consider Parameter Overloading
 	public static void setMany(Object src, Object dst, SETTER_MODE mode, Set<String> properties) {
 		// return if source and destination types doesn't match
 		if ( !src.getClass().equals(dst.getClass())    ) {
@@ -32,17 +32,18 @@ public class PresentationUtil {
 		.filter(dm -> allow(dm,properties,mode))
 		.forEach( dm -> {
 			try {
-				Method getMethod = src.getClass() .getMethod( dm.getName().replaceFirst("set", "get"));
-				dm.invoke(dst, getMethod.invoke(src));
+				String srcMethodPrefix = (dm.getParameterTypes()[0].equals(Boolean.class) || dm.getParameterTypes()[0].equals(boolean.class)) ? "is": "get";
+				Method srcMethod = src.getClass().getMethod( dm.getName().replaceFirst("set", srcMethodPrefix));
+				dm.invoke(dst, srcMethod.invoke(src));
 			} catch (Exception e) {}
 		});
 	}
 
 	public static boolean allow(Method method, Set<String> properties, SETTER_MODE mode){
 		if(mode == SETTER_MODE.EXCLUDE){
-			return properties.stream().noneMatch(p -> method.getName().toUpperCase().contains(p.toUpperCase()));
+			return properties.stream().noneMatch(p -> method.getName().toUpperCase().equals(("set" + p).toUpperCase()));
 		}else{
-			return properties.stream().anyMatch(p -> method.getName().toUpperCase().contains(p.toUpperCase()));
+			return properties.stream().anyMatch(p -> method.getName().toUpperCase().equals(("set" + p).toUpperCase()));
 		}
 	}
 
@@ -58,10 +59,14 @@ public class PresentationUtil {
 	}
 
 
+	public static Collection<User> getPresentableUsers(Collection<User> users) {
+		return users.stream().map(PresentationUtil :: getPresentableUser).collect(Collectors.toList());
+	}
+
 	public static User getPresentableUser(User user) {
 		User result = new User();
-		setMany(user,result,SETTER_MODE.EXCLUDE,"roles");
-		user.setRoles(user.getRoles().stream().map(PresentationUtil :: getPresentableRole).collect(Collectors.toList()));
+		setMany(user,result,SETTER_MODE.EXCLUDE,"roles", "password");
+		result.setRoles(user.getRoles().stream().map(PresentationUtil :: getPresentableRole).collect(Collectors.toList()));
 		return result;
 	}
 

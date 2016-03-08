@@ -16,50 +16,58 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.openams.rest.jpa.entity.enums.UserStatus;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
  * The persistent class for the user database table.
  * 
  */
+@ApiObject(name = "User")
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@ApiObjectField
 	@Id
 	@Column(name="user_name")
 	private String userName;
 
+	@ApiObjectField(description = "Account Expiry Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="account_expire_dtt")
 	private Date accountExpireDtt;
 
+	@ApiObjectField(description = "Credential Expiry Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="credentials_expire_dtt")
 	private Date credentialsExpireDtt;
 
+	@ApiObjectField
 	@Column(name="e_mail")
 	private String eMail;
 
+	@ApiObjectField(description = "Last Access Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_access_dtt")
 	private Date lastAccessDtt;
 
-	@JsonIgnore
+	@ApiObjectField
 	private String password;
 
-	@JsonIgnore
+	@ApiObjectField
 	@Column(name="password_salt")
 	private String passwordSalt;
 
+	@ApiObjectField
 	@Enumerated(EnumType.ORDINAL)
 	private UserStatus status;
 
 	//bi-directional many-to-many association to Role
+	@ApiObjectField
 	@ManyToMany
 	@JoinTable(
 			name="user_in_role"

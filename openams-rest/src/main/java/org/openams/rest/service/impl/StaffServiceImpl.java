@@ -28,8 +28,7 @@ public class StaffServiceImpl extends BaseServiceImpl<Staff,String> implements S
 
 	@Override
 	public Staff getStaffByUserName(String userName) {
-		Staff staff = repository.findByUserName(userName).stream()
-				.findFirst().orElseThrow(() -> new EntityNotFoundException());
+		Staff staff = repository.findByUserName(userName).stream().findFirst().orElseThrow(() -> new EntityNotFoundException());
 		return staff;
 	}
 

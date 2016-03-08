@@ -1,14 +1,21 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import org.jsondoc.core.annotation.ApiObject;
 
 
 /**
  * The persistent class for the course database table.
  * 
  */
+@ApiObject(name = "Course")
 @Entity
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
 public class Course implements Serializable {

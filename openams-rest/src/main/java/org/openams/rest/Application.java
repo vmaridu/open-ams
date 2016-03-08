@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+//TODO:Use new Date API for Entities
+//TODO:Use ENVARS if required
 @SpringBootApplication
 @EnableJSONDoc
 @EntityScan(basePackages = {"org.openams.rest.jpa.entity"})

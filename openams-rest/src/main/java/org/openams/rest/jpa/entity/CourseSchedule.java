@@ -1,16 +1,29 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.jsondoc.core.annotation.ApiObject;
 
 
 /**
  * The persistent class for the course_schedule database table.
  * 
  */
+@ApiObject(name = "CourseSchedule")
 @Entity
 @Table(name="course_schedule")
 @NamedQuery(name="CourseSchedule.findAll", query="SELECT c FROM CourseSchedule c")

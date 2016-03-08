@@ -1,14 +1,25 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.jsondoc.core.annotation.ApiObject;
 
 
 /**
  * The persistent class for the test_score database table.
  * 
  */
+@ApiObject(name = "TestScore")
 @Entity
 @Table(name="test_score")
 @NamedQuery(name="TestScore.findAll", query="SELECT t FROM TestScore t")

@@ -1,14 +1,26 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.jsondoc.core.annotation.ApiObject;
 
 
 /**
  * The persistent class for the school_schedule database table.
  * 
  */
+@ApiObject(name = "SchoolSchedule")
 @Entity
 @Table(name="school_schedule")
 @NamedQuery(name="SchoolSchedule.findAll", query="SELECT s FROM SchoolSchedule s")
@@ -28,7 +40,7 @@ public class SchoolSchedule implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_dtt")
 	private Date startDtt;
-	
+
 	//TODO:List reasonable values and Create ENUM
 	private byte status;
 
