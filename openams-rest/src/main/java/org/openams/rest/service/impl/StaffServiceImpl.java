@@ -7,7 +7,6 @@ import org.openams.rest.jpa.entity.Staff;
 import org.openams.rest.jpa.repository.StaffRepository;
 import org.openams.rest.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Transactional
@@ -18,12 +17,8 @@ public class StaffServiceImpl extends BaseServiceImpl<Staff,String> implements S
 
 	@Autowired
 	public StaffServiceImpl(StaffRepository repository) {
+		super(repository,Staff::getId);
 		this.repository = repository;
-	}
-
-	@Override
-	public JpaRepository<Staff, String> getRepository() {
-		return repository;
 	}
 
 	@Override
@@ -31,7 +26,6 @@ public class StaffServiceImpl extends BaseServiceImpl<Staff,String> implements S
 		Staff staff = repository.findByUserName(userName).stream().findFirst().orElseThrow(() -> new EntityNotFoundException());
 		return staff;
 	}
-
 
 
 }

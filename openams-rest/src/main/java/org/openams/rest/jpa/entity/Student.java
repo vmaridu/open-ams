@@ -9,15 +9,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
-
 
 /**
  * The persistent class for the student database table.
  * 
  */
-@ApiObject(name = "Student")
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @NamedQuery(name="Student.findAll", query="SELECT s FROM Student s")
@@ -25,10 +21,8 @@ public class Student extends Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiObjectField(description = "Student Grade , Ex : 1, K10, kindergarten")
 	private String level;
 
-	@ApiObjectField
 	@Column(name="parent_email")
 	private String parentEmail;
 

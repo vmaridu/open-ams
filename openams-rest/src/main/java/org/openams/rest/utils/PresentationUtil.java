@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.openams.rest.jpa.entity.Role;
 import org.openams.rest.jpa.entity.Staff;
+import org.openams.rest.jpa.entity.Student;
 import org.openams.rest.jpa.entity.User;
 
 //FIXME:Replace it with Dozer ; Asses Reflection Overhead
@@ -51,10 +52,21 @@ public class PresentationUtil {
 		return staffs.stream().map(PresentationUtil :: getPresentableSatff).collect(Collectors.toList());
 	}
 
+	public static Collection<Student> getPresentableStudents(Collection<Student> students) {
+		return students.stream().map(PresentationUtil :: getPresentableStudent).collect(Collectors.toList());
+	}
+
 	public static Staff getPresentableSatff(Staff staff) {
 		Staff result = new Staff();
 		setMany(staff,result,SETTER_MODE.EXCLUDE,"user","testScores","courseSchedules");
 		result.setUser(getPresentableUser(staff.getUser()));
+		return result;
+	}
+
+	public static Student getPresentableStudent(Student student) {
+		Student result = new Student();
+		setMany(student,result,SETTER_MODE.EXCLUDE,"user","testScores", "studentCourseEnrollments");
+		result.setUser(getPresentableUser(student.getUser()));
 		return result;
 	}
 
@@ -65,7 +77,7 @@ public class PresentationUtil {
 
 	public static User getPresentableUser(User user) {
 		User result = new User();
-		setMany(user,result,SETTER_MODE.EXCLUDE,"roles", "password");
+		setMany(user,result,SETTER_MODE.EXCLUDE, "password");
 		result.setRoles(user.getRoles().stream().map(PresentationUtil :: getPresentableRole).collect(Collectors.toList()));
 		return result;
 	}

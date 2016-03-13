@@ -8,14 +8,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
-import org.jsondoc.core.annotation.ApiObject;
-
 
 /**
  * The persistent class for the attendance database table.
  * 
  */
-@ApiObject(name = "Attendance")
 @Entity
 @NamedQuery(name="Attendance.findAll", query="SELECT a FROM Attendance a")
 public class Attendance implements Serializable {

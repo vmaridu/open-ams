@@ -12,14 +12,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.jsondoc.core.annotation.ApiObject;
-
 
 /**
  * The persistent class for the test_score database table.
  * 
  */
-@ApiObject(name = "TestScore")
 @Entity
 @Table(name="test_score")
 @NamedQuery(name="TestScore.findAll", query="SELECT t FROM TestScore t")

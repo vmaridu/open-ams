@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -15,9 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
 import org.openams.rest.jpa.entity.enums.UserStatus;
 
 
@@ -25,50 +26,45 @@ import org.openams.rest.jpa.entity.enums.UserStatus;
  * The persistent class for the user database table.
  * 
  */
-@ApiObject(name = "User")
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@ApiObjectField
+	@NotNull
+	@Size(min = 1, max=255)
 	@Id
 	@Column(name="user_name")
 	private String userName;
 
-	@ApiObjectField(description = "Account Expiry Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="account_expire_dtt")
 	private Date accountExpireDtt;
 
-	@ApiObjectField(description = "Credential Expiry Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="credentials_expire_dtt")
 	private Date credentialsExpireDtt;
 
-	@ApiObjectField
 	@Column(name="e_mail")
 	private String eMail;
 
-	@ApiObjectField(description = "Last Access Timestamp (EPOCH Milliseconds in GMT)")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_access_dtt")
 	private Date lastAccessDtt;
 
-	@ApiObjectField
+	@NotNull
+	@Size(min = 8, max=500)
 	private String password;
 
-	@ApiObjectField
 	@Column(name="password_salt")
 	private String passwordSalt;
 
-	@ApiObjectField
 	@Enumerated(EnumType.ORDINAL)
 	private UserStatus status;
 
+	//persist or edit on user doesn't cause creation of new roles
 	//bi-directional many-to-many association to Role
-	@ApiObjectField
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="user_in_role"
 			, joinColumns={

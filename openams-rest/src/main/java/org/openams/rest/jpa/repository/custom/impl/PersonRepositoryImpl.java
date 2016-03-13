@@ -10,11 +10,12 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
 	@PersistenceContext(unitName = "default")
 	private EntityManager entityManager;
-	
-	
+
 	@Override
 	public Person findPerson(String id) {
 		return entityManager.find(Person.class, id);
 	}
+
+
 
 }

@@ -1,47 +1,39 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
  * The persistent class for the role database table.
  * 
  */
-@ApiObject(name = "Role")
 @Entity
 @NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiObjectField
+	@NotNull
 	@Id
-	private int id;
+	private Integer id;
 
-	@ApiObjectField
+	@Size(min = 1, max=255)
 	private String name;
-
-	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="roles")
-	private List<User> users;
 
 	public Role() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -51,14 +43,6 @@ public class Role implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 }

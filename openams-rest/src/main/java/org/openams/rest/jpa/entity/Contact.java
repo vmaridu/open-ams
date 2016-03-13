@@ -7,14 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
-import org.jsondoc.core.annotation.ApiObject;
-
 
 /**
  * The persistent class for the contact database table.
  * 
  */
-@ApiObject(name = "Contact")
 @Entity
 @NamedQuery(name="Contact.findAll", query="SELECT c FROM Contact c")
 public class Contact implements Serializable {

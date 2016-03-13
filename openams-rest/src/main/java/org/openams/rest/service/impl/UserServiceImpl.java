@@ -9,7 +9,6 @@ import org.openams.rest.jpa.entity.User;
 import org.openams.rest.jpa.repository.UserRepository;
 import org.openams.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,27 +20,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
 	@Autowired
 	public UserServiceImpl(UserRepository repository) {
+		super(repository,User :: getUserName);
 		this.repository = repository;
 	}
 
 	@Override
-	public JpaRepository<User, String> getRepository() {
-		return repository;
-	}
-
-	@Override
-	public User create(User user, String userName) {
-		if (StringUtils.isNotBlank(userName) && repository.exists(userName)) {
+	public User create(User user) {
+		if (StringUtils.isNotBlank(user.getUserName()) && repository.exists(user.getUserName())) {
 			throw new EntityExistsException();
 		}
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		return repository.save(user);
 	}
 
-
 	@Override
-	public User update(User user, String userName) {
-		if (StringUtils.isNotBlank(userName) && !repository.exists(userName)) {
+	public User update(User user) {
+		if (StringUtils.isNotBlank(user.getUserName()) && !repository.exists(user.getUserName())) {
 			throw new EntityNotFoundException();
 		}
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
@@ -52,8 +46,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 	public User updatePassword(String userName, String newPassword) {
 		User user = get(userName);
 		user.setPassword(newPassword);
-		return update(user,user.getUserName());
+		return update(user);
 	}
+
+
 
 
 

@@ -16,14 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.jsondoc.core.annotation.ApiObject;
-
 
 /**
  * The persistent class for the course_schedule database table.
  * 
  */
-@ApiObject(name = "CourseSchedule")
 @Entity
 @Table(name="course_schedule")
 @NamedQuery(name="CourseSchedule.findAll", query="SELECT c FROM CourseSchedule c")

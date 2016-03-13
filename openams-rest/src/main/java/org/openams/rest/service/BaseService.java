@@ -5,9 +5,11 @@ import java.util.Collection;
 
 public interface BaseService<T,K> {
 
-	public T create(T t, K k);
+	public boolean exists(K k);
 
-	public T update(T t, K k);
+	public T create(T t);
+
+	public T update(T t);
 
 	public Collection<T> getAll();
 

@@ -69,16 +69,12 @@
 		</dependency>
 
 
-		<!-- TODO: Move jsondoc dependencies to maven doc profile -->
+		<!-- TODO: Move swagger dependencies to maven doc profile -->
+
 		<dependency>
-			<groupId>org.jsondoc</groupId>
-			<artifactId>spring-boot-starter-jsondoc</artifactId>
-			<version>1.2.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jsondoc</groupId>
-			<artifactId>jsondoc-ui-webjar</artifactId>
-			<version>1.2.10</version>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 
 	</dependencies>
