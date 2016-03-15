@@ -1,4 +1,8 @@
+
 package org.openams.rest.controller;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import java.util.Collection;
 
@@ -13,53 +17,69 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+//TODO:Only ADMIN should be able to access Create,Update,Delete,getAll
+//TODO:Self User should be able to access get,updateProfile Only
+@Api(value = "Staff Controller", description = "Allows CRUD Operations on User Account")
 @RestController
 @RequestMapping("/staff")
 public class StaffController {
 
-	private final ServiceFacade facade;
+    private final ServiceFacade facade;
 
-	@Autowired
-	public StaffController(ServiceFacade facade) {
-		this.facade = facade;
-	}
+    @Autowired
+    public StaffController(ServiceFacade facade) {
+        this.facade = facade;
+    }
 
-	//TODO:Do not allow user to add Role if not Admin
-	@RequestMapping(method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void create(@RequestBody Staff staff, UriComponentsBuilder uriBuilder, HttpServletResponse response) {
-		facade.create(Staff.class,staff);
-		response.setHeader("Location", uriBuilder.path("/staff/{id}") .buildAndExpand(staff.getId()).toUriString());
-	}
+    @ApiOperation(value = "Creates Staff Profile ; Allowed Roles [ADMIN]")
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@RequestBody Staff staff, UriComponentsBuilder uriBuilder, HttpServletResponse response) {
+        facade.create(Staff.class,staff);
+        response.setHeader("Location", uriBuilder.path("/staff/{id}") .buildAndExpand(staff.getId()).toUriString());
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public Collection<Staff> get() {
-		return PresentationUtil.getPresentableSatffs(facade.getAll(Staff.class));
-	}
+    @ApiOperation(value = "Gets All Staff Profiles ; Allowed Roles [ADMIN]")
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Staff> get() {
+        return PresentationUtil.getPresentableSatffs(facade.getAll(Staff.class));
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public Staff getById(@PathVariable("id") String id) {
-		return PresentationUtil.getPresentableSatff(facade.get(Staff.class,id));
-	}
+    @ApiOperation(value = "Gets Staff Profile by Staff ID ; Allowed Roles [ADMIN|ANY-SELF]")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Staff getById(@PathVariable("id") String id) {
+        return PresentationUtil.getPresentableSatff(facade.get(Staff.class,id));
+    }
 
-	//TODO:Do not allow user to change Role if not Admin
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public void update(@RequestBody Staff staff, @PathVariable("id") String id) {
-		staff.setId(id);
-		facade.update(Staff.class,staff);
-	}
+    @ApiOperation(value = "Updates Staff Profile; Allowed Roles [ADMIN]")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void update(@RequestBody Staff staff, @PathVariable("id") String id) {
+        staff.setId(id);
+        facade.update(Staff.class,staff);
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public void delete(@PathVariable("id") String id) {
-		facade.delete(Staff.class,id);
-	}
+    @ApiOperation(value = "Updates Staff Profile; Nested User Account Ignored; Allowed Roles [ADMIN-SELF|STAFF-SELF]")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void patch(@RequestBody Staff staff, @PathVariable("id") String id, @RequestParam(value = "properties", required = true) String properties) {
+
+        staff.setId(id);
+        facade.update(Staff.class, staff);
+    }
+
+    @ApiOperation(value = "Deletes Staff Profile by Staff ID ; Allowed Roles [ADMIN]")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable("id") String id) {
+        facade.delete(Staff.class,id);
+    }
 
 }

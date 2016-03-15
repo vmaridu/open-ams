@@ -1,5 +1,8 @@
 package org.openams.rest.jpa.entity;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,131 +27,141 @@ import org.openams.rest.jpa.entity.enums.UserStatus;
 
 /**
  * The persistent class for the user database table.
- * 
+ *
  */
+@ApiModel(description = "User Account Data; All Time Stamps shoud be passed as  GMT Epoch Milli Seconds")
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@NotNull
-	@Size(min = 1, max=255)
-	@Id
-	@Column(name="user_name")
-	private String userName;
+    @ApiModelProperty(value = "User Name", required = true, dataType = "String")
+    @NotNull
+    @Size(min = 1, max=255)
+    @Id
+    @Column(name="user_name")
+    private String userName;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="account_expire_dtt")
-	private Date accountExpireDtt;
+    @ApiModelProperty(value = "Account Expire Date Time in GMT Epoch Milli Seconds; Type : long", dataType = "long")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="account_expire_dtt")
+    private Date accountExpireDtt;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="credentials_expire_dtt")
-	private Date credentialsExpireDtt;
+    @ApiModelProperty(value = "Credentials Expire Date Time in GMT Epoch Milli Seconds; Type : long", dataType = "long")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="credentials_expire_dtt")
+    private Date credentialsExpireDtt;
 
-	@Column(name="e_mail")
-	private String eMail;
+    @ApiModelProperty(value = "E Mail", dataType = "String")
+    @Column(name="e_mail")
+    private String eMail;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_access_dtt")
-	private Date lastAccessDtt;
+    @ApiModelProperty(value = "Last Access Date Time in GMT Epoch Milli Seconds; Type : long", dataType = "long")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="last_access_dtt")
+    private Date lastAccessDtt;
 
-	@NotNull
-	@Size(min = 8, max=500)
-	private String password;
+    @ApiModelProperty(value = "Password", required = true, dataType = "String")
+    @NotNull
+    @Size(min = 8, max=500)
+    private String password;
 
-	@Column(name="password_salt")
-	private String passwordSalt;
+    @Column(name="password_salt")
+    private String passwordSalt;
 
-	@Enumerated(EnumType.ORDINAL)
-	private UserStatus status;
+    @ApiModelProperty(value = "User Account Status", required = true, dataType = "UserStatus")
+    @Enumerated(EnumType.ORDINAL)
+    private UserStatus status;
 
-	//persist or edit on user doesn't cause creation of new roles
-	//bi-directional many-to-many association to Role
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name="user_in_role"
-			, joinColumns={
-					@JoinColumn(name="user_name")
-			}
-			, inverseJoinColumns={
-					@JoinColumn(name="role_id")
-			}
-			)
-	private List<Role> roles;
 
-	public User() {
-	}
+    //persist or edit on user doesn't cause creation of new roles
+    @ApiModelProperty(value = "User Roles", required = true, dataType = "Role")
+    @Enumerated(EnumType.ORDINAL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="user_in_role"
+            , joinColumns={
+                    @JoinColumn(name="user_name")
+            }
+            , inverseJoinColumns={
+                    @JoinColumn(name="role_id")
+            }
+            )
+    private List<Role> roles;
 
-	public String getUserName() {
-		return this.userName;
-	}
+    public User() {
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return this.userName;
+    }
 
-	public Date getAccountExpireDtt() {
-		return this.accountExpireDtt;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setAccountExpireDtt(Date accountExpireDtt) {
-		this.accountExpireDtt = accountExpireDtt;
-	}
+    public Date getAccountExpireDtt() {
+        return this.accountExpireDtt;
+    }
 
-	public Date getCredentialsExpireDtt() {
-		return this.credentialsExpireDtt;
-	}
+    public void setAccountExpireDtt(Date accountExpireDtt) {
+        this.accountExpireDtt = accountExpireDtt;
+    }
 
-	public void setCredentialsExpireDtt(Date credentialsExpireDtt) {
-		this.credentialsExpireDtt = credentialsExpireDtt;
-	}
+    public Date getCredentialsExpireDtt() {
+        return this.credentialsExpireDtt;
+    }
 
-	public String getEMail() {
-		return this.eMail;
-	}
+    public void setCredentialsExpireDtt(Date credentialsExpireDtt) {
+        this.credentialsExpireDtt = credentialsExpireDtt;
+    }
 
-	public void setEMail(String eMail) {
-		this.eMail = eMail;
-	}
+    public String getEMail() {
+        return this.eMail;
+    }
 
-	public Date getLastAccessDtt() {
-		return this.lastAccessDtt;
-	}
+    public void setEMail(String eMail) {
+        this.eMail = eMail;
+    }
 
-	public void setLastAccessDtt(Date lastAccessDtt) {
-		this.lastAccessDtt = lastAccessDtt;
-	}
+    public Date getLastAccessDtt() {
+        return this.lastAccessDtt;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public void setLastAccessDtt(Date lastAccessDtt) {
+        this.lastAccessDtt = lastAccessDtt;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public String getPasswordSalt() {
-		return this.passwordSalt;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setPasswordSalt(String passwordSalt) {
-		this.passwordSalt = passwordSalt;
-	}
+    public String getPasswordSalt() {
+        return this.passwordSalt;
+    }
 
-	public UserStatus getStatus() {
-		return this.status;
-	}
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
 
-	public void setStatus(UserStatus status) {
-		this.status = status;
-	}
+    public UserStatus getStatus() {
+        return this.status;
+    }
 
-	public List<Role> getRoles() {
-		return this.roles;
-	}
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+    public List<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
 }
