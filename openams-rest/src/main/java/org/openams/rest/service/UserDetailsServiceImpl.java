@@ -1,4 +1,4 @@
-package org.openams.rest.service.impl;
+package org.openams.rest.service;
 
 import java.util.Collection;
 import java.util.Optional;

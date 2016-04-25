@@ -1,5 +1,6 @@
 package org.openams.rest.facade;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,8 +46,8 @@ public class ServiceFacade {
 		serviceRegistry.put(Role.class, roleService);
 	}
 
-	private <T> BaseService<T,?> getService(Class<T> modelType){
-		return (BaseService<T, ?>) Optional.ofNullable(serviceRegistry.get(modelType)).orElseThrow(() ->  new NotImplementedException("No Service Avaible For the modelType"));
+	private <T,K extends Serializable> BaseService<T,K> getService(Class<T> modelType){
+		return (BaseService<T, K>) Optional.ofNullable(serviceRegistry.get(modelType)).orElseThrow(() ->  new NotImplementedException("No Service Avaible For the modelType"));
 	}
 
 	public <T> Collection<T> getAll(Class<T> modelType){
@@ -54,7 +55,7 @@ public class ServiceFacade {
 	}
 
 	public <T,K> T get(Class<T> modelType, K k){
-		return ((BaseService<T, K>)getService(modelType)).get(k);
+		return getService(modelType).get((Serializable) k);
 	}
 
 	public <T> T create(Class<T> modelType, T t){
@@ -66,7 +67,7 @@ public class ServiceFacade {
 	}
 
 	public <T,K> void delete(Class<T> modelType, K k){
-		((BaseService<T, K>)getService(modelType)).delete(k);
+		getService(modelType).delete((Serializable)k);
 	}
 
 	public User createUser(User user) {
