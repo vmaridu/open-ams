@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.openams.rest.jpa.entity.Person;
 import org.openams.rest.jpa.entity.Role;
 import org.openams.rest.jpa.entity.Staff;
 import org.openams.rest.jpa.entity.Student;
@@ -82,6 +83,12 @@ public class PresentationUtil {
 		return result;
 	}
 
+	public static Person getPresentablePerson(Person person) {
+		Person result = new Person();
+		setMany(person,result,SETTER_MODE.EXCLUDE, "user");
+		return result;
+	}
+	
 
 	public static Role getPresentableRole(Role role) {
 		Role result = new Role();

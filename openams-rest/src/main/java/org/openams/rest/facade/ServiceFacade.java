@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.openams.rest.jpa.entity.Person;
 import org.openams.rest.jpa.entity.Role;
 import org.openams.rest.jpa.entity.Staff;
 import org.openams.rest.jpa.entity.Student;
 import org.openams.rest.jpa.entity.User;
 import org.openams.rest.service.BaseService;
+import org.openams.rest.service.PersonService;
 import org.openams.rest.service.RoleService;
 import org.openams.rest.service.StaffService;
 import org.openams.rest.service.StudentService;
@@ -30,20 +32,23 @@ public class ServiceFacade {
 	private StaffService staffService;
 	private StudentService studentService;
 	private RoleService roleService;
+	private PersonService personService;
 	private Map<Class<?>,BaseService<?,?>> serviceRegistry;
 
 	@Autowired
-	public ServiceFacade(UserService userService,StaffService staffService,StudentService studentService,RoleService roleService) {
+	public ServiceFacade(UserService userService,StaffService staffService,StudentService studentService,RoleService roleService, PersonService personService) {
 		this.userService = userService;
 		this.staffService = staffService;
 		this.studentService = studentService;
 		this.roleService = roleService;
+		this.personService = personService;
 
 		serviceRegistry = new HashMap<Class<?>, BaseService<?,?>>();
 		serviceRegistry.put(User.class, userService);
 		serviceRegistry.put(Staff.class, staffService);
 		serviceRegistry.put(Student.class, studentService);
 		serviceRegistry.put(Role.class, roleService);
+		serviceRegistry.put(Person.class, personService);
 	}
 
 	private <T,K extends Serializable> BaseService<T,K> getService(Class<T> modelType){
@@ -92,6 +97,8 @@ public class ServiceFacade {
 	public void updatePassword(String userName, String newPassword) {
 		userService.updatePassword(userName, newPassword);
 	}
-
-
+	
+	public Person updateProfileWithUserAccountPreservation(Person person){
+		return personService.updateProfileWithUserAccountPreservation(person);
+	}
 }

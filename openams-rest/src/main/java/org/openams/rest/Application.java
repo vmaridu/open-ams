@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //TODO:Use new Date API for Entities
 //TODO:Use ENVARS if required
 //TODO:Apply Pagination to all Controllers
+//TODO:Implement patch service for all resources, update all except null
 @SpringBootApplication
 @EntityScan(basePackages = {"org.openams.rest.jpa.entity"})
 @EnableJpaRepositories(basePackages = {"org.openams.rest.jpa.repository"})
