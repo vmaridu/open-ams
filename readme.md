@@ -9,7 +9,7 @@
   - Mailing Student Progress Reports to Parents etc...
 
   Web Services are developed using Java 8 and Spring Boot. UI developed using Bootstrap and AngularJS.
-  Future releases may provide native app support for Android and iOS.
+  Native Mobile Apps developed using PhoneGap
 
 #### Goals of OpenAMS
   - Providing Academic Institutes with FREE and EASILY Maintainable Software.
@@ -31,13 +31,15 @@
   - Using In Memory Databases (Ex : H2)
   - Writing Integration Test Cases
   - Writing Unit Test cases with Mocking (Power Mock)
+  - Gradle
   - Docker
   - and Ofcourse writing GitHub Markups :)
 
 #### Technologies Used
  - Java 8
- - Maven 3.2.3
- - Spring Development Tool Suite 3.6.4 (IDE)
+ - Gradle
+ - Docker
+ - Spring Development Tool Suite 3.8.3 (IDE)
  - Spring 4
    - Spring Boot
    - Spring Boot CLI
@@ -60,9 +62,7 @@
 #### Downloads
 
  - [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
- - [Maven 3.2.5](http://www.trieuvan.com/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip)
- - [Spring STS 3.6.4](http://dist.springsource.com/release/STS/3.6.4.RELEASE/dist/e4.4/spring-tool-suite-3.6.4.RELEASE-e4.4.2-win32-x86_64.zip)
- - [Spring Boot CLI](http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/1.1.4.RELEASE/spring-boot-cli-1.1.4.RELEASE-bin.zip)
+ - [Spring STS 3.8.3]https://spring.io/tools)
  - [MySQL 5.6](http://dev.mysql.com/downloads/)
  - [MySQL Workbench](http://dev.mysql.com/downloads/)
  - [Pencil 2.*](http://evoluspencil.googlecode.com/files/Pencil-2.0.5.win32.installer.exe)
@@ -76,6 +76,7 @@
  - web-ui     : Web GUI Sources
  - phonegap   : Multi Mobile Platform Native Apps
  - docker     : Docker images for easy deployment
+
 
 
 ### Notes
@@ -96,4 +97,4 @@
 #### Start Rest Web Services
   - Go to 'rest-api' Directory
   - Run **./gradlew bootRun -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim**
-  - For more info , Refer [rest-api module readme](openams-rest/readme.md)
+  - For more info , Refer [rest-api module readme](rest-api/readme.md)
