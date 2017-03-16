@@ -9,7 +9,7 @@
 
  - Run application from JAR using
   ~~~ sh
-  java -jar -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim build/libs/openams-rest-api-0.0.1.jar
+  java -jar -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim build/libs/openams-rest-api-0.0.1-SNAPSHOT.jar
   ~~~
 
  - (OR) Run application using Gradle

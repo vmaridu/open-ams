@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+//TODO:Configure logback to not to print logs to console
 //TODO:Use new Date API for Entities
 //TODO:Use ENVARS if required
 //TODO:Apply Pagination to all Controllers
