@@ -38,7 +38,7 @@ public class User implements Serializable {
 	private Date credentialsExpireDtt;
 
 	@Column(name = "e_mail")
-	private String eMail;
+	private String email;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "last_access_dtt")

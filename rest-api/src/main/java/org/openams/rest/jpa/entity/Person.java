@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -15,6 +17,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.openams.rest.jpa.entity.enums.EyeColor;
+import org.openams.rest.jpa.entity.enums.Gender;
+import org.openams.rest.jpa.entity.enums.HairColor;
 
 import lombok.Data;
 
@@ -34,13 +39,15 @@ public class Person implements Serializable {
 	private Date dob;
 
 	@Column(name="eye_color")
-	private byte eyeColor;
+	@Enumerated(EnumType.ORDINAL)
+	private EyeColor eyeColor;
 
 	@Column(name="f_name")
 	private String fName;
 
 	@Column(name="hair_color")
-	private byte hairColor;
+	@Enumerated(EnumType.ORDINAL)
+	private HairColor hairColor;
 
 	private float height;
 
@@ -65,7 +72,8 @@ public class Person implements Serializable {
 
 	private String race;
 
-	private byte sex;
+	@Enumerated(EnumType.ORDINAL)
+	private Gender sex;
 
 	private int ssn;
 

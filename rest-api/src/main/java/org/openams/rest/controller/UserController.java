@@ -1,6 +1,5 @@
 package org.openams.rest.controller;
 
-import org.openams.rest.jpa.entity.User;
 import org.openams.rest.model.UserModel;
 import org.openams.rest.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
