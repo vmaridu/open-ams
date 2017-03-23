@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					//TODO:Log Exception
 					//TODO:Use arrays for accesses
 					String[] roleAccesses = environment.getProperty("accesses["+ index + "]").split(",");
-					try { http.authorizeRequests().antMatchers(roleAccesses).hasAuthority(roles[index]);
+					try { http.authorizeRequests().antMatchers(roleAccesses).hasRole(roles[index]);
 					} catch (Exception e) { e.printStackTrace();}
 				});
 

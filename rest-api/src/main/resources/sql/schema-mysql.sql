@@ -15,16 +15,19 @@ Date: 2016-02-14 15:52:44
 
 SET FOREIGN_KEY_CHECKS=0;
 
+
+-- use `openams`;
+
 -- ----------------------------
 -- Table structure for attendance
 -- ----------------------------
 DROP TABLE IF EXISTS `attendance`;
 CREATE TABLE `attendance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_course_enrollment_id` int(11) NOT NULL,
+  `id` varchar(40) NOT NULL,
+  `student_course_enrollment_id` varchar(40) NOT NULL,
   `comment` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL COMMENT '1=PRESENT,2=ABSENT, 3=ON_LEAVE, 4=SICK, 5=OTHERS',
-  `taken_by` int(11) NOT NULL,
+  `taken_by` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `student_course_enrollment_id` (`student_course_enrollment_id`),
   KEY `taken_by` (`taken_by`),
@@ -37,10 +40,11 @@ CREATE TABLE `attendance` (
 -- ----------------------------
 DROP TABLE IF EXISTS `attendance_by`;
 CREATE TABLE `attendance_by` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(40) NOT NULL,
   `taken_dtt` datetime DEFAULT NULL,
   `taken_by` varchar(50) DEFAULT NULL,
-  `course_schedule_id` int(11) DEFAULT NULL,
+  `course_schedule_id` varchar(40) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `taken_by` (`taken_by`),
   KEY `course_schedule_id` (`course_schedule_id`),
@@ -53,7 +57,7 @@ CREATE TABLE `attendance_by` (
 -- ----------------------------
 DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(40) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `home_phone` varchar(20) DEFAULT NULL,
@@ -75,11 +79,12 @@ CREATE TABLE `contact` (
 -- ----------------------------
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(40) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `dept` varchar(255) DEFAULT NULL,
   `desc` varchar(255) DEFAULT NULL,
   `credits` tinyint(1) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -88,9 +93,10 @@ CREATE TABLE `course` (
 -- ----------------------------
 DROP TABLE IF EXISTS `course_schedule`;
 CREATE TABLE `course_schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `course_id` int(11) DEFAULT NULL,
-  `instructor_id` varchar(50) DEFAULT NULL,
+  `id` varchar(40) NOT NULL,
+  `course_id` varchar(40) DEFAULT NULL,
+  `instructor_id` varchar(40) DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `term` varchar(25) DEFAULT NULL,
   `start_dt` date DEFAULT NULL,
@@ -99,6 +105,7 @@ CREATE TABLE `course_schedule` (
   `end_t` time DEFAULT NULL,
   `location` varchar(100) DEFAULT NULL,
   `desc` varchar(1000) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `course_fk` (`course_id`),
   KEY `instructor_id_fk` (`instructor_id`),
@@ -111,7 +118,7 @@ CREATE TABLE `course_schedule` (
 -- ----------------------------
 DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
-  `id` varchar(50) NOT NULL DEFAULT '',
+  `id` varchar(40) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `f_name` varchar(255) DEFAULT NULL,
   `m_name` varchar(255) DEFAULT NULL,
@@ -128,8 +135,9 @@ CREATE TABLE `person` (
   `picture_uri` varchar(1000) DEFAULT NULL,
   `ssn` int(9) DEFAULT NULL,
   `joining_dtt` datetime DEFAULT NULL,
-  `contact` int(11) DEFAULT NULL,
-  `emr_contact` int(11) DEFAULT NULL,
+  `contact` varchar(40) DEFAULT NULL,
+  `emr_contact` varchar(40) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_name_fk` (`user_name`),
   KEY `contact_fk` (`contact`),
@@ -144,7 +152,7 @@ CREATE TABLE `person` (
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
+  `id` varchar(40) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -154,12 +162,13 @@ CREATE TABLE `role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(40) NOT NULL,
   `event_name` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `start_dtt` datetime DEFAULT NULL,
   `end_dtt` datetime DEFAULT NULL,
   `annonced_by` varchar(50) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `annonced_by` (`annonced_by`),
   CONSTRAINT `school_schedule_ibfk_1` FOREIGN KEY (`annonced_by`) REFERENCES `staff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -170,7 +179,8 @@ CREATE TABLE `school_schedule` (
 -- ----------------------------
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
-  `id` varchar(50) NOT NULL,
+  `id` varchar(40) NOT NULL,
+  `alt_id` varchar(40) NOT NULL,
   `designation` varchar(255) DEFAULT NULL,
   `desc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -182,7 +192,8 @@ CREATE TABLE `staff` (
 -- ----------------------------
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(40) NOT NULL,
+  `roll_number` varchar(40) NOT NULL,
   `parent_email` varchar(255) DEFAULT NULL,
   `level` varchar(255) DEFAULT NULL COMMENT 'class name,grade_type',
   PRIMARY KEY (`id`),
@@ -194,13 +205,14 @@ CREATE TABLE `student` (
 -- ----------------------------
 DROP TABLE IF EXISTS `student_course_enrollment`;
 CREATE TABLE `student_course_enrollment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `course_schedule_id` int(11) DEFAULT NULL,
-  `student_id` varchar(50) DEFAULT NULL,
+  `id` varchar(40) NOT NULL,
+  `course_schedule_id` varchar(40) DEFAULT NULL,
+  `student_id` varchar(40) DEFAULT NULL,
   `enrolled_dtt` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `grade` varchar(10) DEFAULT NULL,
   `graded_dtt` datetime DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `course_schedule_id_fk` (`course_schedule_id`),
   KEY `student_id_fk_2` (`student_id`),
@@ -213,14 +225,15 @@ CREATE TABLE `student_course_enrollment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
-  `id` int(11) NOT NULL,
+  `id` varchar(40) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `course_id` int(11) DEFAULT NULL,
+  `course_id` varchar(40) DEFAULT NULL,
   `test_type` varchar(50) DEFAULT NULL COMMENT 'Online,Internal,Unit,Quarterly',
   `start_dtt` varchar(255) DEFAULT NULL,
   `end_dtt` varchar(255) DEFAULT NULL,
   `max_score` varchar(255) DEFAULT NULL,
   `desc` varchar(1000) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `test_ibfk_1` (`course_id`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
@@ -230,15 +243,16 @@ CREATE TABLE `test` (
 -- Table structure for test_scores
 -- ----------------------------
 DROP TABLE IF EXISTS `test_score`;
-CREATE TABLE `test_scores` (
-  `id` int(11) NOT NULL,
-  `test_id` int(11) NOT NULL,
-  `person_id` varchar(50) NOT NULL,
+CREATE TABLE `test_score` (
+  `id` varchar(40) NOT NULL,
+  `test_id` varchar(40) NOT NULL,
+  `person_id` varchar(40) NOT NULL,
   `start_dtt` datetime DEFAULT NULL,
   `end_dtt` datetime DEFAULT NULL,
   `grade` varchar(10) DEFAULT NULL,
   `score` int(255) DEFAULT NULL,
   `notes` varchar(255) DEFAULT NULL,
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `test_id` (`test_id`),
   KEY `person_id` (`person_id`),
@@ -268,9 +282,38 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `user_in_role`;
 CREATE TABLE `user_in_role` (
   `user_name` varchar(255) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `role_id` varchar(40) NOT NULL,
   KEY `users_in_roles_user_name` (`user_name`),
   KEY `users_in_roles_role_id` (`role_id`),
   CONSTRAINT `user_in_role_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_in_role_ibfk_2` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Table structure for fee
+-- ----------------------------
+DROP TABLE IF EXISTS `fee`;
+CREATE TABLE `fee` (
+  `id` varchar(40) NOT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `student_id` varchar(40) NOT NULL,
+  `academic_term` varchar(100) NOT NULL,
+  `amount` float NOT NULL,
+  `comment` varchar(1000),
+  KEY `fee_id` (`id`),
+  CONSTRAINT `fee_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Table structure for payment
+-- ----------------------------
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE `payment` (
+  `id` varchar(40) NOT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `fee_id` varchar(40),
+  `amount` float NOT NULL,
+  `comment` varchar(1000),
+  KEY `payment_id` (`id`),
+  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`fee_id`) REFERENCES `fee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

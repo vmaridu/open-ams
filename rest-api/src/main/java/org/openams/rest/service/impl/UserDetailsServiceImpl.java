@@ -1,4 +1,4 @@
-package org.openams.rest.service;
+package org.openams.rest.service.impl;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,13 +41,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		boolean accountNonLocked = !(user.getStatus() == UserStatus.LOCKED);
 
 		Collection<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(Role::getName).map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+				.map(Role::getName).map(role -> "ROLE_" + role)
+				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-		// Now let's create Spring Security User object
-		org.springframework.security.core.userdetails.User securityUser = new org.springframework.security.core.userdetails.User(
+		org.springframework.security.core.userdetails.User securityUser = new org.springframework.security.core.userdetails.User(	
 				userName, password, enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, authorities);
+		
 		return securityUser;
 
 	}
