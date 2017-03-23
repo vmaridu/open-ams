@@ -9,7 +9,7 @@
   - Mailing Student Progress Reports to Parents etc...
 
   Web Services are developed using Java 8 and Spring Boot. UI developed using Bootstrap and AngularJS.
-  Future releases may provide native app support for Android and iOS.
+  Native Mobile Apps developed using PhoneGap
 
 #### Goals of OpenAMS
   - Providing Academic Institutes with FREE and EASILY Maintainable Software.
@@ -31,12 +31,15 @@
   - Using In Memory Databases (Ex : H2)
   - Writing Integration Test Cases
   - Writing Unit Test cases with Mocking (Power Mock)
+  - Gradle
+  - Docker
   - and Ofcourse writing GitHub Markups :)
 
 #### Technologies Used
  - Java 8
- - Maven 3.2.3
- - Spring Development Tool Suite 3.6.4 (IDE)
+ - Gradle
+ - Docker
+ - Spring Development Tool Suite 3.8.3 (IDE)
  - Spring 4
    - Spring Boot
    - Spring Boot CLI
@@ -58,10 +61,8 @@
 
 #### Downloads
 
- - [JDK 8](http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-windows-x64.exe)
- - [Maven 3.2.5](http://www.trieuvan.com/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip)
- - [Spring STS 3.6.4](http://dist.springsource.com/release/STS/3.6.4.RELEASE/dist/e4.4/spring-tool-suite-3.6.4.RELEASE-e4.4.2-win32-x86_64.zip)
- - [Spring Boot CLI](http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/1.1.4.RELEASE/spring-boot-cli-1.1.4.RELEASE-bin.zip)
+ - [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ - [Spring STS 3.8.3]https://spring.io/tools)
  - [MySQL 5.6](http://dev.mysql.com/downloads/)
  - [MySQL Workbench](http://dev.mysql.com/downloads/)
  - [Pencil 2.*](http://evoluspencil.googlecode.com/files/Pencil-2.0.5.win32.installer.exe)
@@ -70,12 +71,11 @@
 
 
 #### Repository Directory Structure
- - db  :  Contains ER Model and DB Scripts
- - doc :  Contains Wireframes, Functional Documents
- - src :  Contains sources
-    - openams-rest         : Web Service Application Sources
-    - openams-web          : Web GUI Sources
-    - openams-android      : Android Native GUI Sources
+ - doc        : Contains Wireframes, Functional Documents
+ - rest-api   : Rest Web Service Application Sources
+ - web-ui     : Web GUI Sources
+ - phonegap   : Multi Mobile Platform Native Apps
+ - docker     : Docker images for easy deployment
 
 
 
@@ -86,17 +86,15 @@
 
 ###  Quick Setup
 
+#### Software Requirments
+  - JDK 8
+  - Docker version 1.11.1 (Only needed for Docker Orchestrator)
+
 #### Download & Extract
   - Download the [sources](https://github.com/phanimaridu/open-ams/archive/dev.zip)
   - Unzip the archive
 
-#### Software Requirments
-   - Install JAVA 8
-   - Download & [Setup Maven](https://maven.apache.org/install.html) (Make sure you have ${MAVEN_HOME}/bin in your $PATH)
-
 #### Start Rest Web Services
-  - Go to 'openams-rest' Directory
-  - Run ** mvn spring-boot:run -Duser.timezone=GMT -Dspring.config.location=classpath:/application.properties,classpath:/config/dev-h2.properties **
-  - Open [JSONDOC UI](http://localhost:4444/jsondoc-ui.html)  and Enter ** http://localhost:4444/jsondoc ** in input box to view the Rest API
-  - Test UserName/Password = admin/password
-  - For more info , Refer [openams-rest module readme](openams-rest/readme.md)
+  - Go to 'rest-api' Directory
+  - Run **./gradlew bootRun -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim**
+  - For more info , Refer [rest-api module readme](rest-api/readme.md)
