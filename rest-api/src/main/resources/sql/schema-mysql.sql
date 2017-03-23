@@ -300,6 +300,7 @@ CREATE TABLE `fee` (
   `academic_term` varchar(100) NOT NULL,
   `amount` float NOT NULL,
   `comment` varchar(1000),
+  PRIMARY KEY (`id`),
   KEY `fee_id` (`id`),
   CONSTRAINT `fee_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -314,6 +315,7 @@ CREATE TABLE `payment` (
   `fee_id` varchar(40),
   `amount` float NOT NULL,
   `comment` varchar(1000),
+  PRIMARY KEY (`id`),
   KEY `payment_id` (`id`),
   CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`fee_id`) REFERENCES `fee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
