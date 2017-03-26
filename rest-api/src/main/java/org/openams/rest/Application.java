@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //TODO:Use ENVARS if required
 //TODO:Apply Pagination to all Controllers
 //TODO:Implement patch service for all resources, update all except null
+//TODO:Login Success Handler with update lastAccessDtt
 @SpringBootApplication
 @EntityScan(basePackages = {"org.openams.rest.jpa.entity"})
 @EnableJpaRepositories(basePackages = {"org.openams.rest.jpa.repository"})

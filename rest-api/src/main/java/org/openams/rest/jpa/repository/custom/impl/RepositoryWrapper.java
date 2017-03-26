@@ -8,6 +8,8 @@ import java.util.function.Function;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public class RepositoryWrapper<T, K extends Serializable>  {
@@ -19,7 +21,12 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 		this.repository = repository;
 		this.keyGetter = keyGetter;
 	}
-
+	
+	
+	public JpaRepository<T, K> getRepository(){
+		return repository;
+	}
+	
 	public boolean exists(K key){
 		return repository.exists(key);
 	}
@@ -40,15 +47,23 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 		return repository.save(t);
 	}
 
-	public Collection<T> getAll() {
+	public Collection<T> findAll() {
 		Collection<T> entities = repository.findAll();
 		if (entities.isEmpty()) {
 			throw new EntityNotFoundException();
 		}
 		return entities;
 	}
+	
+	public Page<T> findAll(Pageable pagable) {
+		Page<T> entities = repository.findAll(pagable);
+		if (entities.getTotalElements() == 0) {
+			throw new EntityNotFoundException();
+		}
+		return entities;
+	}
 
-	public T get(K key) {
+	public T findOne(K key) {
 		return Optional.ofNullable(repository.findOne(key)).orElseThrow(() -> new EntityNotFoundException());
 	}
 
