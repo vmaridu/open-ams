@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.openams.rest.jpa.entity.enums.UserStatus;
 
 import io.swagger.annotations.ApiModel;
@@ -18,11 +19,13 @@ public class UserModel {
 
 	@ApiModelProperty(value = "User Name", required = true, dataType = "String")
 	@NotNull
+	@NotEmpty
 	@Size(min = 1, max=255)
 	private String userName;
 
 	@ApiModelProperty(value = "E Mail; Password will be sent to this e-mail", dataType = "String")
 	@NotNull
+	@NotEmpty
 	@Size(min = 1, max=255)
 	private String email;
 
@@ -38,7 +41,9 @@ public class UserModel {
 	@ApiModelProperty(value = "Last Access Date Time in GMT Epoch Milli Seconds; Type : long", dataType = "long")
 	private Date lastAccessDtt;
 	
-    @ApiModelProperty(value = "User Roles", required = true, dataType = "String")
+    @ApiModelProperty(value = "User Roles", required = true, dataType = "Collection")
+    @NotNull
+    @NotEmpty
 	private Collection<String> roles;
 
 }

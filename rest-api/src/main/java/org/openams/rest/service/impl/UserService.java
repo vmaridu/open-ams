@@ -1,5 +1,8 @@
 package org.openams.rest.service.impl;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -11,6 +14,7 @@ import org.openams.rest.jpa.entity.User;
 import org.openams.rest.jpa.repository.UserRepository;
 import org.openams.rest.jpa.repository.custom.impl.RepositoryWrapper;
 import org.openams.rest.model.Page;
+import org.openams.rest.model.ProvisionableUserModel;
 import org.openams.rest.model.UserModel;
 import org.openams.rest.utils.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +28,16 @@ import org.springframework.stereotype.Service;
 public class UserService   {
 
 	private RepositoryWrapper<User,String> repository;
+	private CachedDataService dataService;
 	private Mapper mapper;
+	BCryptPasswordEncoder encoder;
 
 	@Autowired
-	public UserService(UserRepository repository, Mapper mapper) {
+	public UserService(UserRepository repository, CachedDataService dataService, Mapper mapper) {
 		this.mapper = mapper;
+		this.encoder = new BCryptPasswordEncoder();
 		this.repository = new RepositoryWrapper<User,String>(repository, (User :: getUserName));
+		this.dataService = dataService;
 	}
 
 	public Page<UserModel> getAll(int pageIndex, int limit) {
@@ -48,7 +56,6 @@ public class UserService   {
 	
 	public void changePassword(String userName, String oldPassword, String newPassword){
 		User user = repository.findOne(userName);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		if (!encoder.matches(oldPassword, user.getPassword())){
 			throw new AccessDeniedException("Old Password doesn't match");
@@ -56,5 +63,28 @@ public class UserService   {
 		
 		user.setPassword(encoder.encode(newPassword));
 		repository.update(user);
+	}
+	
+	public void create(ProvisionableUserModel userModel){
+		repository.create(toUser(userModel));
+	}
+	
+	public void update(ProvisionableUserModel userModel){
+		repository.update(toUser(userModel));
+	}
+	
+	public User toUser(ProvisionableUserModel userModel){
+		User user = mapper.map(userModel, User.class);
+		user.setPassword(encoder.encode(userModel.getPassword()));
+		Map<String,String> roleNametoIdmap = dataService.getRoleNametoIdMap();
+		List<Role> roles = userModel.getRoles().stream().filter(roleName -> roleNametoIdmap.containsKey(roleName))
+				   							   .map(roleName -> roleNametoIdmap.get(roleName))
+				   							   .map(roleId -> new Role(roleId))
+				   							   .collect(Collectors.toList());
+		user.setRoles(roles);
+		user.setLastAccessDtt(new Date());
+		user.setCredentialsExpireDtt(null);
+		user.setAccountExpireDtt(null);
+		return user;
 	}
 }

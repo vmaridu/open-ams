@@ -12,21 +12,9 @@
 		</field-exclude>
 	</mapping>
 	
-	<mapping wildcard="false" type="one-way">
+	<mapping type="one-way">
 		<class-a>org.openams.rest.model.UserModel</class-a>
 		<class-b>org.openams.rest.jpa.entity.User</class-b>
-		<field>
-			<a>userName</a>
-			<b>userName</b>
-		</field>
-		<field>
-			<a>email</a>
-			<b>email</b>
-		</field>
-		<field>
-			<a>status</a>
-			<b>status</b>
-		</field>
 	</mapping>
 
 </mappings> 

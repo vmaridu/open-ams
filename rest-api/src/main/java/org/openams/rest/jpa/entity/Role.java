@@ -16,11 +16,17 @@ public class Role implements Serializable {
 
 	private static final long serialVersionUID = -5301575988735395497L;
 
+	public Role() {}
+	
+	public Role(String id) {
+		this.id = id;
+	}
+	
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
 	private String name;
-
+	
 }
