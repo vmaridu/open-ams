@@ -40,8 +40,8 @@ public class UserService   {
 		this.dataService = dataService;
 	}
 
-	public Page<UserModel> getAll(int pageIndex, int limit) {
-		Pageable pageRequest = PaginationUtil.getPageRequest(pageIndex, limit);
+	public Page<UserModel> getAll(int pageIndex, int limit, String sort) {
+		Pageable pageRequest = PaginationUtil.getPageRequest(pageIndex, limit, sort);
 		org.springframework.data.domain.Page<User> page = repository.findAll(pageRequest);
 		Function<User, UserModel> contentMapper = (user) -> mapper.map(user, UserModel.class);
 		return PaginationUtil.toPageModel(page, pageRequest, contentMapper);

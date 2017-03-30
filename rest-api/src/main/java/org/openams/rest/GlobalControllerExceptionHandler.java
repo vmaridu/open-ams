@@ -5,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-	@ExceptionHandler(value = {IllegalArgumentException.class, DataIntegrityViolationException.class})
+	@ExceptionHandler(value = {IllegalArgumentException.class, DataIntegrityViolationException.class, PropertyReferenceException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public String handleBadRequests(Exception e) {
 		return e.getMessage();
@@ -38,7 +39,6 @@ public class GlobalControllerExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public String handleException(Exception e) {
-		e.printStackTrace();
 		return e.getMessage();
 	}
 

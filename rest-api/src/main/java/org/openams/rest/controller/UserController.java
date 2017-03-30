@@ -40,8 +40,9 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<UserModel> getAll(@RequestParam(name = "page", required = false , defaultValue = DEFAULT_PAGE) int pageIndex,
-    							  @RequestParam(name = "limit", required = false, defaultValue = DEFAULT_LIMIT) int limit ) {
-        return service.getAll(pageIndex, limit);
+    							  @RequestParam(name = "limit", required = false, defaultValue = DEFAULT_LIMIT) int limit ,
+    							  @RequestParam(name = "sort", required = false) String sort ) {
+        return service.getAll(pageIndex, limit, sort);
     }
     
 	@ApiOperation(value = "Gets User Account by UserName ; Allowed Roles [ADMIN|ANY-SELF]")
