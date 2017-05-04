@@ -1,8 +1,5 @@
 package org.openams.rest.controller;
 
-import static org.openams.rest.utils.Constants.DEFAULT_LIMIT;
-import static org.openams.rest.utils.Constants.DEFAULT_PAGE;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -12,16 +9,18 @@ import org.openams.rest.model.ProvisionableUserModel;
 import org.openams.rest.model.UserModel;
 import org.openams.rest.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(value = "User Controller", description = "Allows CRUD,Change Password Operations on User Account")
@@ -37,12 +36,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "Gets Paginated Collection of All Users ; Allowed Roles [ADMIN]")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", paramType = "query"),
+        @ApiImplicitParam(name = "limit", paramType = "query"),
+        @ApiImplicitParam(name = "sort", paramType = "query")
+     })
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Page<UserModel> getAll(@RequestParam(name = "page", required = false , defaultValue = DEFAULT_PAGE) int pageIndex,
-    							  @RequestParam(name = "limit", required = false, defaultValue = DEFAULT_LIMIT) int limit ,
-    							  @RequestParam(name = "sort", required = false) String sort ) {
-        return service.getAll(pageIndex, limit, sort);
+    public Page<UserModel> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
     
 	@ApiOperation(value = "Gets User Account by UserName ; Allowed Roles [ADMIN|ANY-SELF]")

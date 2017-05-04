@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 //TODO:Configure logback to not to print logs to console
 //TODO:Use new Date API for Entities
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan(basePackages = {"org.openams.rest.jpa.entity"})
 @EnableJpaRepositories(basePackages = {"org.openams.rest.jpa.repository"})
+@EnableSpringDataWebSupport
 public class Application {
 
 	public static void main(String[] args) {
