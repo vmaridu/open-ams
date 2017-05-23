@@ -16,6 +16,11 @@
 		<class-a>org.openams.rest.model.UserModel</class-a>
 		<class-b>org.openams.rest.jpa.entity.User</class-b>
 	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.jpa.entity.Student</class-a>
+		<class-b>org.openams.rest.model.StudentModel</class-b>
+	</mapping>
 
 </mappings> 
       

@@ -23,18 +23,21 @@ import static org.openams.rest.utils.ErrorMessageUtil.INTERNAL_SERVER_ERROR_GENE
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
+	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorMessage handleIllegalArgumentException(IllegalArgumentException e) {
 		return ErrorMessageUtil.getErrorMessage(BAD_REQUEST_GENERIC_ERROR_CODE, e);
 	}
 	
+	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorMessage handleDataIntegrityViolationException(DataIntegrityViolationException e) {
 		return ErrorMessageUtil.getErrorMessage(BAD_REQUEST_GENERIC_ERROR_CODE, e);
 	}
 	
+	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorMessage handlePropertyReferenceException(PropertyReferenceException e) {
@@ -55,23 +58,24 @@ public class GlobalControllerExceptionHandler {
 		return ErrorMessageUtil.getErrorMessage(CONFLICT_GENERIC_ERROR_CODE, e);
 	}
 
+	@ExceptionHandler
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public ErrorMessage handleEntityNotFoundException(EntityNotFoundException e) {
 		return ErrorMessageUtil.getErrorMessage(NOT_FOUND_GENERIC_ERROR_CODE, e);
 	}
 	
+	@ExceptionHandler
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public ErrorMessage handleNotImplementedException(NotImplementedException e) {
-		return ErrorMessageUtil.getErrorMessage(NOT_FOUND_GENERIC_ERROR_CODE, e);
+		return ErrorMessageUtil.getErrorMessage(NOT_FOUND_GENERIC_ERROR_CODE, "Requestd resource NOT FOUND" , e.getMessage(), null);
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public ErrorMessage handleException(Exception e) {
-		e.printStackTrace();
 		return ErrorMessageUtil.getErrorMessage(INTERNAL_SERVER_ERROR_GENERIC_ERROR_CODE, e);
 	}
 

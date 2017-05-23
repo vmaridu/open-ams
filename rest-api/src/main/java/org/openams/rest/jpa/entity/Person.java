@@ -49,7 +49,7 @@ public class Person implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private HairColor hairColor;
 
-	private float height;
+	private Float height;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="joining_dtt")
@@ -75,11 +75,11 @@ public class Person implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private Gender sex;
 
-	private int ssn;
+	private Integer ssn;
 
 	private String suffix;
 
-	private float weight;
+	private Float weight;
 
 	//bi-directional many-to-one association to Contact
 	@ManyToOne

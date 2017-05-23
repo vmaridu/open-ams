@@ -1,6 +1,5 @@
 package org.openams.rest.jpa.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +12,7 @@ import lombok.Data;
 @Data
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
-public class Student extends Person implements Serializable {
+public class Student extends Person {
 
 	private static final long serialVersionUID = -5890884363598314953L;
 

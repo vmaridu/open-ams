@@ -8,22 +8,24 @@ import java.util.function.Function;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import org.openams.rest.jpa.repository.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.querydsl.core.types.Predicate;
 
 public class RepositoryWrapper<T, K extends Serializable>  {
 
-	private JpaRepository<T, K> repository;
+	private BaseRepository<T, K> repository;
 	private Function<T, K> keyGetter;
 
-	public RepositoryWrapper(JpaRepository<T, K> repository, Function<T, K> keyGetter){
+	public RepositoryWrapper(BaseRepository<T, K> repository, Function<T, K> keyGetter){
 		this.repository = repository;
 		this.keyGetter = keyGetter;
 	}
 	
 	
-	public JpaRepository<T, K> getRepository(){
+	public BaseRepository<T, K> getRepository(){
 		return repository;
 	}
 	
@@ -55,16 +57,25 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 		return entities;
 	}
 	
-	public Page<T> findAll(Pageable pagable) {
-		Page<T> entities = repository.findAll(pagable);
-		if (entities.getTotalElements() == 0) {
-			throw new EntityNotFoundException();
-		}
-		return entities;
+	public Iterable<T> findAll(Predicate predicate) {
+		return repository.findAll(predicate);
 	}
+	
+	public Page<T> findAll(Pageable pagable) {
+		return repository.findAll(pagable);
+	}
+	
+	public Page<T> findAll(Predicate predicate , Pageable pagable) {
+		return repository.findAll(predicate, pagable);
+	}
+	
 
 	public T findOne(K key) {
 		return Optional.ofNullable(repository.findOne(key)).orElseThrow(() -> new EntityNotFoundException());
+	}
+	
+	public T findOne(Predicate predicate) {
+		return Optional.ofNullable(repository.findOne(predicate)).orElseThrow(() -> new EntityNotFoundException());
 	}
 
 	public void delete(K key) {
