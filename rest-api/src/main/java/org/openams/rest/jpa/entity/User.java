@@ -18,8 +18,10 @@ import javax.persistence.TemporalType;
 import org.openams.rest.jpa.entity.enums.UserStatus;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(exclude = {"roles"})
 @Entity
 public class User implements Serializable {
 

@@ -16,8 +16,10 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(exclude = {"person", "test"})
 @Entity
 @Table(name="test_score")
 public class TestScore implements Serializable {

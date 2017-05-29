@@ -22,8 +22,10 @@ import org.openams.rest.jpa.entity.enums.Gender;
 import org.openams.rest.jpa.entity.enums.HairColor;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(exclude = {"contact", "emrContact", "user"})
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Person implements Serializable {

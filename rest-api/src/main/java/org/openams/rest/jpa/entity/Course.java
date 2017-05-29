@@ -16,8 +16,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity
 @EqualsAndHashCode
+@Entity
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = -2822793823333715461L;
