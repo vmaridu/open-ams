@@ -52,4 +52,5 @@ public class AttendanceBy implements Serializable {
 	@JoinColumn(name="taken_by")
 	private Staff staff;
 
+	
 }
