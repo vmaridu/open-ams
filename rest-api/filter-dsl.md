@@ -4,11 +4,11 @@
   - Open AMS Provides a Query DSL to filter it's resources (Ex : students,test-scores)
 
   - The Query API Provides
-      - Filter configurations API ** GET {resource_path}/filter-config ** and
-      - Resources Filter API ** GET {resource_path}/filter=(FILTER) **
+      - Filter configurations API **GET {resource_path}/filter-config** and
+      - Resources Filter API **GET {resource_path}/filter=(FILTER)**
 
 
-  - Filter configurations API. Ex : ** GET /students/filter-config **  will respond as shown below.
+  - Filter configurations API. Ex : **GET /students/filter-config**  will respond as shown below.
 
   ~~~ json
   {
@@ -32,11 +32,11 @@
  - A Terminal Filter should be enclosed in '**{**' and '**}**'
  - A Terminal Filter contains KEY , OPERATOR , VALUE
 
- - ** KEY ** : Possible values for Key can be found by **'GET {resources}/filter-config'** API, Ex : fName, dob , etc ...
+ - **KEY** : Possible values for Key can be found by **'GET {resources}/filter-config'** API, Ex : fName, dob , etc ...
 
- - ** VALUE ** : Value can be Array or a Single Value. Ex : '123' , 'maridu', ['3','4','5'] , ['SUSPENDED','INACTIVE'] , etc ...
+ - **VALUE** : Value can be Array or a Single Value. Ex : '123' , 'maridu', ['3','4','5'] , ['SUSPENDED','INACTIVE'] , etc ...
    - All type of values are enclosed in single codes. (Integer, Float , String, ENUM, Date ...)
-   - ** '' **  enclosed values will be automatically converted to it's respective key formats
+   - **''**  enclosed values will be automatically converted to it's respective key formats
    - String, Integer, Float , Long, ENUMs can be represented as their textual representations. Ex: '123' , '34.35' , 'string_value' , 'ACTIVE'
    - DATE can be represented in **GMT EPOCH Format**, (in Milli Seconds from 1970 JAN 1 00:00). Ex :   June 6, 2017 5:26:03 AM -> '1496726763000'
    - TIME can be represented in **GMT 24 HH-MM-SS Format** , Ex :  '14-35-56'
