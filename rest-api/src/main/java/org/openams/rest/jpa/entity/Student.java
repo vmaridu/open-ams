@@ -8,8 +8,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=true, exclude = {"studentCourseEnrollments"})
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Student extends Person {

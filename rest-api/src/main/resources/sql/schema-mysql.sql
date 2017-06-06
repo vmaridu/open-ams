@@ -131,7 +131,7 @@ CREATE TABLE `person` (
   `race` varchar(100) DEFAULT NULL,
   `eye_color` tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blue, 3 - green, 4 - brown',
   `hair_color` tinyint(1) DEFAULT NULL COMMENT '1 - black, 2 - blonde,3 - red, 4 - brown, 5 - other',
-  `sex` tinyint(4) DEFAULT NULL COMMENT '0 - female , 1 - male , null - unknown',
+  `gender` tinyint(4) DEFAULT NULL COMMENT '0 - female , 1 - male , null - unknown',
   `picture_uri` varchar(1000) DEFAULT NULL,
   `ssn` int(9) DEFAULT NULL,
   `joining_dtt` datetime DEFAULT NULL,

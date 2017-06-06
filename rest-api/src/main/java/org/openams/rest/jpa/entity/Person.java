@@ -75,7 +75,7 @@ public class Person implements Serializable {
 	private String race;
 
 	@Enumerated(EnumType.ORDINAL)
-	private Gender sex;
+	private Gender gender;
 
 	private Integer ssn;
 

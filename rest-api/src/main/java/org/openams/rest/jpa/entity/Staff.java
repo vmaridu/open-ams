@@ -9,8 +9,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=true, exclude = {"courseSchedules"})
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Staff extends Person implements Serializable {

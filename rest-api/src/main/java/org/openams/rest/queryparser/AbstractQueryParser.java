@@ -3,26 +3,44 @@ package org.openams.rest.queryparser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.Expressions;
 
-
+//TODO:Fix Float Path Issue
 public abstract class AbstractQueryParser {
 
-	private final static String KEY_PATTERN = "'\\w+'";
+	protected final static ValueObjectAdapter EPOCH_DATE_ADAPTER = new ValueObjectAdapter(Date.class, input -> new Date(Long.parseLong(input)));
+	protected final static ValueObjectAdapter STRING_ADAPTER = new ValueObjectAdapter(String.class, input -> input);
+	protected final static ValueObjectAdapter INTEGER_ADAPTER = new ValueObjectAdapter(Integer.class, Integer :: parseInt);
+	protected final static ValueObjectAdapter LONG_ADAPTER = new ValueObjectAdapter(Long.class, Long :: parseLong);
+	protected final static ValueObjectAdapter FLOAT_ADAPTER = new ValueObjectAdapter(Float.class, Float :: parseFloat);
+	protected final static ValueObjectAdapter DOUBLE_ADAPTER = new ValueObjectAdapter(Double.class, Double :: parseDouble);
+	
+
+	private final static String KEY_PATTERN = "'(\\w|\\.|[0-9])+'";
 	private final static String OPERATOR_PATTERN = "(>|<|\\=|\\!)\\=";
 	private final static String PRESERVED_OPERATOR_PATTERN = "((?<=" + OPERATOR_PATTERN  + ")|(?=" + OPERATOR_PATTERN + "))";
-	private final static String ELEMENT_PATTERN = "'(\\p{L}|[0-9]|_|-)+'";
-	private final static String ARRAY_PATTERN = "\\['(\\p{L}|[0-9]|_|-)+'(,'(\\p{L}|[0-9]|_|-)+')*\\]";
+	private final static String ELEMENT_PATTERN = "'(\\p{L}|[0-9]|_|-|\\.|@)+'";
+	private final static String ARRAY_PATTERN = "\\['(\\p{L}|[0-9]|_|-|\\.|@)+'(,'(\\p{L}|[0-9]|_|-|\\.|@)+')*\\]";
 	private final static String VALUE_PATTERN = "(" + ELEMENT_PATTERN + "|" + ARRAY_PATTERN + ")";
 	private final static String PREDICATE_PATTERN = "\\{" + KEY_PATTERN + OPERATOR_PATTERN + VALUE_PATTERN + "\\}";
+	
+
+	protected abstract Path getEntityPath();
+	
+	protected abstract Map<String, ValueObjectAdapter> getKeyToAdapterMap();
 	
 	
 	public Predicate toPredicate(String filter) throws QueryParserException{
@@ -101,11 +119,25 @@ public abstract class AbstractQueryParser {
 		}
 	}
 	
-	public abstract Predicate toLeafPredicate(String key , Ops operator, String value);
+	protected Predicate toLeafPredicate(String key, Ops operator, Collection<String> values) throws QueryParserException {
+		ValueObjectAdapter adapter = getKeyToAdapterMap().get(key);
+		Path propPath = getPropertyPath(key, adapter);
+		Collection<Object> objectValues = values.stream().map(input -> adapter.getObject(input)).collect(Collectors.toList());
+		return Expressions.predicate(operator, propPath, Expressions.constant(objectValues));
+	}
+
+	protected Predicate toLeafPredicate(String key, Ops operator, String value) throws QueryParserException {
+		ValueObjectAdapter adapter = getKeyToAdapterMap().get(key);
+		Path propPath = getPropertyPath(key,adapter);
+		return Expressions.predicate(operator, propPath, Expressions.constant(adapter.getObject(value)));
+	}
 	
-	public abstract Predicate toLeafPredicate(String key , Ops operator, Collection<String> values);
+	protected Path getPropertyPath(String key, ValueObjectAdapter adapter) throws QueryParserException{
+		if(adapter == null){ throw new QueryParserException("Property is not supported , key : " + key); }
+		return Expressions.path(adapter.getObjectType(), getEntityPath(), key);
+	}
 	
-	private Term<Predicate> merge(List<Term<Predicate>> tokens) throws QueryParserException {
+	protected Term<Predicate> merge(List<Term<Predicate>> tokens) throws QueryParserException {
 		
 		//check if size is 2n + 1 (n > 0)
 		if(tokens.size() < 3 || ((tokens.size() - 1) % 2 ) != 0){
@@ -135,7 +167,7 @@ public abstract class AbstractQueryParser {
 		return accumilator;
 	}
 	
-	private Ops toOperator(String operatorString) throws QueryParserException{
+	protected Ops toOperator(String operatorString) throws QueryParserException{
 		switch(operatorString){
 			case "==" : return Ops.EQ;
 			case "!="   : return Ops.NE;
@@ -145,12 +177,16 @@ public abstract class AbstractQueryParser {
 		}
 	}
 	
-	private Ops toArrayOperator(String operatorString) throws QueryParserException{
+	protected Ops toArrayOperator(String operatorString) throws QueryParserException{
 		switch(operatorString){
 			case "==" : return Ops.IN;
 			case "!="   : return Ops.NOT_IN;
 			default : throw new QueryParserException("Invalid Operator : " + operatorString);		
 		}
+	}
+	
+	public Map<String,String> getFilterConfig(){
+		return getKeyToAdapterMap().entrySet().stream().collect(Collectors.toMap( e -> e.getKey(), e -> e.getValue().getObjectType().toString()));
 	}
 	
 }

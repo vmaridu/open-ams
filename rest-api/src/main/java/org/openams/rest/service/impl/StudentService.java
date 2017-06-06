@@ -1,5 +1,6 @@
 package org.openams.rest.service.impl;
 
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,12 @@ public class StudentService {
 		this.repository = new RepositoryWrapper<Student, String>(repository, (Student::getId));;
 		this.parser = parser;
 	}
+	
+	public Page<StudentModel> getStudents(Pageable pageRequest) throws QueryParserException {
+		org.springframework.data.domain.Page<Student> students = repository.findAll(pageRequest);
+		Function<Student, StudentModel> contentMapper = (student) -> mapper.map(student, StudentModel.class);
+		return PaginationUtil.toPageModel(students, pageRequest, contentMapper);
+	}
 
 	public Page<StudentModel> getStudents(Pageable pageRequest, String filter) throws QueryParserException {
 		org.springframework.data.domain.Page<Student> students = repository.findAll(parser.toPredicate(filter), pageRequest);
@@ -43,6 +50,11 @@ public class StudentService {
 		Student student = repository.findOne(QStudent.student.rollNumber.eq(rollNumber));
 		StudentModel studentModel = mapper.map(student, StudentModel.class);
 		return studentModel;
+	}
+	
+	
+	public Map<String,String> getFilterConfig(){
+		return parser.getFilterConfig();
 	}
 
 }
