@@ -42,11 +42,11 @@
    - TIME can be represented in **GMT 24 HH-MM-SS Format** , Ex :  '14-35-56'
 
 
- - ** OPERATOR ** can be  any of ** == , != , >= , <= ** , But only ** == , != ** supported for Array values
+ - **OPERATOR** can be  any of **== , != , >= , <=** , But only **== , !=** supported for Array values
 
  - Terminal Filter Syntax :
-    - ** {'KEY' OPERATOR 'VALUE'} ** OR
-    - ** {'KEY' OPERATOR ['VALUE_1','VALUE_2','VALUE_3']} **
+    - **{'KEY' OPERATOR 'VALUE'}** OR
+    - **{'KEY' OPERATOR ['VALUE_1','VALUE_2','VALUE_3']}**
 
 
 
@@ -63,5 +63,5 @@
      - Ex 4 :  ( {'dob' >= '1496726764'} || {'gender' = 'MALE'} )
      - Ex 5 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '1496726764'} || {'gender' = 'MALE'} ))
 
-- URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName ** should be
-    ** ?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName **
+- URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName** should be
+    **?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName**
