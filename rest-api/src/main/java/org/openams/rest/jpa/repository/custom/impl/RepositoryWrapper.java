@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.querydsl.core.types.Predicate;
 
+//TODO:Throw more descriptive errors
 public class RepositoryWrapper<T, K extends Serializable>  {
 
 	private BaseRepository<T, K> repository;

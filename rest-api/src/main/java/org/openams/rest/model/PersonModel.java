@@ -2,9 +2,14 @@ package org.openams.rest.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.openams.rest.jpa.entity.enums.EyeColor;
 import org.openams.rest.jpa.entity.enums.Gender;
 import org.openams.rest.jpa.entity.enums.HairColor;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,12 +26,16 @@ public class PersonModel {
 	private String prefix;
 	
 	@ApiModelProperty(value = "Person First Name", dataType = "String")
+	@NotNull
+	@NotEmpty
 	private String fName;
 	
 	@ApiModelProperty(value = "Person Middle Name", dataType = "String")
 	private String mName;
 	
 	@ApiModelProperty(value = "Person Last Name", dataType = "String")
+	@NotNull
+	@NotEmpty
 	private String lName;
 	
 	@ApiModelProperty(value = "Person Name Suffux  Ex : Jr,Sr", dataType = "String")
@@ -54,12 +63,15 @@ public class PersonModel {
 	private String pictureUri;
 	
 	@ApiModelProperty(value = "Date of Birth", dataType = "Date")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date dob;
 	
 	@ApiModelProperty(value = "Joining Date", dataType = "Date")
+	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
 	private Date joiningDtt;
 	
 	@ApiModelProperty(value = "Last Modified Date", dataType = "Date")
+	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
 	private Date modifiedDtt;
 	
 	@ApiModelProperty(value = "SSN", dataType = "Integer")

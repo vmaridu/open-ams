@@ -38,8 +38,9 @@
    - All type of values are enclosed in single codes. (Integer, Float , String, ENUM, Date ...)
    - **''**  enclosed values will be automatically converted to it's respective key formats
    - String, Integer, Float , Long, ENUMs can be represented as their textual representations. Ex: '123' , '34.35' , 'string_value' , 'ACTIVE'
-   - DATE can be represented in **GMT EPOCH Format**, (in Milli Seconds from 1970 JAN 1 00:00). Ex :   June 6, 2017 5:26:03 AM -> '1496726763000'
-   - TIME can be represented in **GMT 24 HH-MM-SS Format** , Ex :  '14-35-56'
+   - DATE can be represented in **GMT yyyy-MM-dd Format**, Ex : '2017-04-21'
+   - TIME can be represented in **GMT 24 HH-mm-ss Format** , Ex :  '14-35-56'
+   - DATE TIME can be represented in **GMT yyyy-MM-dd-HH-mm-ss Format**, Ex : '2017-04-21'
 
 
  - ** OPERATOR ** can be  any of ** == , != , >= , <= ** , But only ** == , != ** supported for Array values
@@ -60,8 +61,8 @@
 
      - Ex 4 :  ( {'lName' == 'maridu'} )
      - Ex 4 :  ( {'lName' == ['maridu', 'bandham']} )
-     - Ex 4 :  ( {'dob' >= '1496726764'} || {'gender' = 'MALE'} )
-     - Ex 5 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '1496726764'} || {'gender' = 'MALE'} ))
+     - Ex 4 :  ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} )
+     - Ex 5 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} ))
 
 - URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName ** should be
     ** ?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName **

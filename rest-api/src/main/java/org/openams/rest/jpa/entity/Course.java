@@ -27,7 +27,7 @@ public class Course implements Serializable {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
-	private byte credits;
+	private Byte credits;
 
 	private String dept;
 

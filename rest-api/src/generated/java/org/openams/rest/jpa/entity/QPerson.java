@@ -32,6 +32,8 @@ public class QPerson extends EntityPathBase<Person> {
 
     public final StringPath fName = createString("fName");
 
+    public final EnumPath<org.openams.rest.jpa.entity.enums.Gender> gender = createEnum("gender", org.openams.rest.jpa.entity.enums.Gender.class);
+
     public final EnumPath<org.openams.rest.jpa.entity.enums.HairColor> hairColor = createEnum("hairColor", org.openams.rest.jpa.entity.enums.HairColor.class);
 
     public final NumberPath<Float> height = createNumber("height", Float.class);
@@ -51,8 +53,6 @@ public class QPerson extends EntityPathBase<Person> {
     public final StringPath prefix = createString("prefix");
 
     public final StringPath race = createString("race");
-
-    public final EnumPath<org.openams.rest.jpa.entity.enums.Gender> sex = createEnum("sex", org.openams.rest.jpa.entity.enums.Gender.class);
 
     public final NumberPath<Integer> ssn = createNumber("ssn", Integer.class);
 

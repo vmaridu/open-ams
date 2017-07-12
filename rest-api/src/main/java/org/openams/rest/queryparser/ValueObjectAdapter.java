@@ -17,7 +17,11 @@ public class ValueObjectAdapter {
 	}
 
 	public Object getObject(String input) {
-		return toObjectFunction.apply(input);
+		try{
+			return toObjectFunction.apply(input);
+		}catch (Exception e) {
+			throw new QueryParserRuntimeException("Unable to convert Value to Object : " + e.getMessage());
+		}
 	}
 	
 }

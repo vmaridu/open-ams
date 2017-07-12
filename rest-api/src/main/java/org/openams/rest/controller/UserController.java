@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "User Controller", description = "Allows CRUD,Change Password Operations on User Account")
+@Api(value = "User Controller", description = "Allows CRUD,Change Password Operations on Users")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -56,7 +56,7 @@ public class UserController {
 	
     @ApiOperation(value = "Change PASSWORD ; Allowed Roles [ADMIN|ANY-SELF]")
     @RequestMapping(value = "/{userName}/password", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void chnagePassword(@PathVariable("userName") String userName, @RequestBody @Valid PasswordModel password) {
     	service.changePassword(userName, password.getOldPassword(), password.getNewPassword());
     }
@@ -71,7 +71,7 @@ public class UserController {
     
     @ApiOperation(value = "Updates User; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{userName}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("userName") String userName, @RequestBody @Valid ProvisionableUserModel user) {
     	user.setUserName(userName);
     	service.update(user);

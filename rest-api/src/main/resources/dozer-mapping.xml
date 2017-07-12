@@ -21,6 +21,48 @@
 		<class-a>org.openams.rest.jpa.entity.Student</class-a>
 		<class-b>org.openams.rest.model.StudentModel</class-b>
 	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.model.StudentModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Student</class-b>
+		<field-exclude>
+			<a>user</a>
+			<b>user</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.jpa.entity.Staff</class-a>
+		<class-b>org.openams.rest.model.StaffModel</class-b>
+	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.model.StaffModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Staff</class-b>
+		<field-exclude>
+			<a>user</a>
+			<b>user</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.jpa.entity.Course</class-a>
+		<class-b>org.openams.rest.model.CourseModel</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.jpa.entity.CourseSchedule</class-a>
+		<class-b>org.openams.rest.model.CourseScheduleModel</class-b>
+		<field>
+			<a>staff.id</a>
+			<b>instructorId</b>
+		</field>
+		<field>
+			<a>course.id</a>
+			<b>courseId</b>
+		</field>
+	</mapping>
+
 
 </mappings> 
       

@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.openams.rest.jpa.entity.enums.CourseScheduleStatus;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,8 +35,14 @@ public class CourseSchedule implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
+	private String name;
+	
 	private String desc;
 
+	private String location;
+	
+	private String term;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="end_dt")
 	private Date endDt;
@@ -41,24 +50,19 @@ public class CourseSchedule implements Serializable {
 	@Column(name="end_t")
 	private Time endT;
 
-	private String location;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="modified_dtt")
-	private Date modifiedDtt;
-
-	private String name;
-
 	@Temporal(TemporalType.DATE)
 	@Column(name="start_dt")
 	private Date startDt;
 
 	@Column(name="start_t")
 	private Time startT;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modified_dtt")
+	private Date modifiedDtt;
 
-	private byte status;
-
-	private String term;
+	@Enumerated(EnumType.ORDINAL)
+	private CourseScheduleStatus status;
 
 	//uni-directional many-to-one association to Course
 	@ManyToOne
@@ -69,6 +73,5 @@ public class CourseSchedule implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="instructor_id")
 	private Staff staff;
-
 
 }

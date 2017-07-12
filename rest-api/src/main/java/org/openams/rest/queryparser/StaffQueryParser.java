@@ -2,7 +2,7 @@ package org.openams.rest.queryparser;
 
 import java.util.Map;
 
-import org.openams.rest.jpa.entity.Student;
+import org.openams.rest.jpa.entity.Staff;
 import org.openams.rest.jpa.entity.enums.Gender;
 import org.openams.rest.jpa.entity.enums.UserStatus;
 import org.springframework.stereotype.Component;
@@ -12,14 +12,15 @@ import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
 
 @Component
-public class StudentQueryParser extends AbstractQueryParser {
+public class StaffQueryParser extends AbstractQueryParser {
 
-	private static final Path<Student> entityPath = Expressions.path(Student.class, "student");
+	private static final Path<Staff> entityPath = Expressions.path(Staff.class, "staff");
 	
 	private static final Map<String, ValueObjectAdapter> keyToAdapterMap = ImmutableMap.<String, ValueObjectAdapter>builder()
-		    .put("level", STRING_ADAPTER)
-		    .put("parentEmail", STRING_ADAPTER)
-		    .put("rollNumber", STRING_ADAPTER)
+		   
+			.put("altId", STRING_ADAPTER)
+		    .put("designation", STRING_ADAPTER)
+		    
 		    .put("id", STRING_ADAPTER)
 		    .put("prefix", STRING_ADAPTER)
 		    .put("fName", STRING_ADAPTER)
@@ -44,7 +45,7 @@ public class StudentQueryParser extends AbstractQueryParser {
 	
 
 	@Override
-	protected Path<Student> getEntityPath() {
+	protected Path<Staff> getEntityPath() {
 		return entityPath;
 	}
 

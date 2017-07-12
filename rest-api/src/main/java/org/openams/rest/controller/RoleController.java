@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Role Controller", description = "Allows Read Operations on Role Resources")
+@Api(value = "Role Controller", description = "Allows Read Operations on Roles")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {

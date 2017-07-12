@@ -40,6 +40,9 @@ public class QStudent extends EntityPathBase<Student> {
     public final StringPath fName;
 
     //inherited
+    public final EnumPath<org.openams.rest.jpa.entity.enums.Gender> gender;
+
+    //inherited
     public final EnumPath<org.openams.rest.jpa.entity.enums.HairColor> hairColor;
 
     //inherited
@@ -74,9 +77,6 @@ public class QStudent extends EntityPathBase<Student> {
     public final StringPath race;
 
     public final StringPath rollNumber = createString("rollNumber");
-
-    //inherited
-    public final EnumPath<org.openams.rest.jpa.entity.enums.Gender> sex;
 
     //inherited
     public final NumberPath<Integer> ssn;
@@ -116,6 +116,7 @@ public class QStudent extends EntityPathBase<Student> {
         this.emrContact = _super.emrContact;
         this.eyeColor = _super.eyeColor;
         this.fName = _super.fName;
+        this.gender = _super.gender;
         this.hairColor = _super.hairColor;
         this.height = _super.height;
         this.id = _super.id;
@@ -126,7 +127,6 @@ public class QStudent extends EntityPathBase<Student> {
         this.pictureUri = _super.pictureUri;
         this.prefix = _super.prefix;
         this.race = _super.race;
-        this.sex = _super.sex;
         this.ssn = _super.ssn;
         this.suffix = _super.suffix;
         this.user = _super.user;

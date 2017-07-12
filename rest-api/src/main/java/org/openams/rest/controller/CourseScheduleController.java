@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.model.CourseScheduleModel;
 import org.openams.rest.model.Page;
-import org.openams.rest.model.StudentModel;
 import org.openams.rest.queryparser.QueryParserException;
-import org.openams.rest.service.impl.StudentService;
+import org.openams.rest.service.impl.CourseScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,20 +26,20 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Student Controller", description = "Allows CRUD,Change Password Operations on Students")
+@Api(value = "Course Schedule Controller", description = "Allows CRUD,Change Password Operations on CourseSchedule")
 @RestController
-@RequestMapping("/students")
-public class StudentController {
+@RequestMapping("/course-schedules")
+public class CourseScheduleController {
 
-	private final StudentService service;
+	private final CourseScheduleService service;
 
     @Autowired
-    public StudentController(StudentService service) {
+    public CourseScheduleController(CourseScheduleService service) {
         this.service = service;
     }
 
     
-    @ApiOperation(value = "Gets Student Details by Filter ; Allowed Roles [ADMIN|STAFF]")
+    @ApiOperation(value = "Gets CourseSchedule Details by Filter ; Allowed Roles [ADMIN|STAFF]")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", paramType = "query"),
         @ApiImplicitParam(name = "limit", paramType = "query"),
@@ -47,57 +47,50 @@ public class StudentController {
      })
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Page<StudentModel> getStudentsByFilter(@RequestParam(value = "filter", required = false) String filter, 
+    public Page<CourseScheduleModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
     		Pageable pageable) throws QueryParserException {
     	if(StringUtils.isBlank(filter)){
-    		return service.getStudents(pageable);
+    		return service.getCourseSchedules(pageable);
     	}else{
-    		return service.getStudents(pageable, filter);
+    		return service.getCourseSchedules(pageable, filter);
     	}
     }
     
-    @ApiOperation(value = "Gets Student Filter Config ; Allowed Roles [ADMIN|STAFF]")
+    @ApiOperation(value = "Gets CourseSchedule Filter Config ; Allowed Roles [ADMIN|STAFF]")
     @RequestMapping(value = "/filter-config", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> getFilterConfig(){
     	return service.getFilterConfig();
     }
     
-    @ApiOperation(value = "Gets Student By ID ; Allowed Roles [ADMIN|STAFF|SELF]")
+    @ApiOperation(value = "Gets CourseSchedule By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public StudentModel getStudent(@PathVariable("id") String id){
-    	return service.getStudent(id);
+    public CourseScheduleModel getCourseSchedule(@PathVariable("id") String id){
+    	return service.getCourseSchedule(id);
     }
     
-    @ApiOperation(value = "Creates Student, Ignores user data; Allowed Roles [ANY]")
+    @ApiOperation(value = "Creates CourseSchedule; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createStudent(@RequestBody @Valid StudentModel student, HttpServletResponse response) {
-    	StudentModel createdStudent = service.createStudent(student);
-    	response.setHeader("Location", "/students/"+ createdStudent.getId());
+    public void create(@RequestBody @Valid CourseScheduleModel courseSchedule, HttpServletResponse response) {
+    	CourseScheduleModel createdCourseSchedule = service.createCourseSchedule(courseSchedule);
+    	response.setHeader("Location", "/course-schedules/"+ createdCourseSchedule.getId());
     }
     
-    @ApiOperation(value = "Updates Student, Ignores user data; Allowed Roles [ADMIN|SELF]")
+    @ApiOperation(value = "Updates CourseSchedule; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStudent(@PathVariable("id") String id, @RequestBody @Valid StudentModel student) {
-    	student.setId(id);
-    	service.updateStudent(student);
+    public void update(@PathVariable("id") String id, @RequestBody @Valid CourseScheduleModel courseSchedule) {
+    	courseSchedule.setId(id);
+    	service.updateCourseSchedule(courseSchedule);
     }
     
-    @ApiOperation(value = "Deletes Student; Allowed Roles [ADMIN]")
+    @ApiOperation(value = "Deletes CourseSchedule; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable("id") String id) {
-    	service.deleteStudent(id);
-    }
-    
-    @ApiOperation(value = "Links Student with User Account; Allowed Roles [ADMIN]")
-    @RequestMapping(value = "/{studentId}/user/{userName:.+}" , method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void linkStudentWithUser(@PathVariable("studentId") String studentId, @PathVariable("userName") String userName) {
-    	service.linkStudentWithUser(studentId, userName);
+    public void delete(@PathVariable("id") String id) {
+    	service.deleteCourseSchedule(id);
     }
     
 

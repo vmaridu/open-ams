@@ -1,5 +1,6 @@
 package org.openams.rest.queryparser;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.utils.ConverterUtil;
 import org.springframework.util.Assert;
 
 import com.querydsl.core.types.ExpressionUtils;
@@ -22,7 +24,13 @@ import com.querydsl.core.types.dsl.Expressions;
 public abstract class AbstractQueryParser {
 
 	protected final static ValueObjectAdapter EPOCH_DATE_ADAPTER = new ValueObjectAdapter(Date.class, input -> new Date(Long.parseLong(input)));
+	
+	protected final static ValueObjectAdapter DATE_ADAPTER = new ValueObjectAdapter(Date.class, input -> ConverterUtil.toDate(input));
+	protected final static ValueObjectAdapter TIME_ADAPTER = new ValueObjectAdapter(Time.class, input -> ConverterUtil.toTime(input));
+	protected final static ValueObjectAdapter DATE_TIME_ADAPTER = new ValueObjectAdapter(Date.class, input -> ConverterUtil.toDateTime(input));
+	
 	protected final static ValueObjectAdapter STRING_ADAPTER = new ValueObjectAdapter(String.class, input -> input);
+	protected final static ValueObjectAdapter BYTE_ADAPTER = new ValueObjectAdapter(Byte.class, Byte :: parseByte);
 	protected final static ValueObjectAdapter INTEGER_ADAPTER = new ValueObjectAdapter(Integer.class, Integer :: parseInt);
 	protected final static ValueObjectAdapter LONG_ADAPTER = new ValueObjectAdapter(Long.class, Long :: parseLong);
 	protected final static ValueObjectAdapter FLOAT_ADAPTER = new ValueObjectAdapter(Float.class, Float :: parseFloat);

@@ -3,6 +3,7 @@ package org.openams.rest.jpa.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -84,12 +85,12 @@ public class Person implements Serializable {
 	private Float weight;
 
 	//bi-directional many-to-one association to Contact
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="contact")
 	private Contact contact;
 
 	//bi-directional many-to-one association to Contact
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="emr_contact")
 	private Contact emrContact;
 

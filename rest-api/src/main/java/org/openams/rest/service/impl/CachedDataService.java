@@ -22,7 +22,6 @@ public class CachedDataService {
 		this.roleRepository = roleRepository;
 	}
 	
-
 	@Transactional
 	@Cacheable(value = "expirableCache", key = "'roles'")
 	public HashBiMap<String,String> getRoleNametoIdMap(){
