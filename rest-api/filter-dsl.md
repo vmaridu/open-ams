@@ -43,11 +43,11 @@
    - DATE TIME can be represented in **GMT yyyy-MM-dd-HH-mm-ss Format**, Ex : '2017-04-21'
 
 
- - ** OPERATOR ** can be  any of ** == , != , >= , <= ** , But only ** == , != ** supported for Array values
+ - **OPERATOR** can be  any of **== , != , >= , <=** , But only **== , !=** supported for Array values
 
  - Terminal Filter Syntax :
-    - ** {'KEY' OPERATOR 'VALUE'} ** OR
-    - ** {'KEY' OPERATOR ['VALUE_1','VALUE_2','VALUE_3']} **
+    - **{'KEY' OPERATOR 'VALUE'}** OR
+    - **{'KEY' OPERATOR ['VALUE_1','VALUE_2','VALUE_3']}**
 
 
 
@@ -64,5 +64,5 @@
      - Ex 4 :  ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} )
      - Ex 5 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} ))
 
-- URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName ** should be
-    ** ?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName **
+- URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName** should be
+    **?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName**
