@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Course Controller", description = "Allows CRUD,Change Password Operations on Course")
+@Api(value = "Course Controller", description = "Allows CRUD on Course")
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
@@ -49,48 +49,48 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public Page<CourseModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
     		Pageable pageable) throws QueryParserException {
-    	if(StringUtils.isBlank(filter)){
-    		return service.getCourses(pageable);
-    	}else{
-    		return service.getCourses(pageable, filter);
-    	}
+	    	if(StringUtils.isBlank(filter)){
+	    		return service.getCourses(pageable);
+	    	}else{
+	    		return service.getCourses(pageable, filter);
+	    	}
     }
     
     @ApiOperation(value = "Gets Course Filter Config ; Allowed Roles [ADMIN|STAFF]")
     @RequestMapping(value = "/filter-config", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> getFilterConfig(){
-    	return service.getFilterConfig();
+    		return service.getFilterConfig();
     }
     
     @ApiOperation(value = "Gets Course By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public CourseModel getCourse(@PathVariable("id") String id){
-    	return service.getCourse(id);
+    		return service.getCourse(id);
     }
     
     @ApiOperation(value = "Creates Course; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid CourseModel course, HttpServletResponse response) {
-    	CourseModel createdCourse = service.createCourse(course);
-    	response.setHeader("Location", "/courses/"+ createdCourse.getId());
+    		CourseModel createdCourse = service.createCourse(course);
+    		response.setHeader("Location", "/courses/"+ createdCourse.getId());
     }
     
     @ApiOperation(value = "Updates Course; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") String id, @RequestBody @Valid CourseModel course) {
-    	course.setId(id);
-    	service.updateCourse(course);
+    		course.setId(id);
+    		service.updateCourse(course);
     }
     
     @ApiOperation(value = "Deletes Course; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-    	service.deleteCourse(id);
+    		service.deleteCourse(id);
     }
     
 

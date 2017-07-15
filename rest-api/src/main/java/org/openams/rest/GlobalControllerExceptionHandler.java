@@ -93,6 +93,7 @@ public class GlobalControllerExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public ErrorMessage handleException(Exception e) {
+		e.printStackTrace();
 		return ErrorMessageUtil.getErrorMessage(INTERNAL_SERVER_ERROR_GENERIC_ERROR_CODE, e);
 	}
 

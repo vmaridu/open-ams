@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Student Controller", description = "Allows CRUD,Change Password Operations on Students")
+@Api(value = "Student Controller", description = "Allows CRUD Operations on Students")
 @RestController
 @RequestMapping("/students")
 public class StudentController {
@@ -49,55 +49,55 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public Page<StudentModel> getStudentsByFilter(@RequestParam(value = "filter", required = false) String filter, 
     		Pageable pageable) throws QueryParserException {
-    	if(StringUtils.isBlank(filter)){
-    		return service.getStudents(pageable);
-    	}else{
-    		return service.getStudents(pageable, filter);
-    	}
+	    	if(StringUtils.isBlank(filter)){
+	    		return service.getStudents(pageable);
+	    	}else{
+	    		return service.getStudents(pageable, filter);
+	    	}
     }
     
     @ApiOperation(value = "Gets Student Filter Config ; Allowed Roles [ADMIN|STAFF]")
     @RequestMapping(value = "/filter-config", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> getFilterConfig(){
-    	return service.getFilterConfig();
+    		return service.getFilterConfig();
     }
     
     @ApiOperation(value = "Gets Student By ID ; Allowed Roles [ADMIN|STAFF|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public StudentModel getStudent(@PathVariable("id") String id){
-    	return service.getStudent(id);
+    		return service.getStudent(id);
     }
     
     @ApiOperation(value = "Creates Student, Ignores user data; Allowed Roles [ANY]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void createStudent(@RequestBody @Valid StudentModel student, HttpServletResponse response) {
-    	StudentModel createdStudent = service.createStudent(student);
-    	response.setHeader("Location", "/students/"+ createdStudent.getId());
+    		StudentModel createdStudent = service.createStudent(student);
+    		response.setHeader("Location", "/students/"+ createdStudent.getId());
     }
     
     @ApiOperation(value = "Updates Student, Ignores user data; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateStudent(@PathVariable("id") String id, @RequestBody @Valid StudentModel student) {
-    	student.setId(id);
-    	service.updateStudent(student);
+    		student.setId(id);
+    		service.updateStudent(student);
     }
     
     @ApiOperation(value = "Deletes Student; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable("id") String id) {
-    	service.deleteStudent(id);
+    		service.deleteStudent(id);
     }
     
     @ApiOperation(value = "Links Student with User Account; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{studentId}/user/{userName:.+}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void linkStudentWithUser(@PathVariable("studentId") String studentId, @PathVariable("userName") String userName) {
-    	service.linkStudentWithUser(studentId, userName);
+    		service.linkStudentWithUser(studentId, userName);
     }
     
 

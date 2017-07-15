@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Staff Controller", description = "Allows CRUD,Change Password Operations on Staff")
+@Api(value = "Staff Controller", description = "Allows CRUD on Staff")
 @RestController
 @RequestMapping("/staff")
 public class StaffController {
@@ -49,55 +49,55 @@ public class StaffController {
     @ResponseStatus(HttpStatus.OK)
     public Page<StaffModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
     		Pageable pageable) throws QueryParserException {
-    	if(StringUtils.isBlank(filter)){
-    		return service.getStaff(pageable);
-    	}else{
-    		return service.getStaff(pageable, filter);
-    	}
+	    	if(StringUtils.isBlank(filter)){
+	    		return service.getStaff(pageable);
+	    	}else{
+	    		return service.getStaff(pageable, filter);
+	    	}
     }
     
     @ApiOperation(value = "Gets Staff Filter Config ; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/filter-config", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> getFilterConfig(){
-    	return service.getFilterConfig();
+    		return service.getFilterConfig();
     }
     
     @ApiOperation(value = "Gets Staff By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public StaffModel getStaff(@PathVariable("id") String id){
-    	return service.getStaff(id);
+    		return service.getStaff(id);
     }
     
     @ApiOperation(value = "Creates Staff, Ignores user data; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid StaffModel staff, HttpServletResponse response) {
-    	StaffModel createdStaff = service.createStaff(staff);
-    	response.setHeader("Location", "/staff/"+ createdStaff.getId());
+    		StaffModel createdStaff = service.createStaff(staff);
+    		response.setHeader("Location", "/staff/"+ createdStaff.getId());
     }
     
     @ApiOperation(value = "Updates Staff, Ignores user data; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") String id, @RequestBody @Valid StaffModel staff) {
-    	staff.setId(id);
-    	service.updateStaff(staff);
+    		staff.setId(id);
+    		service.updateStaff(staff);
     }
     
     @ApiOperation(value = "Deletes Staff; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-    	service.deleteStaff(id);
+    		service.deleteStaff(id);
     }
     
     @ApiOperation(value = "Links Staff with User Account; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{staffId}/user/{userName:.+}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void linkStudentWithUser(@PathVariable("staffId") String staffId, @PathVariable("userName") String userName ) {
-    	service.linkStaffWithUser(staffId, userName);
+    		service.linkStaffWithUser(staffId, userName);
     }
 
 }

@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "User Controller", description = "Allows CRUD,Change Password Operations on Users")
+@Api(value = "User Controller", description = "Allows CRUD Operations on Users")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -58,23 +58,23 @@ public class UserController {
     @RequestMapping(value = "/{userName}/password", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void chnagePassword(@PathVariable("userName") String userName, @RequestBody @Valid PasswordModel password) {
-    	service.changePassword(userName, password.getOldPassword(), password.getNewPassword());
+    		service.changePassword(userName, password.getOldPassword(), password.getNewPassword());
     }
     
     @ApiOperation(value = "Creates User; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid ProvisionableUserModel user, HttpServletResponse response) {
-    	service.create(user);
-    	response.setHeader("Location", "/users/"+ user.getUserName());
+    		service.create(user);
+    		response.setHeader("Location", "/users/"+ user.getUserName());
     }
     
     @ApiOperation(value = "Updates User; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{userName}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("userName") String userName, @RequestBody @Valid ProvisionableUserModel user) {
-    	user.setUserName(userName);
-    	service.update(user);
+    		user.setUserName(userName);
+    		service.update(user);
     }
 
 }

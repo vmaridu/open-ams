@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.openams.rest.jpa.entity.enums.StudentCourseEnrollmentStatus;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,7 +48,8 @@ public class StudentCourseEnrollment implements Serializable {
 	@Column(name = "modified_dtt")
 	private Date modifiedDtt;
 
-	private byte status;
+	@Enumerated(EnumType.ORDINAL)
+	private StudentCourseEnrollmentStatus status;
 
 	// uni-directional many-to-one association to CourseSchedule
 	@ManyToOne

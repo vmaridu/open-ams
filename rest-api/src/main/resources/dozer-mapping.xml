@@ -62,6 +62,70 @@
 			<b>courseId</b>
 		</field>
 	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.jpa.entity.StudentCourseEnrollment</class-a>
+		<class-b>org.openams.rest.model.StudentCourseEnrollmentModel</class-b>
+		<field>
+			<a>courseSchedule.id</a>
+			<b>courseScheduleId</b>
+		</field>
+		<field>
+			<a>student.id</a>
+			<b>studentId</b>
+		</field>
+	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.jpa.entity.StudentCourseEnrollment</class-a>
+		<class-b>org.openams.rest.model.FlatStudentCourseEnrollmentModel</class-b>
+		<field>
+			<a>id</a>
+			<b>enrollmentId</b>
+		</field>
+		<field>
+			<a>student.id</a>
+			<b>studentId</b>
+		</field>
+		<field>
+			<a>student.rollNumber</a>
+			<b>rollNumber</b>
+		</field>
+		<field>
+			<a>student.fName</a>
+			<b>fName</b>
+		</field>
+		<field>
+			<a>student.mName</a>
+			<b>mName</b>
+		</field>
+		<field>
+			<a>student.lName</a>
+			<b>lName</b>
+		</field>
+	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.model.AttendanceByModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.AttendanceBy</class-b>
+		<field>
+			<a>courseScheduleId</a>
+			<b>courseSchedule.id</b>
+		</field>
+		<field>
+			<a>takenByStaffId</a>
+			<b>staff.id</b>
+		</field>
+	</mapping>
+	
+	<mapping type="one-way">
+		<class-a>org.openams.rest.model.AttendanceModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Attendance</class-b>
+		<field>
+			<a>enrollmentId</a>
+			<b>studentCourseEnrollment.id</b>
+		</field>
+	</mapping>
 
 
 </mappings> 

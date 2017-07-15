@@ -51,11 +51,7 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 	}
 
 	public Collection<T> findAll() {
-		Collection<T> entities = repository.findAll();
-		if (entities.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
-		return entities;
+		return repository.findAll();
 	}
 	
 	public Iterable<T> findAll(Predicate predicate) {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,9 +40,8 @@ public class AttendanceBy implements Serializable {
 	@Column(name="taken_dtt")
 	private Date takenDtt;
 
-	//uni-directional many-to-one association to Attendance
-	@OneToMany
-	@JoinColumn(name="taken_by", referencedColumnName="taken_by")
+	//bi-directional one-to-many association to Attendance
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "attendanceBy")
 	private List<Attendance> attendances;
 
 	//uni-directional many-to-one association to CourseSchedule
