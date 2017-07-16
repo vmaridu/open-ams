@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.openams.rest.jpa.entity.enums.AttendanceStatus;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,4 +26,9 @@ public class AttendanceModel {
 	
 	@ApiModelProperty(value = "Comment", dataType = "String")
 	private String comment;
+	
+	@ApiModelProperty(value = "Taken Date Time", dataType = "Date Time")
+	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
+	private String takenDtt;
+	
 }

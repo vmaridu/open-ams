@@ -27,11 +27,10 @@ CREATE TABLE `attendance` (
   `student_course_enrollment_id` varchar(40) NOT NULL,
   `comment` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL COMMENT '1=PRESENT,2=ABSENT, 3=ON_LEAVE, 4=SICK, 5=OTHERS',
-  `taken_by` varchar(40) NOT NULL,
+  `attendance_by_id` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `student_course_enrollment_id` (`student_course_enrollment_id`),
-  KEY `taken_by` (`taken_by`),
-  CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`taken_by`) REFERENCES `attendance_by` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`attendance_by_id`) REFERENCES `attendance_by` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`student_course_enrollment_id`) REFERENCES `student_course_enrollment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3900 DEFAULT CHARSET=latin1;
 
@@ -46,7 +45,7 @@ CREATE TABLE `attendance_by` (
   `course_schedule_id` varchar(40) DEFAULT NULL,
   `comment` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `taken_by` (`taken_by`),
+  KEY `ab_taken_by` (`taken_by`),
   KEY `course_schedule_id` (`course_schedule_id`),
   CONSTRAINT `attendance_by_ibfk_2` FOREIGN KEY (`course_schedule_id`) REFERENCES `course_schedule` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `attendance_by_ibfk_1` FOREIGN KEY (`taken_by`) REFERENCES `staff` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE

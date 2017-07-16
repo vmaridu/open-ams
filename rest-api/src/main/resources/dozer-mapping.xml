@@ -78,7 +78,7 @@
 	
 	<mapping type="one-way">
 		<class-a>org.openams.rest.jpa.entity.StudentCourseEnrollment</class-a>
-		<class-b>org.openams.rest.model.FlatStudentCourseEnrollmentModel</class-b>
+		<class-b>org.openams.rest.model.StudentCourseEnrollmentReportModel</class-b>
 		<field>
 			<a>id</a>
 			<b>enrollmentId</b>
@@ -124,6 +124,19 @@
 		<field>
 			<a>enrollmentId</a>
 			<b>studentCourseEnrollment.id</b>
+		</field>
+	</mapping>
+	
+	<mapping type="one-way" >
+		<class-a>org.openams.rest.jpa.entity.Attendance</class-a>
+		<class-b>org.openams.rest.model.AttendanceModel</class-b>
+		<field>
+			<a>studentCourseEnrollment.id</a>
+			<b>enrollmentId</b>
+		</field>
+		<field>
+			<a>attendanceBy.takenDtt</a>
+			<b>takenDtt</b>
 		</field>
 	</mapping>
 

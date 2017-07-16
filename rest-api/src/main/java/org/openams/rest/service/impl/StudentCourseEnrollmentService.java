@@ -11,7 +11,7 @@ import org.dozer.Mapper;
 import org.openams.rest.jpa.entity.StudentCourseEnrollment;
 import org.openams.rest.jpa.repository.StudentCourseEnrollmentRepository;
 import org.openams.rest.jpa.repository.custom.impl.RepositoryWrapper;
-import org.openams.rest.model.FlatStudentCourseEnrollmentModel;
+import org.openams.rest.model.StudentCourseEnrollmentReportModel;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StudentCourseEnrollmentModel;
 import org.openams.rest.queryparser.QueryParserException;
@@ -48,10 +48,10 @@ public class StudentCourseEnrollmentService {
 		return PaginationUtil.toPageModel(studentCourseEnrollments, pageRequest, contentMapper);
 	}
 	
-	public Collection<FlatStudentCourseEnrollmentModel> getFlatStudentCourseEnrollmentsByCourseScheduleId(String courseScheduleId) {
+	public Collection<StudentCourseEnrollmentReportModel> getFlatStudentCourseEnrollmentsByCourseScheduleId(String courseScheduleId) {
 		StudentCourseEnrollmentRepository repository = (StudentCourseEnrollmentRepository) studentCourseEnrollmentRepository.getRepository();
 		return repository.findByCourseScheduleId(courseScheduleId).stream()
-				.map( (studentCourseEnrollment) -> mapper.map(studentCourseEnrollment, FlatStudentCourseEnrollmentModel.class))
+				.map( (studentCourseEnrollment) -> mapper.map(studentCourseEnrollment, StudentCourseEnrollmentReportModel.class))
 				.collect(Collectors.toList());
 	}
 	

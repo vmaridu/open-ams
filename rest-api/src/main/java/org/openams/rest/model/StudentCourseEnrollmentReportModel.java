@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "Student Course Enrollment Flat Model")
-public class FlatStudentCourseEnrollmentModel {
+@ApiModel(description = "Student Course Enrollment Report for Course Schedule")
+public class StudentCourseEnrollmentReportModel {
 
 	@ApiModelProperty(value = "Student Course Enrollment ID", dataType = "String")
 	private String enrollmentId;

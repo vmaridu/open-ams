@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openams.rest.model.FlatStudentCourseEnrollmentModel;
+import org.openams.rest.model.StudentCourseEnrollmentReportModel;
+import org.openams.rest.model.EnrollmentAttendanceReportModel;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StudentCourseEnrollmentModel;
 import org.openams.rest.queryparser.QueryParserException;
+import org.openams.rest.service.impl.AttendanceService;
 import org.openams.rest.service.impl.StudentCourseEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,16 +30,18 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Course Controller", description = "Allows CRUD on Course")
+@Api(value = "Student Course Enrollments Controller", description = "Allows CRUD on StudentCourseEnrollment, Provides Enrollment and Attendance Reports")
 @RestController
 @RequestMapping("/student-course-enrollments")
 public class StudentCourseEnrollmentController {
 
-	private final StudentCourseEnrollmentService service;
+	private final StudentCourseEnrollmentService studentCourseEnrollmentService;
+	private final AttendanceService attendanceService;
 
     @Autowired
-    public StudentCourseEnrollmentController(StudentCourseEnrollmentService service) {
-        this.service = service;
+    public StudentCourseEnrollmentController(StudentCourseEnrollmentService studentCourseEnrollmentService, AttendanceService attendanceService) {
+        this.studentCourseEnrollmentService = studentCourseEnrollmentService;
+        this.attendanceService = attendanceService;
     }
 
     
@@ -52,39 +56,48 @@ public class StudentCourseEnrollmentController {
     public Page<StudentCourseEnrollmentModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
     		Pageable pageable) throws QueryParserException {
 	    	if(StringUtils.isBlank(filter)){
-	    		return service.getStudentCourseEnrollments(pageable);
+	    		return studentCourseEnrollmentService.getStudentCourseEnrollments(pageable);
 	    	}else{
-	    		return service.getStudentCourseEnrollments(pageable, filter);
+	    		return studentCourseEnrollmentService.getStudentCourseEnrollments(pageable, filter);
 	    	}
     }
     
-    @ApiOperation(value = "Gets StudentCourseEnrollment Expanded Flat Data; Allowed Roles [ADMIN|STAFF]")
-    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    @ApiOperation(value = "Gets StudentCourseEnrollment Report; Allowed Roles [ADMIN|STAFF]")
+    @RequestMapping(value = "/enrollment_report", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Collection<FlatStudentCourseEnrollmentModel> getFlatDataByCourseScheduleId(
+    public Collection<StudentCourseEnrollmentReportModel> getFlatDataByCourseScheduleId(
     		@RequestParam(value = "courseScheduleId") String courseScheduleId){
-    		return service.getFlatStudentCourseEnrollmentsByCourseScheduleId(courseScheduleId);
+    		return studentCourseEnrollmentService.getFlatStudentCourseEnrollmentsByCourseScheduleId(courseScheduleId);
+    }
+    
+
+    @ApiOperation(value = "Gets Attendance Report for Student Course Enrollment ; Allowed Roles [ADMIN|STAFF|SELF]")
+    @RequestMapping(value = "/{enrollmentId}/attendance_report" , method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public EnrollmentAttendanceReportModel getAttendanceReport(@PathVariable("enrollmentId") String enrollmentId){
+    	//TODO:Add from and to Date support
+    	return attendanceService.getEnrollmentAttendanceReportModel(enrollmentId, null, null);
     }
     
     @ApiOperation(value = "Gets StudentCourseEnrollment Filter Config ; Allowed Roles [ADMIN|STAFF]")
     @RequestMapping(value = "/filter-config", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> getFilterConfig(){
-    		return service.getFilterConfig();
+    		return studentCourseEnrollmentService.getFilterConfig();
     }
     
     @ApiOperation(value = "Gets StudentCourseEnrollment By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public StudentCourseEnrollmentModel getStudentCourseEnrollment(@PathVariable("id") String id){
-    		return service.getStudentCourseEnrollment(id);
+    		return studentCourseEnrollmentService.getStudentCourseEnrollment(id);
     }
     
     @ApiOperation(value = "Creates StudentCourseEnrollment; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid StudentCourseEnrollmentModel studentCourseEnrollment, HttpServletResponse response) {
-    		StudentCourseEnrollmentModel createdStudentCourseEnrollment = service.createStudentCourseEnrollment(studentCourseEnrollment);
+    		StudentCourseEnrollmentModel createdStudentCourseEnrollment = studentCourseEnrollmentService.createStudentCourseEnrollment(studentCourseEnrollment);
     		response.setHeader("Location", "/student-course-enrollments/"+ createdStudentCourseEnrollment.getId());
     }
     
@@ -93,14 +106,14 @@ public class StudentCourseEnrollmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") String id, @RequestBody @Valid StudentCourseEnrollmentModel studentCourseEnrollment) {
     		studentCourseEnrollment.setId(id);
-    		service.updateStudentCourseEnrollment(studentCourseEnrollment);
+    		studentCourseEnrollmentService.updateStudentCourseEnrollment(studentCourseEnrollment);
     }
     
     @ApiOperation(value = "Deletes StudentCourseEnrollment; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-    		service.deleteStudentCourseEnrollment(id);
+    		studentCourseEnrollmentService.deleteStudentCourseEnrollment(id);
     }
     
 
