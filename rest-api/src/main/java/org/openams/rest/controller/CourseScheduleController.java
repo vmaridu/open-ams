@@ -92,10 +92,11 @@ public class CourseScheduleController {
 	@ResponseStatus(HttpStatus.OK)
 	public CourseScheduleAttendanceReportModel getAttendanceReport(@PathVariable("id") String id,
 			@RequestParam(value = "fromDtt", required = false) String fromDttString,
-			@RequestParam(value = "toDtt", required = false) String toDttString) throws ApplicationException {
+			@RequestParam(value = "toDtt", required = false) String toDttString,
+			@RequestParam(value = "expand", defaultValue = "false") boolean expand) throws ApplicationException {
 		Date fromDtt = StringUtils.isEmpty(fromDttString) ? null : ConverterUtil.toDateTime(fromDttString);
 		Date toDtt = StringUtils.isEmpty(toDttString) ? null : ConverterUtil.toDateTime(toDttString);
-		return attendanceService.getCourseScheduleAttendanceReport(id, fromDtt, toDtt);
+		return attendanceService.getCourseScheduleAttendanceReport(id, fromDtt, toDtt, expand);
 	}
 
 	@ApiOperation(value = "Creates CourseSchedule; Allowed Roles [ADMIN]")

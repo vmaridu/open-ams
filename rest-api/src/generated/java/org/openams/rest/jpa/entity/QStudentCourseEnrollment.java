@@ -34,7 +34,7 @@ public class QStudentCourseEnrollment extends EntityPathBase<StudentCourseEnroll
 
     public final DateTimePath<java.util.Date> modifiedDtt = createDateTime("modifiedDtt", java.util.Date.class);
 
-    public final NumberPath<Byte> status = createNumber("status", Byte.class);
+    public final EnumPath<org.openams.rest.jpa.entity.enums.StudentCourseEnrollmentStatus> status = createEnum("status", org.openams.rest.jpa.entity.enums.StudentCourseEnrollmentStatus.class);
 
     public final QStudent student;
 

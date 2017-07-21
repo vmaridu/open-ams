@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.dozer.Mapper;
+import org.openams.rest.jpa.entity.CourseSchedule;
 import org.openams.rest.jpa.entity.StudentCourseEnrollment;
+import org.openams.rest.jpa.repository.CourseScheduleRepository;
 import org.openams.rest.jpa.repository.StudentCourseEnrollmentRepository;
 import org.openams.rest.jpa.repository.custom.impl.RepositoryWrapper;
 import org.openams.rest.model.StudentCourseEnrollmentReportModel;
@@ -25,14 +27,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentCourseEnrollmentService {
 
+	private RepositoryWrapper<CourseSchedule, String> courseScheduleRepository;
 	private RepositoryWrapper<StudentCourseEnrollment, String> studentCourseEnrollmentRepository;
 	private Mapper mapper;
 	private StudentCourseEnrollmentQueryParser parser;
 
 	@Autowired
-	public StudentCourseEnrollmentService(StudentCourseEnrollmentRepository studentCourseEnrollmentRepository, Mapper mapper, StudentCourseEnrollmentQueryParser parser) {
+	public StudentCourseEnrollmentService(CourseScheduleRepository courseScheduleRepository,
+			StudentCourseEnrollmentRepository studentCourseEnrollmentRepository, Mapper mapper, StudentCourseEnrollmentQueryParser parser) {
 		this.mapper = mapper;
 		this.parser = parser;
+		this.courseScheduleRepository = new RepositoryWrapper<CourseSchedule, String>(courseScheduleRepository, (CourseSchedule::getId));
 		this.studentCourseEnrollmentRepository = new RepositoryWrapper<StudentCourseEnrollment, String>(studentCourseEnrollmentRepository, (StudentCourseEnrollment::getId));
 	}
 	
@@ -49,6 +54,10 @@ public class StudentCourseEnrollmentService {
 	}
 	
 	public Collection<StudentCourseEnrollmentReportModel> getFlatStudentCourseEnrollmentsByCourseScheduleId(String courseScheduleId) {
+		
+		//throw EntityNotFound Exception if course schedule not found
+		courseScheduleRepository.findOne(courseScheduleId);
+				
 		StudentCourseEnrollmentRepository repository = (StudentCourseEnrollmentRepository) studentCourseEnrollmentRepository.getRepository();
 		return repository.findByCourseScheduleId(courseScheduleId).stream()
 				.map( (studentCourseEnrollment) -> mapper.map(studentCourseEnrollment, StudentCourseEnrollmentReportModel.class))

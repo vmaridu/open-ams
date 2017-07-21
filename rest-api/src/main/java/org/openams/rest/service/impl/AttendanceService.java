@@ -13,10 +13,12 @@ import org.dozer.Mapper;
 import org.openams.rest.exception.ValidationException;
 import org.openams.rest.jpa.entity.Attendance;
 import org.openams.rest.jpa.entity.AttendanceBy;
+import org.openams.rest.jpa.entity.CourseSchedule;
 import org.openams.rest.jpa.entity.StudentCourseEnrollment;
 import org.openams.rest.jpa.entity.enums.AttendanceStatus;
 import org.openams.rest.jpa.repository.AttendanceByRepository;
 import org.openams.rest.jpa.repository.AttendanceRepository;
+import org.openams.rest.jpa.repository.CourseScheduleRepository;
 import org.openams.rest.jpa.repository.StudentCourseEnrollmentRepository;
 import org.openams.rest.jpa.repository.custom.impl.RepositoryWrapper;
 import org.openams.rest.model.AttendanceByModel;
@@ -33,14 +35,18 @@ public class AttendanceService {
 	private Mapper mapper;
 	private AttendanceByRepository attendanceByRepository;
 	private AttendanceRepository attendanceRepository;
+	private RepositoryWrapper<CourseSchedule, String> courseScheduleRepository;
 	private StudentCourseEnrollmentRepository studentCourseEnrollmentRepository;
 	
 	@Autowired
-	public AttendanceService(AttendanceByRepository attendanceByRepository, AttendanceRepository attendanceRepository, StudentCourseEnrollmentRepository studentCourseEnrollmentRepository , Mapper mapper) {
+	public AttendanceService(AttendanceByRepository attendanceByRepository, AttendanceRepository attendanceRepository, 
+			CourseScheduleRepository courseScheduleRepository,
+			StudentCourseEnrollmentRepository studentCourseEnrollmentRepository , Mapper mapper) {
 		this.mapper = mapper;
 		this.attendanceByRepository = attendanceByRepository;
 		this.attendanceRepository = attendanceRepository;
 		this.studentCourseEnrollmentRepository = studentCourseEnrollmentRepository;
+		this.courseScheduleRepository = new RepositoryWrapper<CourseSchedule, String>(courseScheduleRepository, (CourseSchedule::getId));
 	}
 	
 	public void submitBulkAttendance(AttendanceByModel bulkAttendance) throws ValidationException{
@@ -57,7 +63,11 @@ public class AttendanceService {
 	}
 	
 	
-	public CourseScheduleAttendanceReportModel getCourseScheduleAttendanceReport(String courseScheduleId, Date fromDtt, Date toDtt){
+	public CourseScheduleAttendanceReportModel getCourseScheduleAttendanceReport(String courseScheduleId, Date fromDtt, Date toDtt, boolean expand){
+		
+		//throw exception if course schedule not found
+		courseScheduleRepository.findOne(courseScheduleId);
+		
 		Collection<Object[]> attendanceSummaryRS = attendanceRepository.findAttendanceSummaryByCourseScheduletId(courseScheduleId, fromDtt, toDtt);
 		Map<String,Long> attendanceSummaryRSMap = attendanceSummaryRS.stream().collect(Collectors.toMap(
 				a -> (((StudentCourseEnrollment)a[0]).getId() + "_" + (((AttendanceStatus)a[1]).name())), a -> ((Long) a[2])));
@@ -76,7 +86,14 @@ public class AttendanceService {
 		CourseScheduleAttendanceReportModel result = new CourseScheduleAttendanceReportModel();
 		result.setClassAverage((totalPresentCount * 100)/(noOfClassesTaken * attendanceSummary.size() * 1f));
 		result.setTotalClasses(noOfClassesTaken);
-		result.setAttendances(attendanceSummary);
+		result.setAttendancesSummary(attendanceSummary);
+		
+		if(expand){
+			Collection<AttendanceBy> attendanceBys = attendanceByRepository.findByCourseScheduleId(courseScheduleId, fromDtt, toDtt);
+			Collection<AttendanceByModel> attendances = attendanceBys.stream()
+					.map(a -> mapper.map(a, AttendanceByModel.class, "courseScheduleAttendanceByReport")).collect(Collectors.toList());
+			result.setAttendances(attendances);
+		}
 		
 		return result;
 	}

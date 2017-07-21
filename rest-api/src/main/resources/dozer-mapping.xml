@@ -139,6 +139,37 @@
 			<b>takenDtt</b>
 		</field>
 	</mapping>
+	
+	<mapping type="one-way" map-id="courseScheduleAttendanceByReport">
+		<class-a>org.openams.rest.jpa.entity.AttendanceBy</class-a>
+		<class-b>org.openams.rest.model.AttendanceByModel</class-b>
+		<field>
+			<a>staff.id</a>
+			<b>takenByStaffId</b>
+		</field>
+		<field>
+			<a>attendances</a>
+			<b>attendances</b>
+			<a-deep-index-hint>courseScheduleAttendanceReport</a-deep-index-hint>
+		</field>
+		<field-exclude>
+			<a>courseSchedule.id</a>
+			<b>courseScheduleId</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping type="one-way" map-id="courseScheduleAttendanceReport">
+		<class-a>org.openams.rest.jpa.entity.Attendance</class-a>
+		<class-b>org.openams.rest.model.AttendanceModel</class-b>
+		<field>
+			<a>studentCourseEnrollment.id</a>
+			<b>enrollmentId</b>
+		</field>
+		<field-exclude>
+			<a>attendanceBy.takenDtt</a>
+			<b>takenDtt</b>
+		</field-exclude>
+	</mapping>
 
 
 </mappings> 

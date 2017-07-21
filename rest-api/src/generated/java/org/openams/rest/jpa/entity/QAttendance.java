@@ -22,11 +22,13 @@ public class QAttendance extends EntityPathBase<Attendance> {
 
     public static final QAttendance attendance = new QAttendance("attendance");
 
+    public final QAttendanceBy attendanceBy;
+
     public final StringPath comment = createString("comment");
 
     public final StringPath id = createString("id");
 
-    public final NumberPath<Byte> status = createNumber("status", Byte.class);
+    public final EnumPath<org.openams.rest.jpa.entity.enums.AttendanceStatus> status = createEnum("status", org.openams.rest.jpa.entity.enums.AttendanceStatus.class);
 
     public final QStudentCourseEnrollment studentCourseEnrollment;
 
@@ -48,6 +50,7 @@ public class QAttendance extends EntityPathBase<Attendance> {
 
     public QAttendance(Class<? extends Attendance> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.attendanceBy = inits.isInitialized("attendanceBy") ? new QAttendanceBy(forProperty("attendanceBy"), inits.get("attendanceBy")) : null;
         this.studentCourseEnrollment = inits.isInitialized("studentCourseEnrollment") ? new QStudentCourseEnrollment(forProperty("studentCourseEnrollment"), inits.get("studentCourseEnrollment")) : null;
     }
 

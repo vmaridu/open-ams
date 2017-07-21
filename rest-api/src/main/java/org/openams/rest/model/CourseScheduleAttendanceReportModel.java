@@ -1,5 +1,6 @@
 package org.openams.rest.model;
 
+import java.util.Collection;
 import java.util.Map;
 
 import io.swagger.annotations.ApiModel;
@@ -16,7 +17,12 @@ public class CourseScheduleAttendanceReportModel {
 	@ApiModelProperty(value = "Attendace Average Percentage (totalNumberOfClassAttended/(noOfStudentsPerClass * noOfClassPerCourseSchedule))", dataType = "Float")
 	private Float classAverage;
 	
-	@ApiModelProperty(value = "Map of <enrollementId,attendanceCSVRecord>; attendanceCSVRecord = present;absent;onLeave;other", dataType = "String")
-	private Map<String,String> attendances;
+	@ApiModelProperty(value = "Map of <enrollementId,attendanceCSVRecord>; attendanceCSVRecord = present;absent;onLeave;other", dataType = "Map")
+	private Map<String,String> attendancesSummary;
+	
+	@ApiModelProperty(value = "Detailed Attendaace Data", dataType = "Collection")
+	private Collection<AttendanceByModel> attendances;
+	
+	
 	
 }

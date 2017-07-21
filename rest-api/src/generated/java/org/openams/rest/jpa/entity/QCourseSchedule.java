@@ -44,7 +44,7 @@ public class QCourseSchedule extends EntityPathBase<CourseSchedule> {
 
     public final TimePath<java.sql.Time> startT = createTime("startT", java.sql.Time.class);
 
-    public final NumberPath<Byte> status = createNumber("status", Byte.class);
+    public final EnumPath<org.openams.rest.jpa.entity.enums.CourseScheduleStatus> status = createEnum("status", org.openams.rest.jpa.entity.enums.CourseScheduleStatus.class);
 
     public final StringPath term = createString("term");
 
