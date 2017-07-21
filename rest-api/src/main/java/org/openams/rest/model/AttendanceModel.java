@@ -1,5 +1,7 @@
 package org.openams.rest.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,6 +31,6 @@ public class AttendanceModel {
 	
 	@ApiModelProperty(value = "Taken Date Time", dataType = "Date Time")
 	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
-	private String takenDtt;
+	private Date takenDtt;
 	
 }

@@ -1,6 +1,6 @@
 package org.openams.rest.model;
 
-import java.util.Collection;
+import java.util.Map;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,11 +11,12 @@ import lombok.Data;
 public class CourseScheduleAttendanceReportModel {
 
 	@ApiModelProperty(value = "Total number of Classes ", dataType = "String")
-	private Integer totalClasses;
+	private Long totalClasses;
 	
 	@ApiModelProperty(value = "Attendace Average Percentage (totalNumberOfClassAttended/(noOfStudentsPerClass * noOfClassPerCourseSchedule))", dataType = "Float")
-	private Float presentPercentage;
+	private Float classAverage;
 	
-	@ApiModelProperty(value = "Collection of (Attendance Report for Student Course Enrollment)", dataType = "String")
-	private Collection<EnrollmentAttendanceReportModel> enrollmentAttendaces;
+	@ApiModelProperty(value = "Map of <enrollementId,attendanceCSVRecord>; attendanceCSVRecord = present;absent;onLeave;other", dataType = "String")
+	private Map<String,String> attendances;
+	
 }

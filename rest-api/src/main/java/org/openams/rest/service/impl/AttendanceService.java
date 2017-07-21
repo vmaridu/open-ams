@@ -1,8 +1,8 @@
 package org.openams.rest.service.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +21,7 @@ import org.openams.rest.jpa.repository.StudentCourseEnrollmentRepository;
 import org.openams.rest.jpa.repository.custom.impl.RepositoryWrapper;
 import org.openams.rest.model.AttendanceByModel;
 import org.openams.rest.model.AttendanceModel;
+import org.openams.rest.model.CourseScheduleAttendanceReportModel;
 import org.openams.rest.model.EnrollmentAttendanceReportModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,12 +56,38 @@ public class AttendanceService {
 		}
 	}
 	
+	
+	public CourseScheduleAttendanceReportModel getCourseScheduleAttendanceReport(String courseScheduleId, Date fromDtt, Date toDtt){
+		Collection<Object[]> attendanceSummaryRS = attendanceRepository.findAttendanceSummaryByCourseScheduletId(courseScheduleId, fromDtt, toDtt);
+		Map<String,Long> attendanceSummaryRSMap = attendanceSummaryRS.stream().collect(Collectors.toMap(
+				a -> (((StudentCourseEnrollment)a[0]).getId() + "_" + (((AttendanceStatus)a[1]).name())), a -> ((Long) a[2])));
+		
+		Map<String,String> attendanceSummary = getEnrollmentIdsByCourseScheduleId(courseScheduleId).stream().collect(Collectors.toMap(id -> id, id -> {
+			long presentCount = attendanceSummaryRSMap.getOrDefault(id + "_PRESENT" , 0l);
+			long absentCount = attendanceSummaryRSMap.getOrDefault(id + "_ABSENT" , 0l);
+			long onLeaveCount = attendanceSummaryRSMap.getOrDefault(id + "_ON_LEAVE" , 0l);
+			long otherCount = attendanceSummaryRSMap.getOrDefault(id + "_OTHER" , 0l);
+			return presentCount + ";" + absentCount + ";" + onLeaveCount + ";" + otherCount;
+		}));
+		
+		long totalPresentCount = attendanceSummaryRSMap.entrySet().stream().filter(e -> e.getKey().contains("PRESENT")).mapToLong(e -> e.getValue()).sum();
+		long noOfClassesTaken = attendanceSummary.entrySet().stream().findFirst().map(e -> Arrays.stream(e.getValue().split(";")).mapToLong(Long :: parseLong).sum()).orElse(0l);
+		
+		CourseScheduleAttendanceReportModel result = new CourseScheduleAttendanceReportModel();
+		result.setClassAverage((totalPresentCount * 100)/(noOfClassesTaken * attendanceSummary.size() * 1f));
+		result.setTotalClasses(noOfClassesTaken);
+		result.setAttendances(attendanceSummary);
+		
+		return result;
+	}
+	
+	
 	public Set<String> getEnrollmentIdsByCourseScheduleId(String courseScheduleId){
 		return studentCourseEnrollmentRepository.findIdsByCourseScheduleId(courseScheduleId);
 	}
 	
-	//TODO:Offer Filter by Date Range
-	public EnrollmentAttendanceReportModel getEnrollmentAttendanceReportModel(String enrollmentId, Date from, Date to){
+	public EnrollmentAttendanceReportModel getEnrollmentAttendanceReportModel(String enrollmentId, Date fromDtt, Date toDtt, boolean expand){
+		
 		EnrollmentAttendanceReportModel report = new EnrollmentAttendanceReportModel();
 		
 		RepositoryWrapper<StudentCourseEnrollment, String> studentCourseEnrollmentRepositoryWrapper = new RepositoryWrapper<StudentCourseEnrollment, String>(studentCourseEnrollmentRepository, (StudentCourseEnrollment::getId));
@@ -72,18 +99,15 @@ public class AttendanceService {
 		report.setRollNumber(studentCourseEnrollment.getStudent().getRollNumber());
 		report.setStudentId(studentCourseEnrollment.getStudent().getId());
 
-		Collection<Attendance> attendances = attendanceRepository.findByStudentCourseEnrollmentId(enrollmentId);
-		if(attendances != null){
-			Map<AttendanceStatus,List<Attendance>> attendancesGroupedByStatus = attendances.stream().collect(Collectors.groupingBy(a -> a.getStatus()));
-			List<Attendance> presentAttendances = attendancesGroupedByStatus.get(AttendanceStatus.PRESENT);
-			List<Attendance> absentAttendances = attendancesGroupedByStatus.get(AttendanceStatus.ABSENT);
-			List<Attendance> onLeaveAttendances = attendancesGroupedByStatus.get(AttendanceStatus.ON_LEAVE);
-			List<Attendance> otherAttendances = attendancesGroupedByStatus.get(AttendanceStatus.OTHER);
-			report.setPresent(presentAttendances == null ? 0 : presentAttendances.size());
-			report.setAbsent(absentAttendances == null ? 0 : absentAttendances.size());
-			report.setOnLeave(onLeaveAttendances == null ? 0 : onLeaveAttendances.size());
-			report.setOther(otherAttendances == null ? 0 : otherAttendances.size());
-			
+		Collection<Object[]> attendanceStatusCounts = attendanceRepository.findStatusToCountMapByStudentCourseEnrollmentId(enrollmentId, fromDtt, toDtt);
+		Map<AttendanceStatus,Integer> attendancesStatusToCountMap = attendanceStatusCounts.stream().collect(Collectors.toMap(i -> ((AttendanceStatus)i[0]), i -> ((Long)i[1]).intValue()));
+		report.setPresent(attendancesStatusToCountMap.getOrDefault(AttendanceStatus.PRESENT, 0));
+		report.setAbsent(attendancesStatusToCountMap.getOrDefault(AttendanceStatus.ABSENT, 0));
+		report.setOnLeave(attendancesStatusToCountMap.getOrDefault(AttendanceStatus.ON_LEAVE, 0));
+		report.setOther(attendancesStatusToCountMap.getOrDefault(AttendanceStatus.OTHER, 0));
+		
+		if(expand){
+			Collection<Attendance> attendances = attendanceRepository.findByStudentCourseEnrollmentId(enrollmentId,fromDtt,toDtt);
 			Collection<AttendanceModel> attendanceModels = attendances.stream().map(m -> mapper.map(m, AttendanceModel.class)).collect(Collectors.toList());
 			report.setAttendances(attendanceModels);
 		}
