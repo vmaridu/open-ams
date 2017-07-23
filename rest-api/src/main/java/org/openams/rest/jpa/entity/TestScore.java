@@ -43,7 +43,7 @@ public class TestScore implements Serializable {
 
 	private String notes;
 
-	private int score;
+	private Float score;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_dtt")

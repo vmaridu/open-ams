@@ -226,7 +226,7 @@ DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
   `id` varchar(40) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `course_id` varchar(40) DEFAULT NULL,
+  `ref_id` varchar(40) DEFAULT NULL,
   `test_type` varchar(50) DEFAULT NULL COMMENT 'Online,Internal,Unit,Quarterly',
   `start_dtt` varchar(255) DEFAULT NULL,
   `end_dtt` varchar(255) DEFAULT NULL,
@@ -234,8 +234,6 @@ CREATE TABLE `test` (
   `desc` varchar(1000) DEFAULT NULL,
   `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `test_ibfk_1` (`course_id`),
-  CONSTRAINT `test_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------

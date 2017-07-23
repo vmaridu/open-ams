@@ -170,6 +170,16 @@
 			<b>takenDtt</b>
 		</field-exclude>
 	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.model.SchoolScheduleModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.SchoolSchedule</class-b>
+		<field>
+			<a>staffId</a>
+			<b>staff.id</b>
+		</field>
+	</mapping>
+
 
 
 </mappings> 

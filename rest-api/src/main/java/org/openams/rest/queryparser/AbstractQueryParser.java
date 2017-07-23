@@ -38,9 +38,9 @@ public abstract class AbstractQueryParser {
 	
 
 	private final static String KEY_PATTERN = "'(\\w|\\.|[0-9])+'";
-	private final static String OPERATOR_PATTERN = "(>|<|\\=|\\!)\\=";
+	private final static String OPERATOR_PATTERN = "(>|<|\\=|\\!|~)\\=";
 	private final static String PRESERVED_OPERATOR_PATTERN = "((?<=" + OPERATOR_PATTERN  + ")|(?=" + OPERATOR_PATTERN + "))";
-	private final static String ELEMENT_PATTERN = "'(\\p{L}|[0-9]|_|-|\\.|@)+'";
+	private final static String ELEMENT_PATTERN = "'(\\p{L}|[0-9]|_|-|\\.|@|%)+'";
 	private final static String ARRAY_PATTERN = "\\['(\\p{L}|[0-9]|_|-|\\.|@)+'(,'(\\p{L}|[0-9]|_|-|\\.|@)+')*\\]";
 	private final static String VALUE_PATTERN = "(" + ELEMENT_PATTERN + "|" + ARRAY_PATTERN + ")";
 	private final static String PREDICATE_PATTERN = "\\{" + KEY_PATTERN + OPERATOR_PATTERN + VALUE_PATTERN + "\\}";
@@ -181,6 +181,7 @@ public abstract class AbstractQueryParser {
 			case "!="   : return Ops.NE;
 			case ">="   : return Ops.GOE;
 			case "<="   : return Ops.LOE;
+			case "~="   : return Ops.LIKE;
 			default : throw new QueryParserException("Invalid Operator : " + operatorString);		
 		}
 	}

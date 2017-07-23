@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(exclude = {"course", "testScores"})
+@EqualsAndHashCode(exclude = {"testScores"})
 @Entity
 public class Test implements Serializable {
 
@@ -51,10 +49,8 @@ public class Test implements Serializable {
 	@Column(name = "test_type")
 	private String testType;
 
-	// uni-directional many-to-one association to Course
-	@ManyToOne
-	@JoinColumn(name = "course_id")
-	private Course course;
+	@Column(name = "ref_id")
+	private String refId;
 
 	// bi-directional many-to-one association to TestScore
 	@OneToMany(mappedBy = "test")

@@ -46,7 +46,7 @@ public class SchoolSchedule implements Serializable {
 	@Column(name = "start_dtt")
 	private Date startDtt;
 
-	private byte status;
+	private Byte status;
 
 	// uni-directional many-to-one association to Staff
 	@ManyToOne
