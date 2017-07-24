@@ -43,7 +43,8 @@
    - DATE TIME can be represented in **GMT yyyy-MM-dd-HH-mm-ss Format**, Ex : '2017-04-21'
 
 
- - **OPERATOR** can be  any of **== , != , >= , <=** , But only **== , !=** supported for Array values
+ - **OPERATOR** can be  any of **== , != , >= , <=, ~=** , But only **== , !=** supported for Array values
+ - **~=** can be used to do like searches.
 
  - Terminal Filter Syntax :
     - **{'KEY' OPERATOR 'VALUE'}** OR
@@ -59,10 +60,11 @@
      - Ex 3 : (TERMIANL_FILTER_1 && TERMIANL_FILTER_2)
      - Ex 4 : ( TERMIANL_FILTER_2 || (TERMIANL_FILTER_1 && TERMIANL_FILTER_2))
 
-     - Ex 4 :  ( {'lName' == 'maridu'} )
-     - Ex 4 :  ( {'lName' == ['maridu', 'bandham']} )
-     - Ex 4 :  ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} )
-     - Ex 5 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} ))
+     - Ex 5 :  ( {'lName' == 'maridu'} )
+     - Ex 6 :  ( {'lName' ~= 'mar%'} )
+     - Ex 7 :  ( {'lName' == ['maridu', 'bandham']} )
+     - Ex 8 :  ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} )
+     - Ex 9 :  ( {'lName' == ['maridu', 'bandham']} && ( {'dob' >= '2017-04-21'} || {'gender' = 'MALE'} ))
 
 - URL Encoding, Ex : **?filter=({'fName'=='Evan'})&page=0&limit=2&sort=+fName** should be
     **?filter=(%7B'fName'%3D%3D'Evan'%7D)&page=0&limit=2&sort=%2BfName**

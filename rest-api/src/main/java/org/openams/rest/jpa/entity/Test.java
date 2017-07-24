@@ -31,11 +31,15 @@ public class Test implements Serializable {
 
 	private String desc;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_dtt")
-	private String endDtt;
+	private Date endDtt;
 
 	@Column(name = "max_score")
-	private String maxScore;
+	private Float maxScore;
+	
+	@Column(name = "max_grade")
+	private String maxGrade;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified_dtt")
@@ -43,8 +47,9 @@ public class Test implements Serializable {
 
 	private String name;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_dtt")
-	private String startDtt;
+	private Date startDtt;
 
 	@Column(name = "test_type")
 	private String testType;
