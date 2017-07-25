@@ -1,5 +1,6 @@
 package org.openams.rest.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -30,14 +31,17 @@ public class TestModel {
 	@ApiModelProperty(value = "Reference ID , Can be CourseSchedule or Staff or Any UUID", dataType = "DateTime")
 	private String refId;
 	
-	@ApiModelProperty(value = "MAX Score; ", dataType = "String")
+	@ApiModelProperty(value = "MAX Score", dataType = "String")
 	private Float maxScore;
 	
-	@ApiModelProperty(value = "MAX Grade; ", dataType = "String")
+	@ApiModelProperty(value = "MAX Grade", dataType = "String")
 	private String maxGrade;
 	
 	@ApiModelProperty(value = "Test Type , Ex : Online,Internal,Unit,Quarterly", dataType = "String")
 	private String testType;
+	
+	@ApiModelProperty(value = "Test Scores", dataType = "Collection<TestScore>")
+	private Collection<TestScoreModel> testScores;
 	
 	@ApiModelProperty(value = "Test Start DateTime", dataType = "DateTime")
 	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")

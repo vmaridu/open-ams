@@ -298,6 +298,7 @@ CREATE TABLE `fee` (
   `academic_term` varchar(100) NOT NULL,
   `amount` float NOT NULL,
   `comment` varchar(1000),
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fee_id` (`id`),
   CONSTRAINT `fee_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -313,6 +314,7 @@ CREATE TABLE `payment` (
   `fee_id` varchar(40),
   `amount` float NOT NULL,
   `comment` varchar(1000),
+  `modified_dtt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_id` (`id`),
   CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`fee_id`) REFERENCES `fee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

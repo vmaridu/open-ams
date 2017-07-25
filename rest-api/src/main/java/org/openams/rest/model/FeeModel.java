@@ -1,5 +1,10 @@
 package org.openams.rest.model;
 
+import java.util.Collection;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,8 +28,17 @@ public class FeeModel {
 	@ApiModelProperty(value = "Comment", dataType = "String")
 	private String comment;
 
-	@ApiModelProperty(value = "Student Infomration; studentId;firstName;mName;lName", dataType = "String")
+	@ApiModelProperty(value = "Student ID;firstName;mName;lName", dataType = "String")
+	private String studentId;
+	
+	@ApiModelProperty(value = "Student Infomration; firstName;mName;lName", dataType = "String")
 	private String studentInfo;
 	
+	@ApiModelProperty(value = "Modified DateTime", dataType = "DateTime")
+	@JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
+	private Date modifiedDtt;
+	
+	@ApiModelProperty(value = "Test Scores", dataType = "Collection<TestScore>")
+	private Collection<PaymentModel> payments;
 	
 }

@@ -52,7 +52,7 @@ public class TestScore implements Serializable {
 	//uni-directional many-to-one association to Person
 	@ManyToOne
 	@JoinColumn(name = "person_id")
-	private Person person;
+	private Student person;
 
 	//bi-directional many-to-one association to Test
 	@ManyToOne

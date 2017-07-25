@@ -179,6 +179,66 @@
 			<b>staff.id</b>
 		</field>
 	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.model.TestModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Test</class-b>
+		<field-exclude>
+			<a>testScores</a>
+			<b>testScores</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.model.TestScoreModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.TestScore</class-b>
+		<field>
+			<a>studentId</a>
+			<b>person.id</b>
+		</field>
+		<field>
+			<a>testId</a>
+			<b>test.id</b>
+		</field>
+	</mapping>
+	
+	
+	<mapping map-id="expandTestScore" type="one-way">
+		<class-a>org.openams.rest.jpa.entity.TestScore</class-a>
+		<class-b>org.openams.rest.model.TestScoreModel</class-b>
+		<field>
+			<a>person.id</a>
+			<b>studentId</b>
+		</field>
+	</mapping>
+	
+	
+	<mapping>
+		<class-a>org.openams.rest.model.FeeModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Fee</class-b>
+		<field>
+			<a>studentId</a>
+			<b>student.id</b>
+		</field>
+		<field-exclude>
+			<a>payments</a>
+			<b>payments</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openams.rest.model.PaymentModel</class-a>
+		<class-b>org.openams.rest.jpa.entity.Payment</class-b>
+		<field>
+			<a>feeId</a>
+			<b>fee.id</b>
+		</field>
+	</mapping>
+	
+	<mapping map-id="expandPayment" type="one-way">
+		<class-a>org.openams.rest.jpa.entity.Payment</class-a>
+		<class-b>org.openams.rest.model.PaymentModel</class-b>
+	</mapping>
 
 
 

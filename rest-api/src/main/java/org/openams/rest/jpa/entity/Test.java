@@ -57,7 +57,6 @@ public class Test implements Serializable {
 	@Column(name = "ref_id")
 	private String refId;
 
-	// bi-directional many-to-one association to TestScore
 	@OneToMany(mappedBy = "test")
 	private List<TestScore> testScores;
 

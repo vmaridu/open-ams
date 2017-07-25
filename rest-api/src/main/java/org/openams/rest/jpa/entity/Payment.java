@@ -1,12 +1,16 @@
 package org.openams.rest.jpa.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,9 +35,12 @@ public class Payment implements Serializable {
 
 	private String name;
 	
-	//uni-directional many-to-one association to Student
 	@ManyToOne
 	@JoinColumn(name = "fee_id")
 	private Fee fee;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modified_dtt")
+	private Date modifiedDtt;
 
 }
