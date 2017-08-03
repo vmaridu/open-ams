@@ -18,49 +18,40 @@ public class QTest extends EntityPathBase<Test> {
 
     private static final long serialVersionUID = -1755434741L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QTest test = new QTest("test");
-
-    public final QCourse course;
 
     public final StringPath desc = createString("desc");
 
-    public final StringPath endDtt = createString("endDtt");
+    public final DateTimePath<java.util.Date> endDtt = createDateTime("endDtt", java.util.Date.class);
 
     public final StringPath id = createString("id");
 
-    public final StringPath maxScore = createString("maxScore");
+    public final StringPath maxGrade = createString("maxGrade");
+
+    public final NumberPath<Float> maxScore = createNumber("maxScore", Float.class);
 
     public final DateTimePath<java.util.Date> modifiedDtt = createDateTime("modifiedDtt", java.util.Date.class);
 
     public final StringPath name = createString("name");
 
-    public final StringPath startDtt = createString("startDtt");
+    public final StringPath refId = createString("refId");
+
+    public final DateTimePath<java.util.Date> startDtt = createDateTime("startDtt", java.util.Date.class);
 
     public final ListPath<TestScore, QTestScore> testScores = this.<TestScore, QTestScore>createList("testScores", TestScore.class, QTestScore.class, PathInits.DIRECT2);
 
     public final StringPath testType = createString("testType");
 
     public QTest(String variable) {
-        this(Test.class, forVariable(variable), INITS);
+        super(Test.class, forVariable(variable));
     }
 
     public QTest(Path<? extends Test> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QTest(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QTest(PathMetadata metadata, PathInits inits) {
-        this(Test.class, metadata, inits);
-    }
-
-    public QTest(Class<? extends Test> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.course = inits.isInitialized("course") ? new QCourse(forProperty("course")) : null;
+        super(Test.class, metadata);
     }
 
 }

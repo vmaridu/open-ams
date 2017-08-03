@@ -32,9 +32,9 @@ public class QTestScore extends EntityPathBase<TestScore> {
 
     public final StringPath notes = createString("notes");
 
-    public final QPerson person;
+    public final QStudent person;
 
-    public final NumberPath<Integer> score = createNumber("score", Integer.class);
+    public final NumberPath<Float> score = createNumber("score", Float.class);
 
     public final DateTimePath<java.util.Date> startDtt = createDateTime("startDtt", java.util.Date.class);
 
@@ -58,8 +58,8 @@ public class QTestScore extends EntityPathBase<TestScore> {
 
     public QTestScore(Class<? extends TestScore> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.person = inits.isInitialized("person") ? new QPerson(forProperty("person"), inits.get("person")) : null;
-        this.test = inits.isInitialized("test") ? new QTest(forProperty("test"), inits.get("test")) : null;
+        this.person = inits.isInitialized("person") ? new QStudent(forProperty("person"), inits.get("person")) : null;
+        this.test = inits.isInitialized("test") ? new QTest(forProperty("test")) : null;
     }
 
 }

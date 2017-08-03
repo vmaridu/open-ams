@@ -30,7 +30,11 @@ public class QFee extends EntityPathBase<Fee> {
 
     public final StringPath id = createString("id");
 
+    public final DateTimePath<java.util.Date> modifiedDtt = createDateTime("modifiedDtt", java.util.Date.class);
+
     public final StringPath name = createString("name");
+
+    public final ListPath<Payment, QPayment> payments = this.<Payment, QPayment>createList("payments", Payment.class, QPayment.class, PathInits.DIRECT2);
 
     public final QStudent student;
 

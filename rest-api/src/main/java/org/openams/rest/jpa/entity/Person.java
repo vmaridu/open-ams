@@ -96,7 +96,7 @@ public class Person implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="user_name")
+	@JoinColumn(name = "USER_NAME")
 	private User user;
 
 
