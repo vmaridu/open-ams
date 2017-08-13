@@ -44,9 +44,10 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         	Assert.isTrue(StringUtils.isNotEmpty(jwt), "Invalid Authorization : JWT can't be null");
             Claims claims  = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwt).getBody();
             Collection<? extends GrantedAuthority> authorities = ( (Collection<String>) claims.get(org.openams.rest.utils.Constants.JWT_CLAIM_ROLES))
-            												.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+            													.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
             String subject = (String) claims.get(Claims.SUBJECT);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(subject, jwt, authorities);
+            
             return usernamePasswordAuthenticationToken;
         } catch (Exception e) {
         	LOGGER.error("JWT validation failed");
