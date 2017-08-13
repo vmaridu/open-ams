@@ -8,13 +8,18 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 public class ErrorMessageUtil {
 
+	public static final int UNAUTHORIZED_GENERIC_ERROR_CODE = 401000;
+	public static final int UNAUTHORIZED_BASIC_AUTH_ERROR_CODE = 401001;
+	public static final int UNAUTHORIZED_JWT_AUTH_ERROR_CODE = 401002;
+	
 	public static final int BAD_REQUEST_GENERIC_ERROR_CODE = 400000;
 	public static final int BAD_REQUEST_QUERY_PARSER_ERROR_CODE = 400001;
+	public static final int BAD_REQUEST_VALIDATION_ERROR_CODE = 400002;
+	
 	public static final int NOT_FOUND_GENERIC_ERROR_CODE = 404000;
 	public static final int CONFLICT_GENERIC_ERROR_CODE = 40900;
 	public static final int INTERNAL_SERVER_ERROR_GENERIC_ERROR_CODE = 50000;
 	
-	public static final int VALIDATION_ERROR_CODE = 400001;
 	
 	
 	public static ErrorMessage getErrorMessage(int code, String message, String developerMessgae, String moreInfo){

@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Test Controller", description = "Allows CRUD on Test & TestScores")
 @RestController
-@RequestMapping("/tests")
+@RequestMapping("/api/tests")
 public class TestController {
 
 	private final TestService service;
@@ -74,7 +74,7 @@ public class TestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createTest(@RequestBody @Valid TestModel test, HttpServletResponse response) {
 		TestModel createdTest = service.createTest(test);
-		response.setHeader("Location", "/tests/" + createdTest.getId());
+		response.setHeader("Location", "/api/tests/" + createdTest.getId());
 	}
 	
 	@ApiOperation(value = "Creates Test Score; Allowed Roles [ADMIN|STAFF]")

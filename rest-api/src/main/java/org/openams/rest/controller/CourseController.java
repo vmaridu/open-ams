@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Course Controller", description = "Allows CRUD on Course")
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/api/courses")
 public class CourseController {
 
 	private final CourseService service;
@@ -75,7 +75,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid CourseModel course, HttpServletResponse response) {
     		CourseModel createdCourse = service.createCourse(course);
-    		response.setHeader("Location", "/courses/"+ createdCourse.getId());
+    		response.setHeader("Location", "/api/courses/"+ createdCourse.getId());
     }
     
     @ApiOperation(value = "Updates Course; Allowed Roles [ADMIN]")

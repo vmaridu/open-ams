@@ -1,5 +1,7 @@
 # Open Source Academic Management System
 
+## Refer API Documentation [HERE](https://ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443/swagger-ui.html)
+
 #### What is OpenAMS ?
  OpenAMS is a Open Source Project which provides various services to maintain an Academic Institute.
  > Ex :
@@ -62,7 +64,7 @@
 #### Downloads
 
  - [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
- - [Spring STS 3.8.3]https://spring.io/tools)
+ - [Spring STS 3.8.3](https://spring.io/tools)
  - [MySQL 5.6](http://dev.mysql.com/downloads/)
  - [MySQL Workbench](http://dev.mysql.com/downloads/)
  - [Pencil 2.*](http://evoluspencil.googlecode.com/files/Pencil-2.0.5.win32.installer.exe)

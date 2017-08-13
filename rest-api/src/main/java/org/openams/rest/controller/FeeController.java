@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Fee Controller", description = "Allows CRUD on Fee & Payments")
 @RestController
-@RequestMapping("/fees")
+@RequestMapping("/api/fees")
 public class FeeController {
 
 	private final FeeService service;
@@ -74,7 +74,7 @@ public class FeeController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createTest(@RequestBody @Valid FeeModel fee, HttpServletResponse response) {
 		FeeModel createdFee = service.createFee(fee);
-		response.setHeader("Location", "/fees/" + createdFee.getId());
+		response.setHeader("Location", "/api/fees/" + createdFee.getId());
 	}
 	
 	@ApiOperation(value = "Creates Payment; Allowed Roles [ADMIN]")
@@ -83,7 +83,7 @@ public class FeeController {
 	public void createTestScore(@PathVariable("feeId") String feeId, @RequestBody @Valid PaymentModel payment, HttpServletResponse response) {
 		payment.setFeeId(feeId);
 		PaymentModel createdPayment = service.createPayment(payment);
-		response.setHeader("Location", "/fees/" + feeId + "/payments/" + createdPayment.getId());
+		response.setHeader("Location", "/api/fees/" + feeId + "/payments/" + createdPayment.getId());
 	}
 
 	@ApiOperation(value = "Updates Fee; Allowed Roles [ADMIN]")

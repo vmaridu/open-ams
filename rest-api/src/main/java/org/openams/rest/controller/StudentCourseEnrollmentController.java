@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Student Course Enrollments Controller", description = "Allows CRUD on StudentCourseEnrollment, Provides Enrollment and Attendance Reports")
 @RestController
-@RequestMapping("/student-course-enrollments")
+@RequestMapping("/api/student-course-enrollments")
 public class StudentCourseEnrollmentController {
 
 	private final StudentCourseEnrollmentService studentCourseEnrollmentService;
@@ -94,7 +94,7 @@ public class StudentCourseEnrollmentController {
 			HttpServletResponse response) {
 		StudentCourseEnrollmentModel createdStudentCourseEnrollment = studentCourseEnrollmentService
 				.createStudentCourseEnrollment(studentCourseEnrollment);
-		response.setHeader("Location", "/student-course-enrollments/" + createdStudentCourseEnrollment.getId());
+		response.setHeader("Location", "/api/student-course-enrollments/" + createdStudentCourseEnrollment.getId());
 	}
 
 	@ApiOperation(value = "Updates StudentCourseEnrollment; Allowed Roles [ADMIN]")

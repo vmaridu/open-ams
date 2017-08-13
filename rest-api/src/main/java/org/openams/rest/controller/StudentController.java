@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Student Controller", description = "Allows CRUD Operations on Students")
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
 	private final StudentService service;
@@ -75,7 +75,7 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createStudent(@RequestBody @Valid StudentModel student, HttpServletResponse response) {
     		StudentModel createdStudent = service.createStudent(student);
-    		response.setHeader("Location", "/students/"+ createdStudent.getId());
+    		response.setHeader("Location", "/api/students/"+ createdStudent.getId());
     }
     
     @ApiOperation(value = "Updates Student, Ignores user data; Allowed Roles [ADMIN|SELF]")

@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "User Controller", description = "Allows CRUD Operations on Users")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
 	private final UserService service;
@@ -66,7 +66,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid ProvisionableUserModel user, HttpServletResponse response) {
     		service.create(user);
-    		response.setHeader("Location", "/users/"+ user.getUserName());
+    		response.setHeader("Location", "/api/users/"+ user.getUserName());
     }
     
     @ApiOperation(value = "Updates User; Allowed Roles [ADMIN]")

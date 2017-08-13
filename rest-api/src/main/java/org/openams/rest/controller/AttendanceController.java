@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Attendance Controller", description = "Attendance Bulk Submit and Reports")
 @RestController
-@RequestMapping("/attendances")
+@RequestMapping("/api/attendances")
 public class AttendanceController {
 
 	private final AttendanceService service;

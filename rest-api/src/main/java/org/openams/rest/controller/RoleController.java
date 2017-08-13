@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Role Controller", description = "Allows Read Operations on Roles")
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/roles")
 public class RoleController {
 
 	private final CachedDataService service;

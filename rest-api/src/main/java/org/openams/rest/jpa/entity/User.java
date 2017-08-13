@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -55,7 +56,7 @@ public class User implements Serializable {
 	private UserStatus status;
 
 	// bi-directional many-to-many association to Role
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_in_role", 
 		joinColumns = { @JoinColumn(name = "user_name") }, 
 		inverseJoinColumns = {@JoinColumn(name = "role_id") })

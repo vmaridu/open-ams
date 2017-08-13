@@ -9,17 +9,19 @@
 
  - Run application from JAR using
   ~~~ sh
-  java -jar -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim build/libs/openams-rest-api-0.0.1-SNAPSHOT.jar
+  java -jar -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=<DB_PASSWORD> -Dsecret.key=<JWT_SECRET> build/libs/openams-rest-api-0.0.1-SNAPSHOT.jar
   ~~~
 
  - (OR) Run application using Gradle
    ~~~ sh
-   ./gradlew bootRun -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim
+   ./gradlew bootRun -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=<DB_PASSWORD> -Dsecret.key=<JWT_SECRET>
    ~~~
 
  - Browse API Documentation @ https://localhost:8443/swagger-ui.html ; DEMO Credentials **admin/password** for querying API
 
- - Browse In Memory H2 Database @ https://localhost:8443/h2-console ; DEMO Credentials **admin/simsim**
+ - Browse In Memory H2 Database @ https://localhost:8443/h2-console ; DEMO Credentials **admin/<DB_PASSWORD>**
+
+ - DB_PASSWORD and JWT_SECRET can be any String
 
 
 
@@ -34,4 +36,10 @@
 
 
 
-## Refer Filter DSL Documentation [HERE](./filter-dsl.md)
+## Refer API Documentation [HERE](https://ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443/swagger-ui.html)
+
+## Guide to Consuming Open AMS REST API [HERE](./docs/consuming_services.md)
+
+## JWT Quick Read [HERE](./docs/jwt.md)
+
+## Refer Filter DSL Documentation [HERE](./docs/filter-dsl.md)

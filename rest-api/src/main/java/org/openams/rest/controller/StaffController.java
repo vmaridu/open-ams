@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Staff Controller", description = "Allows CRUD on Staff")
 @RestController
-@RequestMapping("/staff")
+@RequestMapping("/api/staff")
 public class StaffController {
 
 	private final StaffService service;
@@ -75,7 +75,7 @@ public class StaffController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid StaffModel staff, HttpServletResponse response) {
     		StaffModel createdStaff = service.createStaff(staff);
-    		response.setHeader("Location", "/staff/"+ createdStaff.getId());
+    		response.setHeader("Location", "/api/staff/"+ createdStaff.getId());
     }
     
     @ApiOperation(value = "Updates Staff, Ignores user data; Allowed Roles [ADMIN|SELF]")

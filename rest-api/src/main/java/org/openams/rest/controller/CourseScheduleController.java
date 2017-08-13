@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Course Schedule Controller", description = "Allows CRUD on CourseSchedule")
 @RestController
-@RequestMapping("/course-schedules")
+@RequestMapping("/api/course-schedules")
 public class CourseScheduleController {
 
 	private final CourseScheduleService courseScheduleService;
@@ -104,7 +104,7 @@ public class CourseScheduleController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestBody @Valid CourseScheduleModel courseSchedule, HttpServletResponse response) {
 		CourseScheduleModel createdCourseSchedule = courseScheduleService.createCourseSchedule(courseSchedule);
-		response.setHeader("Location", "/course-schedules/" + createdCourseSchedule.getId());
+		response.setHeader("Location", "/api/course-schedules/" + createdCourseSchedule.getId());
 	}
 
 	@ApiOperation(value = "Updates CourseSchedule; Allowed Roles [ADMIN]")
