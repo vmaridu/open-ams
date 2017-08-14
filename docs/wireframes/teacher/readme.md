@@ -313,7 +313,7 @@
 
 
 ---
-## Submit Attendance
+# Submit Attendance
 
   - Submit Attendance to entire Class Bulk Submit by **POST /api/attendances/bulk**
 
