@@ -197,6 +197,7 @@
             }
         ]
     }
+
    ~~~
 
 
@@ -206,6 +207,7 @@
 # Take Attendance
 
 ![Take Attendance](./2_take_attendance.png "Take Attendance")
+
 
 
 ### Get Course Schedule's Student Enrollments
