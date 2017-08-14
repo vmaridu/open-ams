@@ -141,65 +141,63 @@
 
   - Get Course Schedules Information by **GET /api/course-schedules?filter=(['staff.id'=='$staffId'])**
 
-    ~~~ sh
-    curl -vk -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <JWT>' 'https://ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443/api/staff?filter=(%7B'user.userName'%3D%3D'bioins'%7D)'
+  ~~~ sh
+  curl -vk -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <JWT>' 'https://ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443/api/staff?filter=(%7B'user.userName'%3D%3D'bioins'%7D)'
 
-    > GET /api/staff?filter=(%7B'user.userName'%3D%3D'bioins'%7D) HTTP/1.1
-    > Host: ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443
-    > User-Agent: curl/7.47.0
-    > Accept: */*
-    > authorization: Bearer <JWT>
+  > GET /api/staff?filter=(%7B'user.userName'%3D%3D'bioins'%7D) HTTP/1.1
+  > Host: ec2-52-53-48-48.us-west-1.compute.amazonaws.com:8443
+  > User-Agent: curl/7.47.0
+  > Accept: */*
+  > authorization: Bearer <JWT>
 
-    < HTTP/1.1 200
-    < Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-    < Content-Type: application/json;charset=UTF-8
-    < Transfer-Encoding: chunked
-    < Date: Mon, 14 Aug 2017 02:36:26 GMT
+  < HTTP/1.1 200
+  < Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+  < Content-Type: application/json;charset=UTF-8
+  < Transfer-Encoding: chunked
+  < Date: Mon, 14 Aug 2017 02:36:26 GMT
 
-    {
-        "page": 0,
-        "limit": 10,
-        "total": 2,
-        "size": 2,
-        "totalPages": 1,
-        "prvious": null,
-        "next": null,
-        "content": [
-            {
-                "id": "47d41bdf-e433-4ee8-8d0b-0c0b4f529c69",
-                "name": "K10 BIO EVEN",
-                "desc": "K10 Biology Evening Class",
-                "status": "ACTIVE",
-                "location": "ROOM 102",
-                "startDt": "2017-03-20",
-                "endDt": "2018-02-12",
-                "startT": "16:00:00",
-                "endT": "18:00:00",
-                "term": "2017",
-                "instructorId": "4a0ba7b9-d6f3-463d-86bd-5ce2b9de31a2",
-                "courseId": "91a17ac6-29ae-49aa-86c3-680bf77e2130",
-                "modifiedDtt": "2017-03-20-10-00-00"
-            },
-            {
-                "id": "7f249c50-9ec1-44df-84d2-c117c196516b",
-                "name": "K10 BIO MORN",
-                "desc": "K10 Biology Morning Class",
-                "status": "ACTIVE",
-                "location": "ROOM 102",
-                "startDt": "2017-03-20",
-                "endDt": "2018-02-12",
-                "startT": "10:00:00",
-                "endT": "12:00:00",
-                "term": "2017",
-                "instructorId": "4a0ba7b9-d6f3-463d-86bd-5ce2b9de31a2",
-                "courseId": "91a17ac6-29ae-49aa-86c3-680bf77e2130",
-                "modifiedDtt": "2017-03-20-09-00-00"
-            }
-        ]
-    }
-
-   ~~~
-
+  {
+      "page": 0,
+      "limit": 10,
+      "total": 2,
+      "size": 2,
+      "totalPages": 1,
+      "prvious": null,
+      "next": null,
+      "content": [
+          {
+              "id": "47d41bdf-e433-4ee8-8d0b-0c0b4f529c69",
+              "name": "K10 BIO EVEN",
+              "desc": "K10 Biology Evening Class",
+              "status": "ACTIVE",
+              "location": "ROOM 102",
+              "startDt": "2017-03-20",
+              "endDt": "2018-02-12",
+              "startT": "16:00:00",
+              "endT": "18:00:00",
+              "term": "2017",
+              "instructorId": "4a0ba7b9-d6f3-463d-86bd-5ce2b9de31a2",
+              "courseId": "91a17ac6-29ae-49aa-86c3-680bf77e2130",
+              "modifiedDtt": "2017-03-20-10-00-00"
+          },
+          {
+              "id": "7f249c50-9ec1-44df-84d2-c117c196516b",
+              "name": "K10 BIO MORN",
+              "desc": "K10 Biology Morning Class",
+              "status": "ACTIVE",
+              "location": "ROOM 102",
+              "startDt": "2017-03-20",
+              "endDt": "2018-02-12",
+              "startT": "10:00:00",
+              "endT": "12:00:00",
+              "term": "2017",
+              "instructorId": "4a0ba7b9-d6f3-463d-86bd-5ce2b9de31a2",
+              "courseId": "91a17ac6-29ae-49aa-86c3-680bf77e2130",
+              "modifiedDtt": "2017-03-20-09-00-00"
+          }
+      ]
+  }
+  ~~~
 
 
 
