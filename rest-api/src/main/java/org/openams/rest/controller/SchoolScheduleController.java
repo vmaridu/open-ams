@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.SchoolScheduleModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.SchoolScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +45,7 @@ public class SchoolScheduleController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Page<SchoolScheduleModel> getByFilter(@RequestParam(value = "filter", required = false) String filter,
-			Pageable pageable) throws QueryParserException {
+			Pageable pageable) throws ApplicationException {
 		if (StringUtils.isBlank(filter)) {
 			return service.getSchoolSchedules(pageable);
 		} else {
@@ -63,14 +63,14 @@ public class SchoolScheduleController {
 	@ApiOperation(value = "Gets SchoolSchedule By ID ; Allowed Roles [ADMIN|SELF]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public SchoolScheduleModel getSchoolScheduleModel(@PathVariable("id") String id) {
+	public SchoolScheduleModel getSchoolScheduleModel(@PathVariable("id") String id) throws ApplicationException {
 		return service.getSchoolSchedule(id);
 	}
 
 	@ApiOperation(value = "Creates SchoolSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void create(@RequestBody @Valid SchoolScheduleModel schoolSchedule, HttpServletResponse response) {
+	public void create(@RequestBody @Valid SchoolScheduleModel schoolSchedule, HttpServletResponse response) throws ApplicationException {
 		SchoolScheduleModel createdSchoolScheduleModel = service.createSchoolSchedule(schoolSchedule);
 		response.setHeader("Location", "/api/school-schedules/" + createdSchoolScheduleModel.getId());
 	}
@@ -78,7 +78,7 @@ public class SchoolScheduleController {
 	@ApiOperation(value = "Updates SchoolSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable("id") String id, @RequestBody @Valid SchoolScheduleModel schoolSchedule) {
+	public void update(@PathVariable("id") String id, @RequestBody @Valid SchoolScheduleModel schoolSchedule) throws ApplicationException {
 		schoolSchedule.setId(id);
 		service.updateSchoolSchedule(schoolSchedule);
 	}
@@ -86,7 +86,7 @@ public class SchoolScheduleController {
 	@ApiOperation(value = "Deletes SchoolSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) throws ApplicationException {
 		service.deleteSchoolSchedule(id);
 	}
 

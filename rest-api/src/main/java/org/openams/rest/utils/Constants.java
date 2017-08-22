@@ -2,6 +2,8 @@ package org.openams.rest.utils;
 
 public interface Constants {
 	
+	String TX_ID = "TX_ID";
+	
 	String JWT_CLAIM_ROLES = "roles";
 	String JWT_CLAIM_FIRST_NAME = "firstName";
 	String JWT_CLAIM_LAST_NAME = "lastName";

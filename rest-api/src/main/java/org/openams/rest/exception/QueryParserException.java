@@ -1,6 +1,6 @@
-package org.openams.rest.queryparser;
+package org.openams.rest.exception;
 
-public class QueryParserException extends Exception{
+public class QueryParserException extends ApplicationException {
 
 	private static final long serialVersionUID = 4919465864809181825L;
 

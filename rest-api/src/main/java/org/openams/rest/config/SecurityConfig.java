@@ -1,4 +1,4 @@
-package org.openams.rest;
+package org.openams.rest.config;
 
 import javax.servlet.Filter;
 
@@ -19,8 +19,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.swagger.models.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -71,10 +74,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(anonymousAccess).permitAll()
 			.antMatchers(authContext).permitAll()
-			.antMatchers("/api/students/**").hasAnyAuthority("ADMIN", "STUDENT", "STAFF")
-			.antMatchers("/api/staff/**").hasAnyAuthority("ADMIN", "STAFF")
-			.antMatchers("/api/**").hasAnyAuthority("ADMIN")
-		    .anyRequest().authenticated()
+			.requestMatchers(
+					           new AntPathRequestMatcher("/api/students/**", HttpMethod.GET.toString()),
+					           new AntPathRequestMatcher("/api/student-course-enrollments/**/attendance_report", HttpMethod.GET.toString())
+					        )
+						    .hasAnyAuthority("ADMIN", "STUDENT", "STAFF")
+			.requestMatchers(
+					 		   new AntPathRequestMatcher("/api/courses/**", HttpMethod.GET.toString()),
+					 		   new AntPathRequestMatcher("/api/course-schedules/**", HttpMethod.GET.toString()),
+					 		   new AntPathRequestMatcher("/api/school-schedules/**", HttpMethod.GET.toString()),
+					 		   new AntPathRequestMatcher("/api/staff/**", HttpMethod.GET.toString()),
+					 		   new AntPathRequestMatcher("/api/student-course-enrollments/**", HttpMethod.GET.toString()),
+					 		   new AntPathRequestMatcher("/api/users/**", HttpMethod.GET.toString())
+							)
+							.hasAnyAuthority("ADMIN", "STAFF")
+			.antMatchers(
+						 "/api/attendances/**", 
+						 "/api/tests/**"
+						)
+						.hasAnyAuthority("ADMIN", "STAFF")
+			.antMatchers("/**")
+							.hasAnyAuthority("ADMIN")
+		    .anyRequest()
+		    				.authenticated()
         .and()
     		.addFilterAfter(restUserAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
     		.addFilterAfter(jwtAuthenticationProcessingFilter(), BasicAuthenticationFilter.class)

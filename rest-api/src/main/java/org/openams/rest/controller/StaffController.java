@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StaffModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class StaffController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<StaffModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
-    		Pageable pageable) throws QueryParserException {
+    		Pageable pageable) throws ApplicationException {
 	    	if(StringUtils.isBlank(filter)){
 	    		return service.getStaff(pageable);
 	    	}else{
@@ -66,14 +66,14 @@ public class StaffController {
     @ApiOperation(value = "Gets Staff By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public StaffModel getStaff(@PathVariable("id") String id){
+    public StaffModel getStaff(@PathVariable("id") String id) throws ApplicationException {
     		return service.getStaff(id);
     }
     
     @ApiOperation(value = "Creates Staff, Ignores user data; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody @Valid StaffModel staff, HttpServletResponse response) {
+    public void create(@RequestBody @Valid StaffModel staff, HttpServletResponse response) throws ApplicationException {
     		StaffModel createdStaff = service.createStaff(staff);
     		response.setHeader("Location", "/api/staff/"+ createdStaff.getId());
     }
@@ -81,7 +81,7 @@ public class StaffController {
     @ApiOperation(value = "Updates Staff, Ignores user data; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") String id, @RequestBody @Valid StaffModel staff) {
+    public void update(@PathVariable("id") String id, @RequestBody @Valid StaffModel staff) throws ApplicationException {
     		staff.setId(id);
     		service.updateStaff(staff);
     }
@@ -89,14 +89,14 @@ public class StaffController {
     @ApiOperation(value = "Deletes Staff; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
+    public void delete(@PathVariable("id") String id) throws ApplicationException {
     		service.deleteStaff(id);
     }
     
     @ApiOperation(value = "Links Staff with User Account; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{staffId}/user/{userName:.+}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void linkStudentWithUser(@PathVariable("staffId") String staffId, @PathVariable("userName") String userName ) {
+    public void linkStudentWithUser(@PathVariable("staffId") String staffId, @PathVariable("userName") String userName ) throws ApplicationException {
     		service.linkStaffWithUser(staffId, userName);
     }
 

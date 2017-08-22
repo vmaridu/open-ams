@@ -1,17 +1,20 @@
-package org.openams.rest;
+package org.openams.rest.config;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.dozer.DozerBeanMapper;
+import org.openams.rest.filter.TransactionLoggingFilter;
 import org.openams.rest.utils.CacheBuilderUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 
 @EnableCaching
 @Configuration
@@ -41,5 +44,15 @@ public class AppConfig {
 			cacheManager.setCacheNames(Arrays.asList("eternalCache", "expirableCache"));
 		};
 	}
+	
+	@Bean
+    public FilterRegistrationBean transactionLoggingFilterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        TransactionLoggingFilter contextFilter = new TransactionLoggingFilter();
+        registrationBean.setFilter(contextFilter);
+        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE );
+        return registrationBean;
+    }
+	
 
 }

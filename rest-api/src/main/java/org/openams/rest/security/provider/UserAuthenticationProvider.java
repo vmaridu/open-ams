@@ -1,6 +1,8 @@
 package org.openams.rest.security.provider;
 
 
+import static org.openams.rest.utils.LogUtils.getTxId;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,10 +64,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    	LOGGER.info(String.format("Basic Authenticating ...; TX_ID (%s) ", getTxId()));
         Assert.isInstanceOf(UserBasicAuthentication.class, authentication);        
         try {
         	UserBasicAuthentication basicAuthrntication = (UserBasicAuthentication) authentication;
-        	basicAuthrntication.decodeAndSetCredentials();
+        	basicAuthrntication.decodeAndSetCredentials();        	
             User user = Optional.ofNullable(userRepository.findOne(basicAuthrntication.getUserName())).orElseThrow(() -> new EntityNotFoundException("User not found"));
             
             if (!encoder.matches(basicAuthrntication.getPassword(), user.getPassword())){
@@ -73,9 +76,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     		}
             
             String jwtToken = createToken(user);
+            LOGGER.info(String.format("Basic Authentication Successful; TX_ID (%s) UserName(%s)", getTxId(), basicAuthrntication.getUserName()));
             return new JwtAuthentication(jwtToken);
         } catch (Exception e) {
-        	LOGGER.error("User validation failed");
+        	LOGGER.error(String.format("Basic Authentication Failed; TX_ID (%s)", getTxId()),e);
             throw new AuthenticationServiceException(e.getMessage());
         }
     }

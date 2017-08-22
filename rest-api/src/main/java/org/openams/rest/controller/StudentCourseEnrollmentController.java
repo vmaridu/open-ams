@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.EnrollmentAttendanceReportModel;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StudentCourseEnrollmentModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.AttendanceService;
 import org.openams.rest.service.impl.StudentCourseEnrollmentService;
 import org.openams.rest.utils.ConverterUtil;
@@ -52,8 +52,7 @@ public class StudentCourseEnrollmentController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Page<StudentCourseEnrollmentModel> getByFilter(
-			@RequestParam(value = "filter", required = false) String filter, Pageable pageable)
-			throws QueryParserException {
+			@RequestParam(value = "filter", required = false) String filter, Pageable pageable) throws ApplicationException {
 		if (StringUtils.isBlank(filter)) {
 			return studentCourseEnrollmentService.getStudentCourseEnrollments(pageable);
 		} else {
@@ -67,7 +66,7 @@ public class StudentCourseEnrollmentController {
 	public EnrollmentAttendanceReportModel getAttendanceReport(@PathVariable("enrollmentId") String enrollmentId,
 			@RequestParam(value = "fromDtt", required = false) String fromDttString,
 			@RequestParam(value = "toDtt", required = false) String toDttString,
-			@RequestParam(value = "expand", defaultValue = "false") boolean expand) {
+			@RequestParam(value = "expand", defaultValue = "false") boolean expand) throws ApplicationException {
 		Date fromDtt = StringUtils.isEmpty(fromDttString) ? null : ConverterUtil.toDateTime(fromDttString);
 		Date toDtt = StringUtils.isEmpty(toDttString) ? null : ConverterUtil.toDateTime(toDttString);
 		return attendanceService.getEnrollmentAttendanceReportModel(enrollmentId, fromDtt, toDtt, expand);
@@ -83,7 +82,7 @@ public class StudentCourseEnrollmentController {
 	@ApiOperation(value = "Gets StudentCourseEnrollment By ID ; Allowed Roles [ADMIN|SELF]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public StudentCourseEnrollmentModel getStudentCourseEnrollment(@PathVariable("id") String id) {
+	public StudentCourseEnrollmentModel getStudentCourseEnrollment(@PathVariable("id") String id) throws ApplicationException {
 		return studentCourseEnrollmentService.getStudentCourseEnrollment(id);
 	}
 
@@ -91,7 +90,7 @@ public class StudentCourseEnrollmentController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestBody @Valid StudentCourseEnrollmentModel studentCourseEnrollment,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws ApplicationException {
 		StudentCourseEnrollmentModel createdStudentCourseEnrollment = studentCourseEnrollmentService
 				.createStudentCourseEnrollment(studentCourseEnrollment);
 		response.setHeader("Location", "/api/student-course-enrollments/" + createdStudentCourseEnrollment.getId());
@@ -101,7 +100,7 @@ public class StudentCourseEnrollmentController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void update(@PathVariable("id") String id,
-			@RequestBody @Valid StudentCourseEnrollmentModel studentCourseEnrollment) {
+			@RequestBody @Valid StudentCourseEnrollmentModel studentCourseEnrollment) throws ApplicationException {
 		studentCourseEnrollment.setId(id);
 		studentCourseEnrollmentService.updateStudentCourseEnrollment(studentCourseEnrollment);
 	}
@@ -109,7 +108,7 @@ public class StudentCourseEnrollmentController {
 	@ApiOperation(value = "Deletes StudentCourseEnrollment; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) throws ApplicationException {
 		studentCourseEnrollmentService.deleteStudentCourseEnrollment(id);
 	}
 

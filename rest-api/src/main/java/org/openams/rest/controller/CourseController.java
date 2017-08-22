@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.CourseModel;
 import org.openams.rest.model.Page;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<CourseModel> getByFilter(@RequestParam(value = "filter", required = false) String filter, 
-    		Pageable pageable) throws QueryParserException {
+    		Pageable pageable) throws ApplicationException {
 	    	if(StringUtils.isBlank(filter)){
 	    		return service.getCourses(pageable);
 	    	}else{
@@ -66,14 +66,14 @@ public class CourseController {
     @ApiOperation(value = "Gets Course By ID ; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public CourseModel getCourse(@PathVariable("id") String id){
+    public CourseModel getCourse(@PathVariable("id") String id) throws ApplicationException {
     		return service.getCourse(id);
     }
     
     @ApiOperation(value = "Creates Course; Allowed Roles [ADMIN]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody @Valid CourseModel course, HttpServletResponse response) {
+    public void create(@RequestBody @Valid CourseModel course, HttpServletResponse response) throws ApplicationException {
     		CourseModel createdCourse = service.createCourse(course);
     		response.setHeader("Location", "/api/courses/"+ createdCourse.getId());
     }
@@ -81,7 +81,7 @@ public class CourseController {
     @ApiOperation(value = "Updates Course; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") String id, @RequestBody @Valid CourseModel course) {
+    public void update(@PathVariable("id") String id, @RequestBody @Valid CourseModel course) throws ApplicationException {
     		course.setId(id);
     		service.updateCourse(course);
     }
@@ -89,7 +89,7 @@ public class CourseController {
     @ApiOperation(value = "Deletes Course; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
+    public void delete(@PathVariable("id") String id) throws ApplicationException {
     		service.deleteCourse(id);
     }
     

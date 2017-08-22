@@ -1,4 +1,4 @@
-package org.openams.rest;
+package org.openams.rest.config;
 
 import java.util.List;
 

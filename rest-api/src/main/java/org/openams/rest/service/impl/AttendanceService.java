@@ -1,5 +1,7 @@
 package org.openams.rest.service.impl;
 
+import static org.openams.rest.utils.LogUtils.getTxId;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.dozer.Mapper;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.exception.ValidationException;
 import org.openams.rest.jpa.entity.Attendance;
 import org.openams.rest.jpa.entity.AttendanceBy;
@@ -25,12 +28,16 @@ import org.openams.rest.model.AttendanceByModel;
 import org.openams.rest.model.AttendanceModel;
 import org.openams.rest.model.CourseScheduleAttendanceReportModel;
 import org.openams.rest.model.EnrollmentAttendanceReportModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Transactional
 @Service
 public class AttendanceService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AttendanceService.class);
 
 	private Mapper mapper;
 	private AttendanceByRepository attendanceByRepository;
@@ -49,21 +56,27 @@ public class AttendanceService {
 		this.courseScheduleRepository = new RepositoryWrapper<CourseSchedule, String>(courseScheduleRepository, (CourseSchedule::getId));
 	}
 	
-	public void submitBulkAttendance(AttendanceByModel bulkAttendance) throws ValidationException{
+	public void submitBulkAttendance(AttendanceByModel bulkAttendance) throws ApplicationException{
 		String courseScheduleId = bulkAttendance.getCourseScheduleId();
+    	LOGGER.info("Processing Bulk Attendance Request ...; TX_ID ({}) courseScheduleId ({}) ", getTxId(), courseScheduleId);
 		Set<String> expectedEnrollmentIds = getEnrollmentIdsByCourseScheduleId(courseScheduleId);
 		Set<String> actualEnrollmentIds = bulkAttendance.getAttendances().stream().map(AttendanceModel :: getEnrollmentId).collect(Collectors.toSet());
 		if(actualEnrollmentIds.equals(expectedEnrollmentIds)){
 			AttendanceBy attendanceBy = mapper.map(bulkAttendance, AttendanceBy.class);
 			attendanceBy.getAttendances().forEach(a -> a.setAttendanceBy(attendanceBy));
 			attendanceByRepository.save(attendanceBy);
+			LOGGER.info("Processed Bulk Attendance Request; TX_ID ({}) courseScheduleId ({})", getTxId(), courseScheduleId);
 		}else{
+			LOGGER.error("Failed to Process Bulk Attendance Request : expectedEnrollmentIds doesn't match actualEnrollmentIds; TX_ID ({}) courseScheduleId ({})", getTxId(), courseScheduleId);
 			throw new ValidationException("Attendance should be submited for all StudentEnrollmentIds of CourseSchedule");
 		}
 	}
 	
 	
-	public CourseScheduleAttendanceReportModel getCourseScheduleAttendanceReport(String courseScheduleId, Date fromDtt, Date toDtt, boolean expand){
+	public CourseScheduleAttendanceReportModel getCourseScheduleAttendanceReport(String courseScheduleId, Date fromDtt, Date toDtt, boolean expand) throws ApplicationException {
+		
+		LOGGER.info("Processing CourseSchedue AttendanceReport Request ...; TX_ID ({}) courseScheduleId ({}) fromDtt ({}) toDtt ({}) expand ({})"
+				, getTxId(), courseScheduleId, (fromDtt == null ? null : fromDtt.toString() ) , (toDtt == null ? null : toDtt.toString() ), expand);
 		
 		//throw exception if course schedule not found
 		courseScheduleRepository.findOne(courseScheduleId);
@@ -95,15 +108,21 @@ public class AttendanceService {
 			result.setAttendances(attendances);
 		}
 		
+		LOGGER.info("Processed CourseSchedue AttendanceReport Request ; TX_ID ({}) courseScheduleId ({}) fromDtt ({}) toDtt ({}) expand ({})"
+				, getTxId(), courseScheduleId, (fromDtt == null ? null : fromDtt.toString() ) , (toDtt == null ? null : toDtt.toString() ), expand);
+		
 		return result;
 	}
 	
 	
-	public Set<String> getEnrollmentIdsByCourseScheduleId(String courseScheduleId){
+	public Set<String> getEnrollmentIdsByCourseScheduleId(String courseScheduleId) throws ApplicationException {
 		return studentCourseEnrollmentRepository.findIdsByCourseScheduleId(courseScheduleId);
 	}
 	
-	public EnrollmentAttendanceReportModel getEnrollmentAttendanceReportModel(String enrollmentId, Date fromDtt, Date toDtt, boolean expand){
+	public EnrollmentAttendanceReportModel getEnrollmentAttendanceReportModel(String enrollmentId, Date fromDtt, Date toDtt, boolean expand) throws ApplicationException{
+		
+		LOGGER.info("Processing Enrollment AttendanceReport Request ...; TX_ID ({}) enrollmentId ({}) fromDtt ({}) toDtt ({}) expand ({})"
+				, getTxId(), enrollmentId, (fromDtt == null ? null : fromDtt.toString() ) , (toDtt == null ? null : toDtt.toString() ), expand);
 		
 		EnrollmentAttendanceReportModel report = new EnrollmentAttendanceReportModel();
 		
@@ -128,6 +147,9 @@ public class AttendanceService {
 			Collection<AttendanceModel> attendanceModels = attendances.stream().map(m -> mapper.map(m, AttendanceModel.class)).collect(Collectors.toList());
 			report.setAttendances(attendanceModels);
 		}
+		
+		LOGGER.info("Processed Enrollment AttendanceReport Request ...; TX_ID ({}) enrollmentId ({}) fromDtt ({}) toDtt ({}) expand ({})"
+				, getTxId(), enrollmentId, (fromDtt == null ? null : fromDtt.toString() ) , (toDtt == null ? null : toDtt.toString() ), expand);
 		
 		return report;
 	}

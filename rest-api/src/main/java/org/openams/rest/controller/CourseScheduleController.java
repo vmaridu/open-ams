@@ -13,7 +13,6 @@ import org.openams.rest.model.CourseScheduleAttendanceReportModel;
 import org.openams.rest.model.CourseScheduleModel;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StudentCourseEnrollmentReportModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.AttendanceService;
 import org.openams.rest.service.impl.CourseScheduleService;
 import org.openams.rest.service.impl.StudentCourseEnrollmentService;
@@ -58,7 +57,7 @@ public class CourseScheduleController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Page<CourseScheduleModel> getByFilter(@RequestParam(value = "filter", required = false) String filter,
-			Pageable pageable) throws QueryParserException {
+			Pageable pageable) throws ApplicationException {
 		if (StringUtils.isBlank(filter)) {
 			return courseScheduleService.getCourseSchedules(pageable);
 		} else {
@@ -76,14 +75,14 @@ public class CourseScheduleController {
 	@ApiOperation(value = "Gets CourseSchedule By ID ; Allowed Roles [ADMIN|SELF]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public CourseScheduleModel getCourseSchedule(@PathVariable("id") String id) {
+	public CourseScheduleModel getCourseSchedule(@PathVariable("id") String id) throws ApplicationException {
 		return courseScheduleService.getCourseSchedule(id);
 	}
 
 	@ApiOperation(value = "Gets StudentCourseEnrollment Report for CourseSchedule ID; Allowed Roles [ADMIN|STAFF]")
 	@RequestMapping(value = "/{id}/enrollment_report", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Collection<StudentCourseEnrollmentReportModel> getFlatStudentCourseEnrollmentsByCourseScheduleId(@PathVariable("id") String id) {
+	public Collection<StudentCourseEnrollmentReportModel> getFlatStudentCourseEnrollmentsByCourseScheduleId(@PathVariable("id") String id) throws ApplicationException {
 		return studentCourseEnrollmentService.getFlatStudentCourseEnrollmentsByCourseScheduleId(id);
 	}
 
@@ -102,7 +101,7 @@ public class CourseScheduleController {
 	@ApiOperation(value = "Creates CourseSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void create(@RequestBody @Valid CourseScheduleModel courseSchedule, HttpServletResponse response) {
+	public void create(@RequestBody @Valid CourseScheduleModel courseSchedule, HttpServletResponse response) throws ApplicationException {
 		CourseScheduleModel createdCourseSchedule = courseScheduleService.createCourseSchedule(courseSchedule);
 		response.setHeader("Location", "/api/course-schedules/" + createdCourseSchedule.getId());
 	}
@@ -110,7 +109,7 @@ public class CourseScheduleController {
 	@ApiOperation(value = "Updates CourseSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable("id") String id, @RequestBody @Valid CourseScheduleModel courseSchedule) {
+	public void update(@PathVariable("id") String id, @RequestBody @Valid CourseScheduleModel courseSchedule) throws ApplicationException {
 		courseSchedule.setId(id);
 		courseScheduleService.updateCourseSchedule(courseSchedule);
 	}
@@ -118,7 +117,7 @@ public class CourseScheduleController {
 	@ApiOperation(value = "Deletes CourseSchedule; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) throws ApplicationException {
 		courseScheduleService.deleteCourseSchedule(id);
 	}
 

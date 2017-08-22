@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.TestModel;
 import org.openams.rest.model.TestScoreModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +46,7 @@ public class TestController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Page<TestModel> getByFilter(@RequestParam(value = "filter", required = false) String filter,
-			Pageable pageable) throws QueryParserException {
+			Pageable pageable) throws ApplicationException {
 		if (StringUtils.isBlank(filter)) {
 			return service.getTests(pageable);
 		} else {
@@ -65,14 +65,14 @@ public class TestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public TestModel getTest(@PathVariable("id") String id,
-			@RequestParam(value = "expand", defaultValue = "false") boolean expand) {
+			@RequestParam(value = "expand", defaultValue = "false") boolean expand) throws ApplicationException {
 		return service.getTest(id, expand);
 	}
 
 	@ApiOperation(value = "Creates Test; Allowed Roles [ADMIN|STAFF]")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createTest(@RequestBody @Valid TestModel test, HttpServletResponse response) {
+	public void createTest(@RequestBody @Valid TestModel test, HttpServletResponse response) throws ApplicationException {
 		TestModel createdTest = service.createTest(test);
 		response.setHeader("Location", "/api/tests/" + createdTest.getId());
 	}
@@ -80,7 +80,7 @@ public class TestController {
 	@ApiOperation(value = "Creates Test Score; Allowed Roles [ADMIN|STAFF]")
 	@RequestMapping(value = "/{testId}/test-scores", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createTestScore(@PathVariable("testId") String testId, @RequestBody @Valid TestScoreModel testScore, HttpServletResponse response) {
+	public void createTestScore(@PathVariable("testId") String testId, @RequestBody @Valid TestScoreModel testScore, HttpServletResponse response) throws ApplicationException {
 		testScore.setTestId(testId);
 		TestScoreModel createdTestScore = service.createTestScore(testScore);
 		response.setHeader("Location", "/tests/" + testId + "/test-scores/" + createdTestScore.getId());
@@ -89,7 +89,7 @@ public class TestController {
 	@ApiOperation(value = "Updates Test; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateTest(@PathVariable("id") String id, @RequestBody @Valid TestModel test) {
+	public void updateTest(@PathVariable("id") String id, @RequestBody @Valid TestModel test) throws ApplicationException {
 		test.setId(id);
 		service.updateTest(test);
 	}
@@ -98,7 +98,7 @@ public class TestController {
 	@RequestMapping(value = "/{testId}/test-scores/{testScoreId}", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateTestScore(@PathVariable("testId") String testId, @PathVariable("testScoreId") String testScoreId,
-			@RequestBody @Valid TestScoreModel testScore, HttpServletResponse response) {
+			@RequestBody @Valid TestScoreModel testScore, HttpServletResponse response) throws ApplicationException {
 		testScore.setId(testScoreId);
 		testScore.setTestId(testId);
 		service.updateTestScore(testScore);
@@ -107,7 +107,7 @@ public class TestController {
 	@ApiOperation(value = "Deletes Test; Allowed Roles [ADMIN]")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteTest(@PathVariable("id") String id) {
+	public void deleteTest(@PathVariable("id") String id) throws ApplicationException {
 		service.deleteTest(id);
 	}
 

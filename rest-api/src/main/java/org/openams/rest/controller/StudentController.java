@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.ApplicationException;
 import org.openams.rest.model.Page;
 import org.openams.rest.model.StudentModel;
-import org.openams.rest.queryparser.QueryParserException;
 import org.openams.rest.service.impl.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<StudentModel> getStudentsByFilter(@RequestParam(value = "filter", required = false) String filter, 
-    		Pageable pageable) throws QueryParserException {
+    		Pageable pageable) throws ApplicationException {
 	    	if(StringUtils.isBlank(filter)){
 	    		return service.getStudents(pageable);
 	    	}else{
@@ -66,14 +66,14 @@ public class StudentController {
     @ApiOperation(value = "Gets Student By ID ; Allowed Roles [ADMIN|STAFF|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public StudentModel getStudent(@PathVariable("id") String id){
+    public StudentModel getStudent(@PathVariable("id") String id) throws ApplicationException {
     		return service.getStudent(id);
     }
     
     @ApiOperation(value = "Creates Student, Ignores user data; Allowed Roles [ANY]")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createStudent(@RequestBody @Valid StudentModel student, HttpServletResponse response) {
+    public void createStudent(@RequestBody @Valid StudentModel student, HttpServletResponse response) throws ApplicationException {
     		StudentModel createdStudent = service.createStudent(student);
     		response.setHeader("Location", "/api/students/"+ createdStudent.getId());
     }
@@ -81,7 +81,7 @@ public class StudentController {
     @ApiOperation(value = "Updates Student, Ignores user data; Allowed Roles [ADMIN|SELF]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStudent(@PathVariable("id") String id, @RequestBody @Valid StudentModel student) {
+    public void updateStudent(@PathVariable("id") String id, @RequestBody @Valid StudentModel student) throws ApplicationException {
     		student.setId(id);
     		service.updateStudent(student);
     }
@@ -89,14 +89,14 @@ public class StudentController {
     @ApiOperation(value = "Deletes Student; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable("id") String id) {
+    public void deleteStudent(@PathVariable("id") String id) throws ApplicationException {
     		service.deleteStudent(id);
     }
     
     @ApiOperation(value = "Links Student with User Account; Allowed Roles [ADMIN]")
     @RequestMapping(value = "/{studentId}/user/{userName:.+}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void linkStudentWithUser(@PathVariable("studentId") String studentId, @PathVariable("userName") String userName) {
+    public void linkStudentWithUser(@PathVariable("studentId") String studentId, @PathVariable("userName") String userName) throws ApplicationException {
     		service.linkStudentWithUser(studentId, userName);
     }
     

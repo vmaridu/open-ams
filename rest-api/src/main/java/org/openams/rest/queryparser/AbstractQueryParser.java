@@ -11,6 +11,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openams.rest.exception.QueryParserException;
 import org.openams.rest.utils.ConverterUtil;
 import org.springframework.util.Assert;
 

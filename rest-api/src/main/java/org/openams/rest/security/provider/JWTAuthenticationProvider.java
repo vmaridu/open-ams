@@ -1,6 +1,8 @@
 package org.openams.rest.security.provider;
 
 
+import static org.openams.rest.utils.LogUtils.getTxId;
+
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,8 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Assert.isInstanceOf(JwtAuthentication.class, authentication);        
+    	LOGGER.info(String.format("JWT Authenticating ...; TX_ID (%s) ", getTxId()));
+        Assert.isInstanceOf(JwtAuthentication.class, authentication);
         try {
         	JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication;
         	String jwt = (String) jwtAuthentication.getPrincipal();
@@ -47,10 +50,11 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
             													.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
             String subject = (String) claims.get(Claims.SUBJECT);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(subject, jwt, authorities);
-            
+
+            LOGGER.info(String.format("JWT Authentication Successful; TX_ID (%s) UserName(%s)", getTxId(), subject));
             return usernamePasswordAuthenticationToken;
         } catch (Exception e) {
-        	LOGGER.error("JWT validation failed");
+        	LOGGER.error(String.format("JWT Authentication Failed; TX_ID (%s)", getTxId()),e);
             throw new AuthenticationServiceException(e.getMessage());
         }
     }

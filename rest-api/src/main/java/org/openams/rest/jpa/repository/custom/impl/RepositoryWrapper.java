@@ -5,9 +5,8 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-
+import org.openams.rest.exception.ResourceExistsException;
+import org.openams.rest.exception.ResourceNotFoundException;
 import org.openams.rest.jpa.repository.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,18 +33,18 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 		return repository.exists(key);
 	}
 
-	public T create(T t) {
+	public T create(T t) throws ResourceExistsException{
 		K key = keyGetter.apply(t);
 		if (key != null && repository.exists(key)) {
-			throw new EntityExistsException();
+			throw new ResourceExistsException("Resource with ID (" + key + ") already exists");
 		}
 		return repository.save(t);
 	}
 
-	public T update(T t) {
+	public T update(T t) throws ResourceNotFoundException {
 		K key = keyGetter.apply(t);
 		if (key == null || !repository.exists(key)) {
-			throw new EntityNotFoundException();
+			throw new ResourceNotFoundException("Resource with ID (" + key + ") not found");
 		}
 		return repository.save(t);
 	}
@@ -67,17 +66,17 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 	}
 	
 
-	public T findOne(K key) {
-		return Optional.ofNullable(repository.findOne(key)).orElseThrow(() -> new EntityNotFoundException());
+	public T findOne(K key) throws ResourceNotFoundException {
+		return Optional.ofNullable(repository.findOne(key)).orElseThrow(() -> new ResourceNotFoundException("Resource with ID (" + key + ") not found"));
 	}
 	
-	public T findOne(Predicate predicate) {
-		return Optional.ofNullable(repository.findOne(predicate)).orElseThrow(() -> new EntityNotFoundException());
+	public T findOne(Predicate predicate) throws ResourceNotFoundException {
+		return Optional.ofNullable(repository.findOne(predicate)).orElseThrow(() -> new ResourceNotFoundException("Resource with ID predicate not found"));
 	}
 
-	public void delete(K key) {
+	public void delete(K key) throws ResourceNotFoundException {
 		if (key == null || !repository.exists(key)) {
-			throw new EntityNotFoundException();
+			throw new ResourceNotFoundException("Resource with ID (" + key + ") not found");
 		}
 		repository.delete(key);
 	}
