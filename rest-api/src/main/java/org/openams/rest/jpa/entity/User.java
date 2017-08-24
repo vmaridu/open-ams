@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
 import org.openams.rest.jpa.entity.enums.UserStatus;
 
 import lombok.Data;
@@ -24,6 +25,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(exclude = {"roles"})
 @Entity
+@Audited
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 7108735475760929898L;
@@ -60,6 +62,9 @@ public class User implements Serializable {
 	@JoinTable(name = "user_in_role", 
 		joinColumns = { @JoinColumn(name = "user_name") }, 
 		inverseJoinColumns = {@JoinColumn(name = "role_id") })
+	//@NotAudited
+	//,inverseJoinColumns = {@JoinColumn(name = "role_id")}
+	//@AuditJoinTable(schema = "user_in_role")
 	private List<Role> roles;
 
 }

@@ -13,7 +13,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 //TODO:Implement patch service for all resources, update all except null
 //TODO:Login Success Handler with update lastAccessDtt
 @SpringBootApplication
-@EntityScan(basePackages = {"org.openams.rest.jpa.entity"})
+@EntityScan(basePackages = {"org.openams.rest.jpa.entity", "org.openams.rest.jpa.envars"})
 @EnableJpaRepositories(basePackages = {"org.openams.rest.jpa.repository"})
 @EnableSpringDataWebSupport
 public class Application {
