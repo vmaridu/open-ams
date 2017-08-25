@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.Audited;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity
-@EqualsAndHashCode
 @Data
+@EqualsAndHashCode
+@Entity
+@Audited
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = -5301575988735395497L;

@@ -15,6 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +24,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(exclude = {"student", "payments"})
 @Entity
+@Audited
 public class Fee implements Serializable {
 
 	private static final long serialVersionUID = -7816811617606757427L;
@@ -43,6 +46,7 @@ public class Fee implements Serializable {
 	//uni-directional many-to-one association to Student
 	@ManyToOne
 	@JoinColumn(name = "student_id")
+	@NotAudited
 	private Student student;
 	
 	@Temporal(TemporalType.TIMESTAMP)
