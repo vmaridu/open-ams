@@ -5,7 +5,7 @@
 
  - Install JDK 8 (Gradle Installation NOT REQUIRED ; WRAPPER INCLUDED)
 
- - Build sources using **./gradlew clean build**
+ - Build sources using **./gradlew clean build -PSYSuser.timezone=GMT -PSYSspring.profiles.active=test -PSYSspring.datasource.password=<DB_PASSWORD>  -PSYSsecret.key=<JWT_SECRET>**
 
  - Run application from JAR using
   ~~~ sh
