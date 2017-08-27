@@ -2,6 +2,9 @@ package org.openams.rest.utils;
 
 public interface Constants {
 	
+	String SECRET_KEY_PROPERTY_NAME = "secret.key";
+	String BASE_URL_PROPERTY_NAME = "baseUrl";
+	
 	String TX_ID = "TX_ID";
 	
 	String JWT_CLAIM_ROLES = "roles";
