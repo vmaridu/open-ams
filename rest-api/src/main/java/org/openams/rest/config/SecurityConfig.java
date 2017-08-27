@@ -4,6 +4,7 @@ import javax.servlet.Filter;
 
 import org.openams.rest.security.filter.JWTAuthenticationProcessingFilter;
 import org.openams.rest.security.filter.RESTUserAuthenticationProcessingFilter;
+import org.openams.rest.security.handlers.AccessDeniedHandler;
 import org.openams.rest.security.handlers.BasicAuthenticationFailureHandler;
 import org.openams.rest.security.handlers.BasicAuthenticationSuccessHandler;
 import org.openams.rest.security.handlers.JWTAuthenticationFailureHandler;
@@ -97,6 +98,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							.hasAnyAuthority("ADMIN")
 		    .anyRequest()
 		    				.authenticated()
+		.and()
+		    .exceptionHandling().accessDeniedHandler(new AccessDeniedHandler(mapper))
         .and()
     		.addFilterAfter(restUserAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
     		.addFilterAfter(jwtAuthenticationProcessingFilter(), BasicAuthenticationFilter.class)

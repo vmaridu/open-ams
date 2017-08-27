@@ -12,6 +12,8 @@ public class ErrorMessageUtil {
 	public static final int UNAUTHORIZED_BASIC_AUTH_ERROR_CODE = 401001;
 	public static final int UNAUTHORIZED_JWT_AUTH_ERROR_CODE = 401002;
 	
+	public static final int FORBIDDEN_GENERIC_ERROR_CODE = 403000;
+	
 	public static final int BAD_REQUEST_GENERIC_ERROR_CODE = 400000;
 	public static final int BAD_REQUEST_QUERY_PARSER_ERROR_CODE = 400001;
 	public static final int BAD_REQUEST_VALIDATION_ERROR_CODE = 400002;

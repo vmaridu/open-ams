@@ -7,12 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = TestConfig.class, webEnvironment=WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = TestConfig.class, webEnvironment=WebEnvironment.DEFINED_PORT)
 public class ApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		System.out.println("Worked");
+		System.out.println("Context Loads");
 	}
 
 }
