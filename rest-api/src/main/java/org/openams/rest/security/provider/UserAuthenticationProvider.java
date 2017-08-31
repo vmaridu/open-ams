@@ -6,7 +6,6 @@ import static org.openams.rest.utils.LogUtils.getTxId;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -69,7 +68,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         try {
         	UserBasicAuthentication basicAuthrntication = (UserBasicAuthentication) authentication;
         	basicAuthrntication.decodeAndSetCredentials();        	
-            User user = Optional.ofNullable(userRepository.findOne(basicAuthrntication.getUserName())).orElseThrow(() -> new EntityNotFoundException("User not found"));
+            User user = userRepository.findById(basicAuthrntication.getUserName()).orElseThrow(() -> new EntityNotFoundException("User not found"));
             
             if (!encoder.matches(basicAuthrntication.getPassword(), user.getPassword())){
     			throw new AccessDeniedException("Password doesn't match");

@@ -1,9 +1,11 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.3.RELEASE'
+		springBootVersion = '2.0.0.M3'
 	}
 	repositories {
 		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -13,6 +15,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+
+apply plugin: 'io.spring.dependency-management'
 
 jar {
 	baseName = 'openams-rest-api'
@@ -24,6 +28,8 @@ sourceCompatibility = 1.8
 repositories {
 	mavenCentral()
 	jcenter()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
@@ -51,6 +57,9 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 	testCompile ('io.rest-assured:rest-assured:3.0.3')
+	testCompile ('org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.4')
+	testCompile ('org.jetbrains.kotlin:kotlin-reflect:1.1.4')
+	testCompile ('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0')
 }
 
 compileJava {

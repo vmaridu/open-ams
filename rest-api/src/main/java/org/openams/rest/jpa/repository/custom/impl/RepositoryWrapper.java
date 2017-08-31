@@ -2,7 +2,6 @@ package org.openams.rest.jpa.repository.custom.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.function.Function;
 
 import org.openams.rest.exception.ResourceExistsException;
@@ -30,12 +29,12 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 	}
 	
 	public boolean exists(K key){
-		return repository.exists(key);
+		return repository.existsById(key);
 	}
 
 	public T create(T t) throws ResourceExistsException{
 		K key = keyGetter.apply(t);
-		if (key != null && repository.exists(key)) {
+		if (key != null && repository.existsById(key)) {
 			throw new ResourceExistsException("Resource with ID (" + key + ") already exists");
 		}
 		return repository.save(t);
@@ -43,7 +42,7 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 
 	public T update(T t) throws ResourceNotFoundException {
 		K key = keyGetter.apply(t);
-		if (key == null || !repository.exists(key)) {
+		if (key == null || !repository.existsById(key)) {
 			throw new ResourceNotFoundException("Resource with ID (" + key + ") not found");
 		}
 		return repository.save(t);
@@ -67,18 +66,18 @@ public class RepositoryWrapper<T, K extends Serializable>  {
 	
 
 	public T findOne(K key) throws ResourceNotFoundException {
-		return Optional.ofNullable(repository.findOne(key)).orElseThrow(() -> new ResourceNotFoundException("Resource with ID (" + key + ") not found"));
+		return repository.findById(key).orElseThrow(() -> new ResourceNotFoundException("Resource with ID (" + key + ") not found"));
 	}
 	
 	public T findOne(Predicate predicate) throws ResourceNotFoundException {
-		return Optional.ofNullable(repository.findOne(predicate)).orElseThrow(() -> new ResourceNotFoundException("Resource with ID predicate not found"));
+		return repository.findOne(predicate).orElseThrow(() -> new ResourceNotFoundException("Resource with ID predicate not found"));
 	}
 
 	public void delete(K key) throws ResourceNotFoundException {
-		if (key == null || !repository.exists(key)) {
+		if (key == null || !repository.existsById(key)) {
 			throw new ResourceNotFoundException("Resource with ID (" + key + ") not found");
 		}
-		repository.delete(key);
+		repository.deleteById(key);
 	}
 
 }
