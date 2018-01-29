@@ -97,6 +97,4 @@
   - Unzip the archive
 
 #### Start Rest Web Services
-  - Go to 'rest-api' Directory
-  - Run **./gradlew bootRun -Duser.timezone=GMT -Dspring.profiles.active=demo -Dspring.datasource.password=simsim**
-  - For more info , Refer [rest-api module readme](rest-api/readme.md)
+  - Refer [rest-api module readme](rest-api/readme.md)

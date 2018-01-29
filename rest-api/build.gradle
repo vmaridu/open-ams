@@ -85,13 +85,14 @@ sourceSets {
     }
 }
 
-//if project property starts with 'SYS' then set is as System Property
 test {
-    for(String propertyName : project.getProperties().keySet()){
-    	if(propertyName.startsWith("SYS")){
-    		String propertyValue = project.getProperties().get(propertyName);
-    		String sysPropertyName = propertyName.replaceFirst("SYS", "");
-    		systemProperty sysPropertyName, propertyValue ;
-    	}
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
+    }
+}
+
+bootRun {
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
     }
 }

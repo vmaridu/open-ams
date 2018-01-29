@@ -7,7 +7,10 @@
  - From **ROOT/web-ui** directory, run **sh run.sh** to start server.
  - Browse to https://loclahost:8443/index.html
 
+
+
 ### Notes
 
  - This project uses **NPM** for dev tool installation and **bower** for dependency management.
  - Default SSL port number can be changed @ run.sh file.
+ - API Configurations are scripts/api-config.js

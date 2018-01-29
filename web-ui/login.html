@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Login</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/login.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="container">
+    <form class="form-signin">
+      <h2 class="form-signin-heading">OpenAMS Login</h2>
+
+      <input type="text" id="user-name" class="form-control" placeholder="User Name" required autofocus>
+
+      <input type="password" id="password" class="form-control" placeholder="Password" required>
+
+      <div class="row">
+        <div class="col-5 offset-1">
+          <button id="login-btn" class="btn btn-success btn-block" type="button"> Login </button>
+        </div>
+        <div class="col-5">
+          <button  id="register-btn" class="btn btn-primary btn-block" type="button"> Register </button>
+        </div>
+      </div>
+
+      <div id="error-alrt"></div>
+
+    </form>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/api-config.js"></script>
+  <script src="scripts/login.js"></script>
+
+</body>
+
+</html>
