@@ -21,7 +21,7 @@
         logout();
     }else{
       //TODO:Validate jwt
-       $("#profile-welcome").text(userData.firstName + " " + userData.lastName);
+       $("#profile-welcome-lnk").text(userData.firstName + " " + userData.lastName);
     }
   })();
 
