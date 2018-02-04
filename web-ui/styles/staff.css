@@ -1,0 +1,13 @@
+.col-cneter {
+  text-align: center;
+}
+
+.profile-image{
+  height:10rem;
+  width:10rem;
+  border:0
+}
+
+.thick-progress-bar {
+  height: 2em;
+}
