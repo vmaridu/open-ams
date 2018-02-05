@@ -17,6 +17,7 @@ import org.openams.rest.exception.ValidationException;
 import org.openams.rest.jpa.entity.Attendance;
 import org.openams.rest.jpa.entity.AttendanceBy;
 import org.openams.rest.jpa.entity.CourseSchedule;
+import org.openams.rest.jpa.entity.Student;
 import org.openams.rest.jpa.entity.StudentCourseEnrollment;
 import org.openams.rest.jpa.entity.enums.AttendanceStatus;
 import org.openams.rest.jpa.repository.AttendanceByRepository;
@@ -85,6 +86,13 @@ public class AttendanceService {
 		Map<String,Long> attendanceSummaryRSMap = attendanceSummaryRS.stream().collect(Collectors.toMap(
 				a -> (((StudentCourseEnrollment)a[0]).getId() + "_" + (((AttendanceStatus)a[1]).name())), a -> ((Long) a[2])));
 		
+		//get enrollmentsIds with student name and roll number
+		Collection<StudentCourseEnrollment> studentCourseEnrollments = studentCourseEnrollmentRepository.findByCourseScheduleId(courseScheduleId);
+		Map<String,String> studentCourseEnrollmentIdToStudentInfoMap = studentCourseEnrollments.stream().collect(Collectors.toMap(a -> a.getId(), a -> {
+			Student student = a.getStudent();
+			return student.getId() + ";" + student.getRollNumber() + ";" + student.getFName() + ";" + student.getLName();
+		}));
+		
 		Map<String,String> attendanceSummary = getEnrollmentIdsByCourseScheduleId(courseScheduleId).stream().collect(Collectors.toMap(id -> id, id -> {
 			long presentCount = attendanceSummaryRSMap.getOrDefault(id + "_PRESENT" , 0l);
 			long absentCount = attendanceSummaryRSMap.getOrDefault(id + "_ABSENT" , 0l);
@@ -99,6 +107,13 @@ public class AttendanceService {
 		CourseScheduleAttendanceReportModel result = new CourseScheduleAttendanceReportModel();
 		result.setClassAverage((totalPresentCount * 100)/(noOfClassesTaken * attendanceSummary.size() * 1f));
 		result.setTotalClasses(noOfClassesTaken);
+		
+		//append student info to attendanceSummary
+		attendanceSummary.entrySet().stream().forEach(e -> {
+			String studentInfo = studentCourseEnrollmentIdToStudentInfoMap.get(e.getKey());
+			e.setValue(e.getValue() + ";" + studentInfo);
+		});
+		
 		result.setAttendancesSummary(attendanceSummary);
 		
 		if(expand){
