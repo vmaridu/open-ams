@@ -33,29 +33,24 @@
             <th scope="col">ROLE NUMBER</th>
             <th scope="col">NAME</th>
             <th scope="col">STATUS</th>
+            <th scope="col">COMMENT</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="student-enrollments-tbody">
           {{#each studentEnrollments}}
-          <tr id="{{enrollmentId}}_{{studentId}}">
+          <tr id="{{enrollmentId}}">
             <td>{{rollNumber}}</td>
             <td>{{fname}} {{lname}}</td>
             <td>
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-success btn-sm">
-                  <input type="radio" name="options" id="present-rdo"> PRS
-                </label>
-                <label class="btn btn-danger btn-sm">
-                  <input type="radio" name="options " id="absent-rdo"> ABS
-                </label>
-                <label class="btn btn-warning btn-sm">
-                  <input type="radio" name="options" id="on-leave-rdo"> OLV
-                </label>
-                <label class="btn btn-secondary btn-sm">
-                  <input type="radio" name="options" id="other-rdo"> OTR
-                </label>
-                <input class="form-control mx-2 h-75" type="input" id="comment-inpt" />
-              </div>
+                <form>
+                  <label class="badge badge-success radio-inline p-1"> <input type="radio" name="optradio" id="{{enrollmentId}};PRESENT"> PRS</label>
+                  <label class="badge badge-danger radio-inline p-1"> <input type="radio" name="optradio" id="{{enrollmentId}};ABSENT"> ABS</label>
+                  <label class="badge badge-warning radio-inline p-1"> <input type="radio" name="optradio" id="{{enrollmentId}};ON_LEAVE"> OLV</label>
+                  <label class="badge badge-secondary radio-inline p-1"> <input type="radio" name="optradio"  id="{{enrollmentId}};OTHER"> OTR</label>
+              </form>
+            </td>
+            <td>
+                <input class="form-control mx-2 h-75" style="width:95%" type="input" id="comment-inpt" />
             </td>
           </tr>
           {{/each}}
@@ -67,9 +62,14 @@
 
   <div class="container">
     <div class="row">
-      <div class="col col-cneter my-4">
-        <button type="button" class="btn btn-primary mx-1" id="reset-btn">Reset</button>
+      <div class="col col-cneter my-3">
+        <button type="button" class="btn btn-primary mx-1" id="reset-attendance-btn">Reset</button>
         <button type="button" class="btn btn-primary mx-1" id="submit-attendance-btn">Submit Attendance</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-cneter my-3">
+        <div id="alrt"></div>
       </div>
     </div>
   </div>

@@ -6,10 +6,12 @@
      return JSON.parse(atob(base64UserData));
   }
 
-
   function displayErrorMessage(){
     $("#error-alrt").text("Invalid Username & Password !!!");
   }
+
+
+
 
 
   function authHandler(responseCode, responseBody){
@@ -19,6 +21,7 @@
           $("#error-alrt").text("");
           //store token to local storage
           localStorage.setItem("jwt", jwt);
+          setProfile();
 
           //parse user data
           var userData = getUserData(jwt);

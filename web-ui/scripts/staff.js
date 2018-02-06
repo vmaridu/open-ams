@@ -42,13 +42,6 @@
   }
 
 
-
-  function handleStaffById(userName, handler){
-    var staffByIdUrl = apiConfig.currunt.api.baseUrl + "/api/staff?filter=" + encodeURIComponent("( {'user.userName' == '" +  userName + "'} )");
-    handleGet(staffByIdUrl, handler);
-  }
-
-
   function handleCourseSchedulesByInstructorId(instructorId, handler){
     var courseSchedulesByUserNameUrl = apiConfig.currunt.api.baseUrl
                                             + "/api/course-schedules?filter="
@@ -58,17 +51,22 @@
 
 
   function handleStudnetEnrollmentsByCourseScheduleId(courseScheduleId, handler){
-    var studnetEnrollmentsByCourseScheduleId = apiConfig.currunt.api.baseUrl
+    var studnetEnrollmentsByCourseScheduleIdUrl = apiConfig.currunt.api.baseUrl
                                             + "/api/course-schedules/" + courseScheduleId + "/enrollment_report";
-     handleGet(studnetEnrollmentsByCourseScheduleId, handler);
+     handleGet(studnetEnrollmentsByCourseScheduleIdUrl, handler);
   }
 
   function handleReportByCourseScheduleId(courseScheduleId, fromDt, toDt, handler){
-    // fromDtt=2015-07-17-10-00-00 & toDtt=2015-07-19-10-00-00
-    //TODO: Inlude Date Filter
-    var studnetEnrollmentsByCourseScheduleId = apiConfig.currunt.api.baseUrl
+     // fromDtt=2015-07-17-10-00-00 & toDtt=2015-07-19-10-00-00
+     //TODO: Inlude Date Filter
+     var reportByCourseScheduleIdUrl = apiConfig.currunt.api.baseUrl
                                             + "/api/course-schedules/" + courseScheduleId + "/attendance_report?expand=true";
-     handleGet(studnetEnrollmentsByCourseScheduleId, handler);
+     handleGet(reportByCourseScheduleIdUrl, handler);
+  }
+
+  function handleSubmitAttendance(body, handler){
+     var submitAttendanceUrl= apiConfig.currunt.api.baseUrl + "/api/attendances/bulk";
+     handlePost(submitAttendanceUrl, body, handler);
   }
 
 
@@ -89,6 +87,9 @@
             var compiledTemplate = Handlebars.compile(rawTemplate);
             var studentEnrollmentsHtml = compiledTemplate({"studentEnrollments" : responseBody});
             $('#student-enrollments-div').html(studentEnrollmentsHtml);
+            //bind click events
+            $("#reset-attendance-btn").click(handleAttendaceResetClick);
+            $("#submit-attendance-btn").click(handleAttendaceSubmitClick);
           }else{
              //TODO:Handle this case
           }
@@ -175,92 +176,116 @@
 
 
   function loadAttendanceCourseSchedules(){
-      var userName = getCurruntUserData().sub;
+      handleCourseSchedulesByInstructorId(getProfile().id, function(responseCode, responseBody){
+         if(responseBody.size > 0){
+             var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
+             var compiledTemplate = Handlebars.compile(rawTemplate);
+             var courseSchedulesHtml = compiledTemplate(responseBody);
+             $('#course-schedule-slct').html(courseSchedulesHtml);
 
-      handleStaffById(userName, function(responseCode, responseBody){
-         if(responseCode == 200){
-             var staffId = responseBody.content[0].id;
-             handleCourseSchedulesByInstructorId(staffId, function(responseCode, responseBody){
-                if(responseBody.size > 0){
-                    var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
-                    var compiledTemplate = Handlebars.compile(rawTemplate);
-                    var courseSchedulesHtml = compiledTemplate(responseBody);
-                    $('#course-schedule-slct').html(courseSchedulesHtml);
-
-                    // bind listener to secect coirse drop down
-                    $('#course-schedule-slct').change( function() {
-                       $(this).find(":selected").each(function () {
-                          loadStudentsByCourseScheduleId($(this).attr('id'));
-                       });
-                    });
-
-                    //populate currunt date in attendance date picker
-                    populateTodayInAttendanceDt();
-                }else{
-                  //TODO:Handle this case
-                }
+             // bind listener to secect coirse drop down
+             $('#course-schedule-slct').change( function() {
+                $(this).find(":selected").each(function () {
+                   loadStudentsByCourseScheduleId($(this).attr('id'));
+                });
              });
+
+             //populate currunt date in attendance date picker
+             populateTodayInAttendanceDt();
+         }else{
+           //TODO:Handle this case
          }
-         //TODO:Handle error case
       });
   }
 
 
   function loadReportCourseSchedules(){
-      var userName = getCurruntUserData().sub;
+    handleCourseSchedulesByInstructorId(getProfile().id, function(responseCode, responseBody){
+       if(responseBody.size > 0){
+           var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
+           var compiledTemplate = Handlebars.compile(rawTemplate);
+           var courseSchedulesHtml = compiledTemplate(responseBody);
+           $('#course-schedule-slct').html(courseSchedulesHtml);
 
-      handleStaffById(userName, function(responseCode, responseBody){
-         if(responseCode == 200){
-             var staffId = responseBody.content[0].id;
-             handleCourseSchedulesByInstructorId(staffId, function(responseCode, responseBody){
-                if(responseBody.size > 0){
-                    var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
-                    var compiledTemplate = Handlebars.compile(rawTemplate);
-                    var courseSchedulesHtml = compiledTemplate(responseBody);
-                    $('#course-schedule-slct').html(courseSchedulesHtml);
-
-                    // bind listener to filter button
-                    $('#report-filter-btn').click( function() {
-                        var courseScheduleId = $('#course-schedule-slct').find(":selected").attr('id');
-                        var fromDt = $('#from-dt').val();
-                        var toDt = $('#to-dt').val();
-                        loadReportsByCourseScheduleId(courseScheduleId,fromDt,toDt);
-                    });
-                }else{
-                  //TODO:Handle this case
-                }
-             });
-         }
-         //TODO:Handle error case
-      });
+           // bind listener to filter button
+           $('#report-filter-btn').click( function() {
+               var courseScheduleId = $('#course-schedule-slct').find(":selected").attr('id');
+               var fromDt = $('#from-dt').val();
+               var toDt = $('#to-dt').val();
+               loadReportsByCourseScheduleId(courseScheduleId,fromDt,toDt);
+           });
+       }else{
+         //TODO:Handle this case
+       }
+    });
   }
 
 
   function loadProfile(){
-    var userName = getCurruntUserData().sub;
+    var profile = getProfile();
 
-    handleStaffById(userName, function(responseCode, responseBody){
-       if(responseCode == 200){
-           var staff = responseBody.content[0];
-           handleCourseSchedulesByInstructorId(staff.id, function(responseCode, responseBody){
-              if(responseBody.size > 0){
-                  var rawTemplate = document.getElementById("profile-ht").innerHTML;
-                  var compiledTemplate = Handlebars.compile(rawTemplate);
-                  var profileContext = {
-                    "name" : staff.fname + " " + staff.lname ,
-                    "email" : staff.user.email ,
-                    "roles" : staff.user.roles ,
-                    "courseSchedules" : responseBody.content
-                  };
-                  var profileHtml = compiledTemplate(profileContext);
-                  $('#profile-body-div').html(profileHtml);
-              }else{
-                //TODO:Handle this case
-              }
-           });
-       }
-       //TODO:Handle error case
+    handleCourseSchedulesByInstructorId(profile.id, function(responseCode, responseBody){
+       if(responseBody.size > 0){
+           var rawTemplate = document.getElementById("profile-ht").innerHTML;
+           var compiledTemplate = Handlebars.compile(rawTemplate);
+           var profileContext = {
+              "name" : profile.name ,
+              "email" : profile.email ,
+              "roles" : profile.roles ,
+              "courseSchedules" : responseBody.content
+            };
+            var profileHtml = compiledTemplate(profileContext);
+            $('#profile-body-div').html(profileHtml);
+       }else{
+          //TODO:Handle this case
+        }
+      });
+  }
+
+
+  function handleAttendaceResetClick(){
+      $("#student-enrollments-tbody input[type=radio]").prop("checked", false);
+      $("#student-enrollments-tbody input[type=input]").val("");
+  }
+
+
+  function handleAttendaceSubmitClick(){
+     var attendancesObject = { "attendances" : [] }
+     var attendanceRows = $("#student-enrollments-tbody tr");
+     attendanceRows.each( function( index, attendanceRow ){
+
+          //reset previous errors
+          $(attendanceRow).removeClass("table-danger");
+
+          var enrollmentId = $(this).attr("id");
+          var statusInfo = $("#" + enrollmentId + " input[type=radio]:checked").attr("id");
+          if(statusInfo != null){
+               var attendanceObject = {};
+               var studentInfoTokens = statusInfo.split(";");
+               attendanceObject.enrollmentId = studentInfoTokens[0];
+               attendanceObject.status = studentInfoTokens[1];
+               attendanceObject.comment = $("#" + enrollmentId + " input[type=input]").val();
+               attendancesObject.attendances.push(attendanceObject);
+          }else{
+              //highlight error rows
+              $(attendanceRow).addClass("table-danger");
+          }
     });
+
+    if(attendanceRows.length == attendancesObject.attendances.length){
+        attendancesObject.takenByStaffId = getProfile().id;
+        attendancesObject.courseScheduleId = $('#course-schedule-slct').find(":selected").attr('id');
+        attendancesObject.takenDtt = $('#attendance-dt').val() + "-00-00-00";
+        handleSubmitAttendance(JSON.stringify(attendancesObject), function(responseCode, responseBody){
+           if(responseCode == 204){
+               $("#alrt").css("color","green").text("Attendance submitted successfully");
+           }else{
+              $("#alrt").css("color","red").text("Error while submiting attendance");
+           }
+        });
+    }else{
+        $("#alrt").css("color", "red").text("Correct highlighted rows");
+    }
   }
 
 

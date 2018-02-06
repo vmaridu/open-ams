@@ -11,3 +11,10 @@
 .thick-progress-bar {
   height: 2em;
 }
+
+#error-alrt {
+  margin-top: 1em;
+  text-align: center;
+  font-style: oblique;
+  font-weight: bold;
+}
