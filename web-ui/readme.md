@@ -1,76 +1,16 @@
-# Functional Requirements
-
-### **Web Services  (Detailed Documentation in JSONDOCS)**
-
-####  Admin
-
-  - Submit Attendance
-  - View Reports
-  - CRUD on Staff
-	   - Assign Roles to Staff
-  - CRUD on Student
-  - CRUD on School Schedule
-  - CRUD on Course
-  - CRUD on Course Schedule
-    -	Assign Instructor
-    -	Assign Course
-  - CRUD on Student Course Enrollment
-    -	Assign Student
-    -	Assign Course Schdule
-  - CRUD Contact
+## OpenAMS Web UI
 
 
-####  Staff
-  - Submit Attendance
-  - View Reports
-   - Filtered by Dates
-   - Filtered Course Schedule
-
-
-#### Student
-  - Allowed to view their own attendance reports only
-    -	Filtered by Dates
-    -	Filtered Course Schedule
-
-#### System
-  - Will send Attendance reports to Parents e-mail as Scheduled  
+### How to run ?
+ - Make sure you have latest version of Node/NPM installed (https://nodejs.org/en/).
+ - From **ROOT/web-ui** directory,  run **sh install.sh**
+ - From **ROOT/web-ui** directory, run **sh run.sh** to start server.
+ - Browse to https://loclahost:8443/index.html
 
 
 
+### Notes
 
-### **Features**
-
-#### Administrator
-
-  - User
-     - Admin (CRUD)
-     - Staff (CRUD)
-     - Student (CRUD)
-
-
-  - Student
-      - Add new admission
-      - Manage Student
-          - Add or Edit Grades
-          - Add or Edit Class Details
-
-
-  - Monitoring
-    - Generate Progress Reports
-    - Monitor Student (Grades, Attendance)
-    -  Monitor Class (Grades, Attendance)
-    -  etc
-
-
-  - Misc
-    - Class Management (CLASS_ID - YYYY_CLASS_SECTION)
-    - Events Management (EXAMS, HOLIDAYS, CELEBRATIONS)
-    - Notice Board Management (For Student)
-    - View Suggestions
-
-
-  - File Import
-      - User Import
-      - Student Import
-      - Attendance Import
-      - Class Import
+ - This project uses **NPM** for dev tool installation and **bower** for dependency management.
+ - Default SSL port number can be changed @ run.sh file.
+ - API Configurations are scripts/api-config.js

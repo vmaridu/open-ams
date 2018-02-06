@@ -1,0 +1,27 @@
+{
+  "name": "openams-web-ui",
+  "description": "OpenAMS Web UI",
+  "main": "index.js",
+  "authors": [
+    "Venkata Maridu"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/phanimaridu/open-ams",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.4",
+    "font-awesome": "fontawesome#^4.7.0",
+    "handlebars": "^4.0.11"
+  },
+  "devDependencies": {
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "openams-web-ui",
+  "version": "1.0.0",
+  "description": "OpenAMS Web UI",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phanimaridu/open-ams.git"
+  },
+  "author": "Venkata Maridu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phanimaridu/open-ams/issues"
+  },
+  "homepage": "https://github.com/phanimaridu/open-ams#readme"
+}
