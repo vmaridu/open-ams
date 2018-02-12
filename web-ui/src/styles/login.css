@@ -1,4 +1,4 @@
-body {
+.form-signin-body {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #eee;
@@ -41,7 +41,7 @@ body {
 }
 
 
-#error-alrt {
+.form-signin #error-alrt {
   margin-top: 1em;
   text-align: center;
   color: red;

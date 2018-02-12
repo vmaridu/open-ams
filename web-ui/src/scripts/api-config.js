@@ -1,11 +1,10 @@
-var apiConfig = {
+let apiConfig = {
 
   "currunt" : {
     "api" : {
       "baseUrl" : "https://openams.edu:8443"
     }
   },
-
 
   "local" : {
      "api" : {
@@ -20,5 +19,8 @@ var apiConfig = {
     }
   }
 
-
 };
+
+
+export { apiConfig }
+
