@@ -2,6 +2,12 @@ import { apiConfig } from './api-config';
 import { getJWT, removeJWT, callAuth, handleGet, handlePost, handlePut, handleDelete } from './utils';
 import { setProfile, getProfile, isValidUser, logout } from './auth';
 
+let staffProfileTemplate = require("../templates/staff-profile.hbs");
+let courseScheduleOptionsTemplate = require("../templates/course-schedule-options.hbs");
+let courseScheduleAttendanceTemplate = require("../templates/course-schedule-attendance.hbs");
+let attendanceAggregateReportTemplate = require("../templates/attendance-aggregate-report.hbs");
+let attendanceDetailedReportTemplate = require("../templates/attendance-detailed-report.hbs");
+
 
 //loads conent by id
 function navigateById(navId) {
@@ -70,9 +76,7 @@ function populateTodayInAttendanceDt() {
 function loadStudentsByCourseScheduleId(courseScheduleId) {
   handleStudnetEnrollmentsByCourseScheduleId(courseScheduleId, function (responseCode, responseBody) {
     if (responseCode == 200) {
-      var rawTemplate = document.getElementById("student-enrollments-ht").innerHTML;
-      var compiledTemplate = Handlebars.compile(rawTemplate);
-      var studentEnrollmentsHtml = compiledTemplate({ "studentEnrollments": responseBody });
+      var studentEnrollmentsHtml = courseScheduleAttendanceTemplate({ "studentEnrollments": responseBody });
       $('#student-enrollments-div').html(studentEnrollmentsHtml);
       //bind click events
       $("#reset-attendance-btn").click(handleAttendaceResetClick);
@@ -139,15 +143,11 @@ function loadReportsByCourseScheduleId(courseScheduleId, fromDt, toDt) {
           reportContext.takenDateToAttendances.push(takenDateToAttendance);
         });
 
-        var reportsRawTemplate = document.getElementById("reports-ht").innerHTML;
-        var reportsCompiledTemplate = Handlebars.compile(reportsRawTemplate);
-        var reportsHtml = reportsCompiledTemplate(reportContext);
+        var reportsHtml = attendanceDetailedReportTemplate(reportContext);
         $('#reports-div').html(reportsHtml);
 
         //load reports to progress bar
-        var classAvgRawTemplate = document.getElementById("class-average-ht").innerHTML;
-        var classAvgCompiledTemplate = Handlebars.compile(classAvgRawTemplate);
-        var classAvgHtml = classAvgCompiledTemplate(responseBody);
+        var classAvgHtml = attendanceAggregateReportTemplate(responseBody);
         $('#class-average-div').html(classAvgHtml);
       } else {
         $('#reports-div').html("NO RECORDS FOUND");
@@ -165,9 +165,7 @@ function loadReportsByCourseScheduleId(courseScheduleId, fromDt, toDt) {
 function loadAttendanceCourseSchedules() {
   handleCourseSchedulesByInstructorId(getProfile().id, function (responseCode, responseBody) {
     if (responseBody.size > 0) {
-      var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
-      var compiledTemplate = Handlebars.compile(rawTemplate);
-      var courseSchedulesHtml = compiledTemplate(responseBody);
+      var courseSchedulesHtml = courseScheduleOptionsTemplate(responseBody);
       $('#course-schedule-slct').html(courseSchedulesHtml);
 
       // bind listener to secect coirse drop down
@@ -189,9 +187,7 @@ function loadAttendanceCourseSchedules() {
 function loadReportCourseSchedules() {
   handleCourseSchedulesByInstructorId(getProfile().id, function (responseCode, responseBody) {
     if (responseBody.size > 0) {
-      var rawTemplate = document.getElementById("course-schedule-options-ht").innerHTML;
-      var compiledTemplate = Handlebars.compile(rawTemplate);
-      var courseSchedulesHtml = compiledTemplate(responseBody);
+      var courseSchedulesHtml = courseScheduleOptionsTemplate(responseBody);
       $('#course-schedule-slct').html(courseSchedulesHtml);
 
       // bind listener to filter button
@@ -213,16 +209,13 @@ function loadProfile() {
 
   handleCourseSchedulesByInstructorId(profile.id, function (responseCode, responseBody) {
     if (responseBody.size > 0) {
-      var rawTemplate = document.getElementById("profile-ht").innerHTML;
-      var compiledTemplate = Handlebars.compile(rawTemplate);
       var profileContext = {
         "name": profile.name,
         "email": profile.email,
         "roles": profile.roles,
         "courseSchedules": responseBody.content
       };
-      var profileHtml = compiledTemplate(profileContext);
-      $('#profile-body-div').html(profileHtml);
+      $('#profile-body-div').html(staffProfileTemplate(profileContext));
     } else {
       //TODO:Handle this case
     }
@@ -279,20 +272,14 @@ function handleAttendaceSubmitClick() {
 function initPageLoadEvents() {
 
   //logout user if JWT is invalid
-  (function () {
-    if (!isValidUser()) {
-      logout();
-    }
-  })();
+  if (!isValidUser()) { logout(); }
 
   // Navigate whenever the fragment identifier value changes.
   $(window).bind('hashchange', navigate);
 
   //loads content pages at page load
-  (function () {
-    var navId = location.hash.substr(1);
-    navigateById(navId);
-  })();
+  var navId = location.hash.substr(1);
+  navigateById(navId);
 }
 
 

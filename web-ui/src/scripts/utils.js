@@ -52,6 +52,25 @@ function handleGet(resourceUrl, handler) {
   });
 }
 
+function handleGetSync(resourceUrl, handler) {
+  $.ajax({
+    type: 'GET',
+    url: resourceUrl,
+    aysnc: false,
+    cache: false,
+    headers: {
+      'Authorization': getJWT()
+    },
+    error: function (jqXHR, textStatus, error) {
+      handler(jqXHR.status, jqXHR.responseJSON);
+    },
+    success: function (data, textStatus, jqXHR) {
+      handler(jqXHR.status, jqXHR.responseJSON);
+    }
+  });
+}
+
+
 function handlePost(resourceUrl, body, handler) {
   $.ajax({
     type: 'POST',
@@ -112,5 +131,5 @@ function handleDelete(resourceUrl, handler) {
 }
 
 
-export { getJWT, removeJWT, callAuth, handleGet, handlePost, handlePut, handleDelete }
+export { getJWT, removeJWT, callAuth, handleGet, handlePost, handlePut, handleDelete, handleGetSync }
 

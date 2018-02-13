@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
   entry: './src/scripts/app.js',
@@ -6,17 +7,35 @@ const config = {
     path: __dirname + '/dist',
     filename: 'bundle.js'
   },
-  module:{
+  module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [ 'babel-loader' ]
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015']
+            }
+          }
+        ]
       },
 
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ['style-loader', 'css-loader']
+      },
+
+      {
+        test: /\.hbs$/,
+        use: ['handlebars-loader' ]
+      },
+
+      {
+        test: /\.js$/,
+        use: ["source-map-loader"],
+        enforce: "pre"
       }
 
     ]
@@ -29,9 +48,10 @@ const config = {
     new webpack.ProvidePlugin({
       _: 'lodash',
       lodash: 'lodash'
-    })
+    }),
+    new CleanWebpackPlugin(['dist'])
   ]
-  
+
 }
 
 module.exports = config;

@@ -31,6 +31,8 @@ function setProfile() {
       localStorage.setItem("id", responseBody.content[0].id);
       localStorage.setItem("name", responseBody.content[0].fname + " " + responseBody.content[0].lname);
       localStorage.setItem("email", responseBody.content[0].user.email);
+    }else{
+      logout();
     }
   });
 }
@@ -60,7 +62,10 @@ function handleStudentById(userName, handler) {
 function isValidUser() {
   var userData = getCurruntUserData();
   var sysEpoch = (new Date).getTime() / 1000;
-  return (userData != null) && (userData.exp > sysEpoch);
+  var profile = getProfile();
+  return (userData != null) && (userData.exp > sysEpoch) &&
+         (profile.id != null) && (profile.name != null) && 
+         (profile.roles != null) && (profile.userName != null);
 }
 
 

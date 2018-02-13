@@ -4,12 +4,6 @@
 
     <select class="form-control form-control-sm m-1 mr-3" id="course-schedule-slct">
     </select>
-    <script id="course-schedule-options-ht" type="text/x-handlebars-template">
-      <option selected>Select Course ...</option>
-      {{#each content}}
-      <option id="{{id}}">{{name}}</option>
-      {{/each}}
-    </script>
 
     <div class="input-group mx-2">
       <label for="from-dt" class="mr-1">From</label>
@@ -29,36 +23,10 @@
 <hr/>
 
 
-
-
 <div class="container">
 
   <div class="row mx-3" id="reports-div" id="report-table-div">
   </div>
-
-  <script id="reports-ht" type="text/x-handlebars-template">
-    <table class="table table-striped table-sm table-responsive">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">DATE / NAME</th>
-          {{#each stundets}}
-              <th scope="col">{{name}}</th>
-          {{/each}}
-        </tr>
-      </thead>
-      <tbody class="text-center">
-        {{#each takenDateToAttendances}}
-            <tr>
-              <td>{{takenDate}}</td>
-              {{#each attendances}}
-                   <td class="{{btClass}}">{{status}}</td>
-                   <!--<td class="table-success">P</td>-->
-              {{/each}}
-            </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </script>
 </div>
 
 
@@ -66,16 +34,4 @@
 
   <div class="row my-4" id="class-average-div">
   </div>
-
-  <script id="class-average-ht" type="text/x-handlebars-template">
-    <div class="col-6 mx-4 p-1">
-      <div class="progress thick-progress-bar">
-        <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: {{classAverage}}%" aria-valuenow="{{classAverage}}" aria-valuemin="0" aria-valuemax="100"> CLASS AVG ({{classAverage}}%) </div>
-      </div>
-    </div>
-    <div class="mt-1">
-      <p><strong>TOTAL ({{totalClasses}})</strong></p>
-    </div>
-  </script>
-
 </div>
